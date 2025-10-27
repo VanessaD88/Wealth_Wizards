@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_27_130908) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_27_134347) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "challenges", force: :cascade do |t|
+    t.string "title"
+    t.bigint "level_id", null: false
+    t.string "category"
+    t.integer "difficulty"
+    t.text "challenge_prompt"
+    t.text "description"
+    t.integer "choice"
+    t.decimal "balance_impact"
+    t.decimal "decision_score_impact"
+    t.text "feedback"
+    t.boolean "completion_status", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["level_id"], name: "index_challenges_on_level_id"
+  end
+
+  create_table "levels", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "completion_status", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_levels_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,8 +49,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_27_130908) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "username"
+    t.decimal "balance"
+    t.decimal "decision_score"
+    t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "challenges", "levels"
+  add_foreign_key "levels", "users"
 end
