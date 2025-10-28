@@ -1,15 +1,63 @@
-.navbar-lewagon {
+.navbar-ww {
   justify-content: space-between;
   background: $old-money-green;
   padding: 0; // removes extra space
   height: 60px;
+  border-top: 1px solid $gold;
+  // fixes navbar on the bottom
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030; // ensure it stays above content
 }
 
-.navbar-lewagon .navbar-collapse {
+.navbar-ww .navbar-collapse {
+  justify-content: center;
+}
+
+// center the icon
+.navbar-ww .navbar-nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// icons for navbar
+.navbar-ww img {
+  height: 60px;
+  width: auto;
+}
+
+// Custom dropup styling
+.custom-dropup {
+  background-color: $old-money-green;
+  color: $ivory-ledger;
+}
+
+.custom-dropup .dropdown-item:hover {
+  background-color: $hover-green;
+}
+
+
+.progressbar {
+  justify-content: space-between;
+  background: $old-money-green;
+  padding: 0; // removes extra space
+  height: 60px;
+  border-bottom: 1px solid $gold;
+  // fixes navbar on the bottom
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030; // ensure it stays above content
+}
+
+.progressbar .progressbar-collapse {
   flex-grow: 0;
 }
 
-.navbar-lewagon .navbar-brand img {
+.progressbar .progressbar-brand img {
   height: 60px;
   width: auto;
 }
