@@ -2,10 +2,33 @@
   background-color: $old-money-green;
   border-radius: 0.5rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative; // needed for pseudo-element positioning
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    border: 1px solid $ivory-ledger; // or $gold for a warmer tone
+    border-radius: 0.4rem; // slightly smaller than card
+    pointer-events: none; // ensure clicks still go through
+  }
 
   .card-header {
+    background-color: $old-money-green;
     color: $gold;
     font-weight: 700;
+    padding: 1.5rem;
+    border-bottom: none;
+  }
+
+  .card-text {
+    color: $ivory-ledger;
+    font-weight: 300;
+
   }
 
   .card-body {
