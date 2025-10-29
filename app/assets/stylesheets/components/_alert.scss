@@ -1,6 +1,21 @@
-.alert {
+.flash-container {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
-  z-index: 1000;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+  left: 0;
+  right: 0;
+  z-index: 2000; /* above page content; bottom navbar is unaffected */
+  pointer-events: none;
 }
+
+.flash-container .alert {
+  width: fit-content;
+  margin: 0 auto;
+  pointer-events: auto;
+}
+
+/* Bottom navbar stays above bottom content; not needed for top flashes */
+.navbar-ww { z-index: 1030; }
+
+/* Prevent content under bottom-fixed navbar */
+.navbar-ww { --navbar-height: 56px; }
+body { padding-bottom: var(--navbar-height, 56px); }

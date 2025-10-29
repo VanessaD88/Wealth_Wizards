@@ -1,14 +1,13 @@
-<% if notice %>
-  <div class="alert alert-info alert-dismissible fade show m-1" role="alert">
-    <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
-<% if alert %>
-  <div class="alert alert-warning alert-dismissible fade show m-1" role="alert">
-    <%= alert %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
+<div class="flash-container">
+  <% flash.each do |type, message| %>
+    <% next if message.blank? %>
+    <% bs = { notice: 'info', alert: 'warning', success: 'success', error: 'danger' }[type.to_sym] || 'info' %>
+    <div class="alert alert-<%= bs %> alert-dismissible fade show m-1"
+         role="alert"
+         data-controller="flash"
+         data-flash-timeout-value="4000">
+      <%= message %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+</div>
