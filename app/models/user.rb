@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
 has_one :level
 has_many :challenges, through: :levels
+
+validates :username, presence: true, uniqueness: true 
 end

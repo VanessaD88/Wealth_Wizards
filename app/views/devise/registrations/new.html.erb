@@ -1,25 +1,42 @@
-<h2>Sign up</h2>
+<div class="container d-flex justify-content-center align-items-center">
+  <div class="col-12 col-lg-5 my-4">
+    <h2 class="text-center mb-3">Join Wealth Wizards</h2>
+    <h5 class="text-center mb-4">Enter your details below to create an account</h5>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+    <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+      <div class="form-inputs">
+        <%= f.input :username,
+                    required: true,
+                    autofocus: true,
+                    label: false,
+                    input_html: { autocomplete: "username", placeholder: "Username" } %>
+        <%= f.input :email,
+                    required: true,
+                    label: false,
+                    input_html: { autocomplete: "email", placeholder: "Email" } %>
+        <%= f.input :password,
+                    required: true,
+                    label: false,
+                    # hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                    input_html: { autocomplete: "new-password", placeholder: "Password" } %>
+        <%= f.input :password_confirmation,
+                    required: true,
+                    label: false,
+                    input_html: { autocomplete: "new-password", placeholder: "Password confirmation" } %>
+      </div>
+
+      <div class="form-actions text-center">
+        <%= f.button :submit, "Sign up", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+
+    <div class="text-center my-4">
+      <p>Already have an account?</p>
+      <div class="btn btn-secondary w-100">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
