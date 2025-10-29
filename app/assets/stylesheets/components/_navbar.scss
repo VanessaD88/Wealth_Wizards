@@ -28,6 +28,16 @@
   width: auto;
 }
 
+// Custom link
+.nav-link {
+  color: $gold !important; // or any color value like #d4af37
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: lighten($gold, 10%) !important;
+}
+
 // Custom dropup styling
 .custom-dropup {
   background-color: $old-money-green;
