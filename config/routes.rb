@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   # Challenges routes
   resources :challenges, only: [:index, :show, :create]
 
+  resources :users, only: :show, controller: "profiles"
+  resource :profile, only: [:show, :edit, :update]
+
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
 end

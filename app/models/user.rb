@@ -7,5 +7,20 @@ class User < ApplicationRecord
 has_one :level
 has_many :challenges, through: :levels
 
-validates :username, presence: true, uniqueness: true 
+validates :username, presence: true, uniqueness: true
+
+  AVATARS = {
+    "Penny" => "avatars/penny.png",
+    "Cash" => "avatars/cash.png",
+    "Investo" => "avatars/investo.png",
+    "Goldie" => "avatars/goldie.png"
+  }.freeze
+
+  def avatar_image
+    if avatar.present? && AVATARS.key?(avatar)
+      AVATARS[avatar]
+    else
+      "avatars/default.png"
+    end
+  end
 end
