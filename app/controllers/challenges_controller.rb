@@ -6,66 +6,81 @@ class ChallengesController < ApplicationController
     @challenges = @level.challenges
   end
 
+  # In case we want to show individual levels separately
   def show
-    @challenge = Challenge.find(params[:id])
+    @challenge = @level.challenges.find(params[:id])
   end
 
-  # POST /challenges with challenge_id param (from gameboard button)
+
+
+
   def create
-    # find the challenge the user picked
-    @challenge = Challenge.find(params[:challenge_id])
+    # JSON Output Prompt, use JSON so output can be pardsed
+    prompt = <<~PROMPT
+      You are a financial education expert creating a challenge for a game.
+      The challenge is for a level named: "#{@level.name}"
+      (Level description for context: "#{@level.description}")
 
-    # ensure challenge belongs to the user's level
-    unless @challenge.level_id == @level.id
-      redirect_to gameboard_path, alert: "This challenge is not available at your level."
-      return
+      Please generate a single financial challenge based on this level.
+      You MUST return a single, valid JSON object and nothing else.
+      The JSON object must have EXACTLY the following keys:
+      - "title": A short, engaging title for the challenge.
+      - "category": A single-word category (e.g., "Budgeting", "Investing", "Debt", "Savings").
+      - "difficulty": An integer from 1 (easy) to 5 (hard).
+      - "challenge_prompt": The main question or scenario. This prompt MUST include four numbered answer options (e.g., "1. Do this \n 2. Do that...").
+      - "description": A short paragraph providing more story or context (can be an empty string if not needed).
+      - "choice": The integer number (1, 2, 3, or 4) corresponding to the correct answer option in the challenge_prompt.
+      - "balance_impact": A positive or negative decimal number (e.g., 50.0 or -25.5) representing the financial consequence of a *correct* choice.
+      - "decision_score_impact": A positive decimal number (e.g., 10.0) representing the score impact of a *correct* choice.
+      - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
+
+      Example of a valid "challenge_prompt" format:
+      "What is the best way to start building an emergency fund?
+      1. Invest all your money in cryptocurrency.
+      2. Open a dedicated high-yield savings account.
+      3. Buy a new luxury car on finance.
+      4. Pay off all student debt before saving anything."
+
+      Example of a valid "choice" for the above prompt: 2
+
+      JSON:
+    PROMPT
+
+    # Set up answer from LLM
+    chat_client = RubyLLM.chat
+    ai_reply = chat_client.ask(prompt)
+    ai_content = ai_reply.content
+    challenge_data = JSON.parse(ai_content)
+
+    # Create new challenge with parsed data
+    @challenge = @level.challenges.new(
+      title: challenge_data["title"],
+      category: challenge_data["category"],
+      difficulty: challenge_data["difficulty"],
+      challenge_prompt: challenge_data["challenge_prompt"],
+      description: challenge_data["description"],
+      choice: challenge_data["choice"],
+      balance_impact: challenge_data["balance_impact"],
+      decision_score_impact: challenge_data["decision_score_impact"],
+      feedback: challenge_data["feedback"],
+      completion_status: false
+    )
+
+    # Redirect to the gameboard page
+    if @challenge.save
+      redirect_to pages_gameboard_path, notice: 'Here is your next challenge, Wizard!'
+    else
+      render :new, status: :unprocessable_entity
     end
-
-    # Compose the challenge_prompt from schema fields and user context.
-    generated_prompt = compose_prompt(current_user, @level, @challenge)
-
-    # Persist the prompt into the challenge's `challenge_prompt` field
-    @challenge.update(challenge_prompt: generated_prompt)
-
-    # Redirect to the challenge show page where the user sees the generated prompt
-    redirect_to challenge_path(@challenge), notice: "Challenge prepared — good luck!"
-  rescue ActiveRecord::RecordNotFound
-    redirect_to gameboard_path, alert: "Challenge not found."
   end
 
   private
 
+  # Set level to current user level
   def set_level
-    # adjust the selection of the active level to your app logic
-    @level = current_user.levels.last
+    @level = current_user.level
+    if @level.nil? || @level.id.to_s != params[:level_id].to_s
+      redirect_to gameboard_path, alert: "Level not found."
+    end
   end
-
-  # Compose a text prompt using only schema fields + simple logic
-  def compose_prompt(user, level, challenge)
-    # Example composition using schema fields
-    header = "Challenge: #{challenge.title} (#{challenge.category} — difficulty: #{challenge.difficulty})"
-    context = "Player: #{user.username} — Level: #{level.name}. Balance: #{user.balance}, Decision score: #{user.decision_score}."
-    core = if challenge.description.present?
-             "Description: #{challenge.description}"
-           else
-             "Complete the following: make a decision that affects your balance by #{challenge.balance_impact || 0} and your decision score by #{challenge.decision_score_impact || 0}."
-           end
-
-    choices = challenge.choice.present? ? "Choices: #{challenge.choice}" : nil
-    footer = "On completion, you will get feedback: #{challenge.feedback || 'No feedback configured.'}"
-
-    # Combine parts (no external AI)
-    [header, context, core, choices, footer].compact.join("\n\n")
-  end
-end
-
-# example method to apply impacts
-def complete_challenge(challenge, user)
-  return if challenge.completion_status
-
-  user.balance += (challenge.balance_impact || 0)
-  user.decision_score += (challenge.decision_score_impact || 0)
-  user.save!
-
-  challenge.update!(completion_status: true)
 end
