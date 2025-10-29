@@ -12,7 +12,7 @@
     bottom: 10px;
     left: 10px;
     right: 10px;
-    border: 1px solid $old-money-green; // or $gold for a warmer tone
+    border: 1px solid $gold; // or $gold for a warmer tone
     border-radius: 0.4rem; // slightly smaller than card
     pointer-events: none; // ensure clicks still go through
   }
@@ -29,7 +29,7 @@
   }
 
   .card-text {
-    color: $ivory-ledger;
+    color: $gold;
     font-weight: 300;
   }
 }
