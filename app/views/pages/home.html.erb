@@ -1,51 +1,27 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container my-5">
+  <div class="row align-items-center">
+    <!-- Image -->
+    <div class="col-md-5 text-center mb-4 mb-md-0">
+      <%= image_tag "Wizard.png",
+          alt: "Wizard",
+          class: "img-fluid",
+          style: "max-width: 400px; height: auto;" %>
+    </div>
 
+    <!-- Text & Button  -->
+    <div class="col-md-7 text-center">
+      <h1 class="mb-3">Become a Wealth Wizard!</h1>
 
-<h2>Test for Design</h2>
-
-<button type="button" class="btn btn-primary">Primary Button</button>
-<!-- Small button -->
-<button type="button" class="btn btn-primary btn-sm">Primary Button Small</button>
-
-<!-- Medium button (default) -->
-<button type="button" class="btn btn-primary">Medium Button</button>
-
-<!-- Large button -->
-<button type="button" class="btn btn-primary btn-lg">Large Button</button>
-
-<!-- Form -->
-<form>
-  <div class="mb-3">
-    <label for="exampleInputEmail" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail" placeholder="Enter email">
-  </div>
-
-  <div class="mb-3">
-    <label for="exampleInputPassword" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
-  </div>
-
-  <div class="mb-3 form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck">
-    <label class="form-check-label" for="exampleCheck">Check me out</label>
-  </div>
-
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-
-<!-- Container -->
-<div class="container-custom">
-  <h2>Welcome Section</h2>
-  <p>Some content here.</p>
-</div>
-
-<!-- Card -->
-<div class="card card-custom mb-3">
-  <div class="card-header">Challenge Title</div>
-  <div class="card-body">
-    <p class="card-text">Some example text.</p>
-    <p> <%= link_to "Choice A", "#", class: "button-gold" %> </p>
-    <p> <%= link_to "Choice B", "#", class: "button-gold" %> </p>
+      <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
+      <p class="lead mb-5">
+       Step into the world of Wealth Wizard. An adventure where saving, investing, and growing money is just a game. Complete challenges and make real-world money moves while having fun.
+       Master Money like a Wizard and start your adventure in financial freedom right here.
+      </p>
+      <% if user_signed_in? %>
+        <%= link_to "Continue Your Journey", pages_gameboard_path, class: "btn btn-primary btn-lg mt-3" %>
+      <% else %>
+        <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
+      <% end %>
+    </div>
   </div>
 </div>
