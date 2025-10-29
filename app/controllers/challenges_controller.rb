@@ -6,18 +6,16 @@ class ChallengesController < ApplicationController
     @challenges = @level.challenges
   end
 
+  # In case we want to show individual levels separately
   def show
     @challenge = @level.challenges.find(params[:id])
   end
 
 
-  # I think this can be deleted???
-  def new
-    @challenge = @level.challenges.new
-  end
+
 
   def create
-    # JSON Output Prompt
+    # JSON Output Prompt, use JSON so output can be pardsed
     prompt = <<~PROMPT
       You are a financial education expert creating a challenge for a game.
       The challenge is for a level named: "#{@level.name}"
@@ -68,6 +66,7 @@ class ChallengesController < ApplicationController
       completion_status: false
     )
 
+    # Redirect to the gameboard page
     if @challenge.save
       redirect_to pages_gameboard_path, notice: 'Here is your next challenge, Wizard!'
     else
@@ -77,6 +76,7 @@ class ChallengesController < ApplicationController
 
   private
 
+  # Set level to current user level
   def set_level
     @level = current_user.level
     if @level.nil? || @level.id.to_s != params[:level_id].to_s
