@@ -18,7 +18,7 @@
        Master Money like a Wizard and start your adventure in financial freedom right here.
       </p>
       <% if user_signed_in? %>
-        <%= link_to "Continue Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
+        <%= link_to "Continue Your Journey", pages_gameboard_path, class: "btn btn-primary btn-lg mt-3" %>
       <% else %>
         <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
       <% end %>
