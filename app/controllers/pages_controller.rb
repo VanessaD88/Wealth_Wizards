@@ -18,6 +18,9 @@ class PagesController < ApplicationController
     @challenge_options = parse_options(prompt)
 
   end
+
+  def dashboard
+  end
 private
 
   def parse_options(prompt)
