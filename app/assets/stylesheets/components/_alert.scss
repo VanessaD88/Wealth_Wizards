@@ -1,6 +1,32 @@
-.alert {
+.flash-container {
   position: fixed;
-  bottom: 16px;
-  right: 16px;
-  z-index: 1000;
+  bottom: calc(var(--navbar-height, 56px) + 12px + env(safe-area-inset-bottom, 0px));
+  right: 12px;
+  left: auto;
+  top: auto;
+  z-index: 1150;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
 }
+
+.flash-container .alert {
+  pointer-events: auto;
+  margin: 0;
+  width: max-content;
+  max-width: 90vw; /* responsive on small screens */
+}
+
+/* Cap width on larger screens without mixing units */
+@media (min-width: 480px) {
+  .flash-container .alert {
+    max-width: 420px;
+  }
+}
+
+/* Bottom navbar stays above bottom content */
+.navbar-ww { z-index: 1030; }
+.navbar-ww { --navbar-height: 56px; }
+body { padding-bottom: var(--navbar-height, 56px); }
