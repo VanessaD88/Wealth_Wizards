@@ -10,8 +10,11 @@
   font-weight: 600;
   padding: 0.3rem 1.2rem;
   transition: all 0.3s ease;
+  text-decoration: none; 
 
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active {
     background-color: lighten($gold, 10%);    // hover background
     color: $old-money-green;                       // hover text color
     border-color: lighten($gold, 10%);        // hover border
