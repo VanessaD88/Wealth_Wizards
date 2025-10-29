@@ -30,3 +30,7 @@
 .navbar-ww { z-index: 1030; }
 .navbar-ww { --navbar-height: 56px; }
 body { padding-bottom: var(--navbar-height, 56px); }
+/* Hide Bootstrap caret added by .dropdown-toggle */
+.navbar-ww .avatar.dropdown-toggle::after {
+  content: none; /* removes the arrow */
+}
