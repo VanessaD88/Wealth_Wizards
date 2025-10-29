@@ -39,4 +39,19 @@
     padding-bottom: 1.0rem;
     color: $ivory-ledger;
   }
+    .list-group {
+    background-color: $old-money-green;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .list-group-item {
+    background-color: $old-money-green;
+    color: $ivory-ledger;
+    border: none;               // optional: remove the default grey divider
+  }
+
+  .list-group-item:not(:last-child) {
+    border-bottom: 1px solid rgba($ivory-ledger, 0.25); // subtle separator if you want one
+  }
  }

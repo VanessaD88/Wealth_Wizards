@@ -17,7 +17,9 @@ Rails.application.routes.draw do
 
 
   # Challenges routes
-  resources :challenges, only: [:index, :show, :create]
+  resources :challenges, only: [:index, :show, :create] do
+    resources :responses, only: :create
+  end
 
     # Gameboard routes
   resource :gameboard, only: [:show], controller: "gameboards"
