@@ -4,8 +4,3 @@ import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
 
 // register flash controller
-import { Application } from "@hotwired/stimulus"
-import FlashController from "./flash_controller"
-
-window.Stimulus = window.Stimulus || Application.start()
-Stimulus.register("flash", FlashController)
