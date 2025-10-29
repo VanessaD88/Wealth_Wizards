@@ -59,7 +59,7 @@ class ChallengesController < ApplicationController
       difficulty: challenge_data["difficulty"],
       challenge_prompt: challenge_data["challenge_prompt"],
       description: challenge_data["description"],
-      choice: challenge_data["choice"],
+      correct_answer: challenge_data["correct_answer"],
       balance_impact: challenge_data["balance_impact"],
       decision_score_impact: challenge_data["decision_score_impact"],
       feedback: challenge_data["feedback"],
@@ -84,7 +84,5 @@ class ChallengesController < ApplicationController
     end
   end
 
-  def parse_options(prompt)
-  prompt.to_s.split("\n").map(&:strip).select { |line| line.match?(/^\d+\.\s/) }
-  end
+
 end
