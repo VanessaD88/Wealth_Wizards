@@ -20,6 +20,8 @@ class PagesController < ApplicationController
   end
 
   def dashboard
+    @user = current_user
+    @level = @user.level
   end
 private
 
