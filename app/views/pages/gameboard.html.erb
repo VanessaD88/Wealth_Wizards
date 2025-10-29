@@ -1,10 +1,3 @@
-<%= button_to "Generate New Challenge",
-                  level_challenges_path(@level),
-                  method: :post,
-                  class: "btn btn-success btn-lg" %>
-
-
-
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
@@ -12,15 +5,34 @@
         <h2 class="mb-2"><%= @challenge.title %></h2>
         <p class="text-dark">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %></p>
 
-        <div class="card mt-4">
+        <div class="card-custom">
           <div class="card-body">
-            <h5 class="card-title">Task</h5>
-            <pre style="white-space: pre-wrap;"><%= @challenge.challenge_prompt.presence || "No task generated yet. Pick the challenge from the gameboard." %></pre>
+            <h5 class="card-header">Task</h5>
+
+
+            <% if @challenge.description.present? %>
+              <p class="card-body text-muted mb-4"><%= @challenge.description %></p>
+            <% end %>
+
+            <div class="list-group">
+              <% @challenge_options.each do |option_string| %>
+                <% number, text = option_string.split('.', 2).map(&:strip) %>
+
+                <div class="card-body list-group-item list-group-item-action d-flex align-items-start gap-3">
+                  <%= radio_button_tag "user_choice", number, false,
+                        id: "option_#{number}",
+                        class: "form-check-input mt-1" %>
+                  <label for="option_#{number}" class="form-check-label fw-medium mb-0 flex-grow-1">
+                    <span class="badge bg-success-subtle text-success-emphasis me-2">Option <%= number %></span>
+                    <span><%= text %></span>
+                  </label>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
 
         <div class="mt-4 d-flex justify-content-between">
-          <% #link_to "Back to Gameboard", gameboard_path, class: "btn btn-outline-secondary" %>
           <% if @challenge.completion_status %>
             <span class="badge bg-success">Completed</span>
           <% end %>
@@ -28,6 +40,12 @@
       <% else %>
         <p class="text-center text-muted">No challenge selected yet. Pick one from the gameboard.</p>
       <% end %>
+        <%= button_to "Generate New Challenge",
+                  level_challenges_path(@level),
+                  method: :post,
+                  class: "btn button-gold" %>
     </div>
+
   </div>
+
 </div>
