@@ -28,7 +28,7 @@ class PagesController < ApplicationController
     # get correct number from challenge
     correct_number = @challenge&.correct_answer.to_i
 
-    # get user
+    # get users choice as an integer
     choice_number = @challenge&.choice.to_i
     # Check if answer is correct, is it a positive integer and equal to correct_number
     @answer_is_correct = choice_number.positive? && choice_number == correct_number
