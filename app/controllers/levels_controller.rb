@@ -1,45 +1,44 @@
 class LevelsController < ApplicationController
   before_action :authenticate_user!
 
-  # Level definitions with metadata for each available level
-  # Used to display level options and create new level instances
+  # LEVEL_DEFINITIONS: Static lookup array for all possible levels, their keys, names, and descriptions.
+  # Used for both rendering the correct overview as well as controlling gameplay logic.
   LEVEL_DEFINITIONS = [
     { key: "level1", name: "Level 1: Building Your Nest Egg", description: "Start your financial journey by learning how to save smart. Make choices that grow your money, avoid common pitfalls, and watch your nest egg take shape. Every decision counts when building a strong foundation for your future wealth!" },
     { key: "level2", name: "Level 2: Passive Income", description: "Take your skills to the next level by learning how to make money work for you. Explore investments, interest, and smart strategies that earn while you focus on other adventures. Can you unlock the secret to steady, hands-off income?" },
     { key: "level3", name: "Level 3: Different Income Streams", description: "Become a true Wealth Wizard by diversifying your income. Manage multiple streams, balance risks and rewards, and discover how to maximize your earnings in the real world. The more you explore, the more your financial empire grows!" }
   ].freeze
 
-  # Displays the levels overview page with game instructions and available levels
-  # Shows current active level if user is already progressing through one
+  # GET /levels
+  # Shows (at most) one level overview card, with CTA, matching the user's current level.
+  # If no active/incomplete level: encourages the user to start their journey.
   def index
     @current_level = current_user.level
     if @current_level && !@current_level.completion_status
-      # Find level definition whose name matches the user's level
+      # Find the level definition whose name matches the user's Level record.
+      # (always fallback to the first level if data is inconsistent)
       level_def = LEVEL_DEFINITIONS.find { |lvl| lvl[:name] == @current_level.name }
-      @level = level_def || LEVEL_DEFINITIONS.first # fallback to Level 1 if no match
-      # Set the icon path (icons live directly under app/assets/images)
+      @level = level_def || LEVEL_DEFINITIONS.first
+      # Icon path (images live directly under app/assets/images)
       @level_icon = "icon_#{@level[:key]}.png"
     else
+      # No level yet or last level completed: show the start-your-journey card
       @level = nil
       @level_icon = nil
     end
   end
 
-  # POST /levels - Starts the user's journey at Level 1: Building Your Nest Egg
-  # Only creates a level if there is none or the previous is completed
+  # POST /levels
+  # Starts a new journey at level 1. Only creates a record if the user has no active/incomplete journey.
   def create
-    # Use Level 1 as default for entry into the game
     definition = LEVEL_DEFINITIONS.first
     existing_level = current_user.level
-
-    # If already have an active/incomplete level, don't recreate, just move to gameboard
+    # If user already has an active (not completed) journey, do not start a new one — redirect to gameboard
     if existing_level && !existing_level.completion_status
       redirect_to gameboard_path and return
     end
-
-    # Remove existing level if completed (resetting journey)
+    # Remove completed level (reset journey)
     current_user.level&.destroy
-
     new_level = current_user.build_level(
       name: definition[:name],
       description: definition[:description],
@@ -54,38 +53,35 @@ class LevelsController < ApplicationController
 
   private
 
-  # Finds a level definition by key from LEVEL_DEFINITIONS
+  # Helper: Find a level definition by key
   def find_level_definition(level_key)
     LEVEL_DEFINITIONS.find { |d| d[:key] == level_key }
   end
 
-  # Checks if the user currently has an active (incomplete) level
+  # Helper: Checks if the user has an active, incomplete level
   def user_has_active_level?
     existing_level = current_user.level
     existing_level&.completion_status == false
   end
 
-  # Redirects to gameboard if user has an active level
+  # Helper: Redirect to gameboard if user has an active level
   def redirect_if_active_level_exists
     redirect_to gameboard_path, notice: "You're already progressing through a level."
   end
 
-  # Redirects to levels path with an error message
+  # Helper: Redirect to levels page with a specific error message
   def redirect_with_error(message)
     redirect_to levels_path, alert: message
   end
 
-  # Destroys existing level (if any) and creates a new level for the user
-  # Redirects to gameboard on success, or back to levels overview on failure
+  # Helper: Replaces any existing level with a new one based on supplied definition.
   def replace_or_create_level(definition)
     current_user.level&.destroy
-
     new_level = current_user.build_level(
       name: definition[:name],
       description: definition[:description],
       completion_status: false
     )
-
     if new_level.save
       redirect_to gameboard_path, notice: "Level started!"
     else
