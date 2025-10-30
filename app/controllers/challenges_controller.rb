@@ -86,6 +86,8 @@ class ChallengesController < ApplicationController
   def select_choice
     # Update the @challenge object with choice parameter from form
     if @challenge.update(choice_params)
+      # Recalculate decision score based on challenge answers in the current level
+      update_user_decision_score(@level)
       # if updates, to back to gameboard/challenge/id and show "answer saved"
       redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
     else
@@ -118,5 +120,24 @@ class ChallengesController < ApplicationController
   params.require(:challenge).permit(:choice)
   end
 
+  def update_user_decision_score(level)
+    user = current_user
+    # Count the number of the users completed challenges on their current level
+    answered = level.challenges
+                  .joins(:level)
+                  .where(levels: { user_id: user.id })
+                  .where.not(choice: nil)
+    total_answered = answered.count
 
+    # Count the number of correctly answered challenges
+    if total_answered > 0
+      correct_answers = answered.where("challenges.choice = challenges.correct_answer").count
+      decision_score = ((correct_answers.to_f / total_answered.to_f) * 100).round(2)
+      user.update!(decision_score: decision_score)
+    else
+      # Reset to zero if user has not answered any challenges
+      user.update!(decision_score: 0.0)
+    end
+  end
+  
 end
