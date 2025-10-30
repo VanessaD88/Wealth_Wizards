@@ -11,9 +11,8 @@ Rails.application.routes.draw do
 
   get "/gameboard", to: "pages#gameboard", as: :pages_gameboard
 
-  resources :levels, only: [] do
-    resources :challenges, only: [:index, :new, :create, :show]
-  end
+  # Levels overview page (index is conditional view); POST for starting/reseting journey
+  resources :levels, only: [:index, :create]
 
 
   # Challenges routes

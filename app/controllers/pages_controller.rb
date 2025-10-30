@@ -1,14 +1,28 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :home ]
 
+  # Landing page - no authentication required
   def home
   end
 
+  # Main gameboard view for playing challenges
+  # Redirects to levels overview if:
+  #   - User has no level yet (level = 0 scenario)
+  #   - Current level is already completed
+  # Otherwise displays challenges for the active level and allows challenge selection
   def gameboard
     @user = current_user
     @level = @user.level
-    @challenges = @level ? @level.challenges : []
 
+    # Redirect to Levels Overview when starting a new level (no level yet)
+    # or when the current level is completed
+    redirect_to levels_path and return if @level.nil? || @level.completion_status
+
+    # Load challenges for the active level
+    @challenges = @level.challenges
+
+    # Set current challenge: use specified challenge_id from params,
+    # or default to the most recently created challenge
     @challenge =
       if params[:challenge_id].present?
         @challenges.find_by(id: params[:challenge_id])
