@@ -15,6 +15,7 @@
 @import "components/button";
 @import "components/card";
 @import "components/dashboard";
+@import "components/overview";
 
 h1 {
   font-family: $headers-font;
@@ -39,16 +40,4 @@ main {
   padding-bottom: 30px; // same as your navbar height
   padding-right: 40px;
   padding-left: 40px;
-}
-
-.card-title {
-  color: $gold; // Gold headings/accent for titles
-  font-family: $headers-font;
-  font-size: 1.3em;
-  font-weight: bold;
-}
-.card-text {
-  color: $charcoal-ink; // Standard font for content
-  font-family: $body-font;
-  font-size: 1.15em;
 }
