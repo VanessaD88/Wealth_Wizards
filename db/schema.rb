@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_27_134347) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_29_151945) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -28,7 +28,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_27_134347) do
     t.boolean "completion_status", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "correct_answer"
     t.index ["level_id"], name: "index_challenges_on_level_id"
+    t.check_constraint "correct_answer >= 1 AND correct_answer <= 4", name: "challenges_correct_answer_range"
   end
 
   create_table "levels", force: :cascade do |t|
@@ -49,7 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_27_134347) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "username", default: "", null: false
     t.decimal "balance"
     t.decimal "decision_score"
     t.string "avatar"

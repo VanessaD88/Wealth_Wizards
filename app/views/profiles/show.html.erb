@@ -1,0 +1,56 @@
+<main>
+  <div class="container d-flex justify-content-center align-items-center">
+    <div class="col-12 col-lg-5">
+      <h2 class="text-center mb-3">Profile</h2>
+
+      <!-- Display selected Avatar -->
+      <%= turbo_frame_tag "avatar_frame" do %>
+      <div class="avatar-section d-flex justify-content-center align-items-center">
+        <%= image_tag @user.avatar_image, size: "150x150", class: "rounded-circle border border-3 border-success mb-3" %>
+      </div>
+      <% end %>
+
+      <!-- Avatar selection -->
+      <%= form_with model: @user, url: profile_path, method: :patch, data: { turbo_frame: "avatar_frame" } do |f| %>
+        <div class="avatar-selection d-flex justify-content-around flex-wrap mb-3">
+          <% User::AVATARS.each do |name, image| %>
+            <div class="text-center">
+              <%= f.radio_button :avatar, name, id: "avatar_#{name}", checked: @user.avatar == name %>
+              <label for="avatar_<%= name %>">
+                <%= image_tag image, size: "70x70", class: "rounded-circle border mb-1 #{'border-success' if @user.avatar == name}" %>
+              </label>
+              <p><%= name %></p>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="text-center">
+          <%= f.submit "Change Avatar", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+      <div class="mt-5">
+        <h5 class="text-center">Account details</h5>
+        <table class="table w-100">
+          <tbody>
+            <tr>
+              <th scope="row">Email:</th>
+              <td><%= @user.email %></td>
+            </tr>
+            <tr>
+              <th scope="row">Username:</th>
+              <td><%= @user.username %></td>
+            </tr>
+            <tr>
+              <th scope="row">Password:</th>
+              <td>••••••••</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <%= link_to "Edit details", edit_user_registration_path, class: "btn btn-primary" %>
+          </div>
+      </div>
+    </div>
+  </div>
+</main>

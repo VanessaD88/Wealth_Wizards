@@ -1,6 +1,6 @@
 puts "Cleaning database..."
-Level.destroy_all
 Challenge.destroy_all
+Level.destroy_all
 User.destroy_all
 
 puts "Seeding database..."
@@ -41,18 +41,32 @@ level_definitions = [
   }
 ]
 
-levels = []
-level_definitions.each_with_index do |data, i|
-  users_for_level = User.offset(i * 2).limit(2) # pick two users per level
-  users_for_level.each do |user|
-    levels << Level.create!(
-      name: data[:name],
-      description: data[:description],
-      completion_status: false,
-      user: user
-    )
-  end
+users = User.all
+level_definitions_cycle = level_definitions.cycle # so users > levels still get something
+
+users.each do |user|
+  level_data = level_definitions_cycle.next
+  level = Level.create!(
+    name: level_data[:name],
+    description: level_data[:description],
+    completion_status: false,
+    user: user
+  )
+  puts "Created Level #{level.id} for user #{user.id}"
 end
+
+# levels = []
+# level_definitions.each_with_index do |data, i|
+#   users_for_level = User.offset(i * 2).limit(2) # pick two users per level
+#   users_for_level.each do |user|
+#     levels << Level.create!(
+#       name: data[:name],
+#       description: data[:description],
+#       completion_status: false,
+#       user: user
+#     )
+#   end
+# end
 
 puts "Creating challenges..."
 challenge_data = [

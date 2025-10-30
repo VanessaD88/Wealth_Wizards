@@ -23,11 +23,25 @@ class PagesController < ApplicationController
 
     # Set current challenge: use specified challenge_id from params,
     # or default to the most recently created challenge
+    @challenges = @level ? @level.challenges : []
     @challenge =
       if params[:challenge_id].present?
         @challenges.find_by(id: params[:challenge_id])
       else
         @challenges.order(created_at: :desc).first
       end
+    prompt = @challenge&.challenge_prompt.to_s
+    @challenge_options = parse_options(prompt)
+
+  end
+
+  def dashboard
+    @user = current_user
+    @level = @user.level
+  end
+private
+
+  def parse_options(prompt)
+  prompt.to_s.split("\n").map(&:strip).select { |line| line.match?(/^\d+\.\s/) }
   end
 end

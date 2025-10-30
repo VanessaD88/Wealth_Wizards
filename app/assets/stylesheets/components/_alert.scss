@@ -34,3 +34,28 @@ body { padding-bottom: var(--navbar-height, 56px); }
 .navbar-ww .avatar.dropdown-toggle::after {
   content: none; /* removes the arrow */
 }
+
+// custom flash colors
+.alert-info {
+  background-color: $ivory-ledger !important;
+  color: $charcoal-ink !important;
+  border-color: $gold !important;
+}
+
+.alert-success {
+  background-color: $ivory-ledger !important;
+  color: $old-money-green !important;
+  border-color: $gold !important;
+}
+
+.alert-warning {
+  background-color: $ivory-ledger !important;
+  color: #721c24 !important;
+  border-color: $gold !important;
+}
+
+.alert-danger {
+  background-color: $ivory-ledger !important;
+  color: #721c24 !important;
+  border-color: $gold !important;
+}

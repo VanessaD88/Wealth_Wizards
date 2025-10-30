@@ -29,7 +29,7 @@ class ChallengesController < ApplicationController
       - "difficulty": An integer from 1 (easy) to 5 (hard).
       - "challenge_prompt": The main question or scenario. This prompt MUST include four numbered answer options (e.g., "1. Do this \n 2. Do that...").
       - "description": A short paragraph providing more story or context (can be an empty string if not needed).
-      - "choice": The integer number (1, 2, 3, or 4) corresponding to the correct answer option in the challenge_prompt.
+      - "correct_answer": The integer number (1, 2, 3, or 4) corresponding to the correct answer option in the challenge_prompt.
       - "balance_impact": A positive or negative decimal number (e.g., 50.0 or -25.5) representing the financial consequence of a *correct* choice.
       - "decision_score_impact": A positive decimal number (e.g., 10.0) representing the score impact of a *correct* choice.
       - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
@@ -59,7 +59,7 @@ class ChallengesController < ApplicationController
       difficulty: challenge_data["difficulty"],
       challenge_prompt: challenge_data["challenge_prompt"],
       description: challenge_data["description"],
-      choice: challenge_data["choice"],
+      correct_answer: challenge_data["correct_answer"],
       balance_impact: challenge_data["balance_impact"],
       decision_score_impact: challenge_data["decision_score_impact"],
       feedback: challenge_data["feedback"],
@@ -68,7 +68,7 @@ class ChallengesController < ApplicationController
 
     # Redirect to the gameboard page
     if @challenge.save
-      redirect_to pages_gameboard_path, notice: 'Here is your next challenge, Wizard!'
+      redirect_to pages_gameboard_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -83,4 +83,6 @@ class ChallengesController < ApplicationController
       redirect_to gameboard_path, alert: "Level not found."
     end
   end
+
+
 end

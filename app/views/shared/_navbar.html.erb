@@ -9,15 +9,16 @@
         <% if user_signed_in? %>
 
         <li class="nav-item active">
-          <a href="#" class="avatar">
+          <%= link_to dashboard_path, class: "avatar" do %>
             <%= image_tag("Icon_Dashboard.png", class: "avatar") %>
-          </a>
+          <% end %>
         </li>
 
+
         <li class="nav-item">
-          <a href="#" class="avatar">
+          <%= link_to pages_gameboard_path, class: "avatar" do %>
             <%= image_tag("Icon_Game.png", class: "avatar") %>
-          </a>
+          <% end %>
         </li>
 
         <li class="nav-item dropup dropdown">

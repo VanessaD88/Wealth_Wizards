@@ -1,0 +1,24 @@
+<main>
+  <div class="card-dashboard ">
+
+  <!-- Avatar + Username in Card Header-->
+  <div class="card-header">
+    <%= image_tag("logo.png", style: "width:70px; height:70px; object-fit:cover;") %>
+    <%= @user.username %>
+  </div>
+  <!-- View current Level-->
+  <div class="card-text text-start mb-3">
+    <% level_name = @user.level&.name %>
+    <% if level_name&.include?("Level: 1") %>
+      Level 1
+    <% elsif level_name&.include?("Level: 2") %>
+      Level 2
+    <% elsif level_name&.include?("Level: 3") %>
+      Level 3
+    <% else %>
+      Game not started yet
+    <% end %>
+  </div>
+  <!-- Add Balance and decision making score-->
+  </div>
+</main>

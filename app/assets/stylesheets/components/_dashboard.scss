@@ -1,5 +1,5 @@
-.card-custom {
-  background-color: $old-money-green;
+.card-dashboard {
+  background-color: $ivory-ledger;
   border-radius: 0.5rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   position: relative; // needed for pseudo-element positioning
@@ -12,13 +12,13 @@
     bottom: 10px;
     left: 10px;
     right: 10px;
-    border: 1px solid $ivory-ledger; // or $gold for a warmer tone
+    border: 1px solid $gold; // or $gold for a warmer tone
     border-radius: 0.4rem; // slightly smaller than card
     pointer-events: none; // ensure clicks still go through
   }
 
   .card-header {
-    background-color: $old-money-green;
+    background-color: $ivory-ledger;
     color: $gold;
     font-weight: 700;
     padding-right: 1.5rem;
@@ -29,29 +29,11 @@
   }
 
   .card-text {
-    color: $ivory-ledger;
+    color: $gold;
     font-weight: 300;
-  }
-
-  .card-body {
     padding-right: 1.5rem;
     padding-left: 1.5rem;
-    padding-bottom: 1.0rem;
-    color: $ivory-ledger;
+    padding-top: 1.0rem;
+    padding-bottom: 0rem;
   }
-    .list-group {
-    background-color: $old-money-green;
-    border-radius: 0.5rem;
-    overflow: hidden;
-  }
-
-  .list-group-item {
-    background-color: $old-money-green;
-    color: $ivory-ledger;
-    border: none;               // optional: remove the default grey divider
-  }
-
-  .list-group-item:not(:last-child) {
-    border-bottom: 1px solid rgba($ivory-ledger, 0.25); // subtle separator if you want one
-  }
- }
+}
