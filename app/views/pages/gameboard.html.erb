@@ -71,9 +71,10 @@
 
         <div class="mt-3">
          <%= button_to "Continue your Journey",
-                    level_challenges_path(@level),
-                    method: :post,
-                    class: "btn button-gold mt-4" %>
+              level_challenges_path(@level),
+              method: :post,
+              class: "btn button-gold mt-4",
+              disabled: !@show_answer_feedback %>
         </div>
 
       <% end %> <%# <-- This 'end' was missing and is required to close 'if @challenge' %>
