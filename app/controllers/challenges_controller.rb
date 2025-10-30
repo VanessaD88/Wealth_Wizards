@@ -1,6 +1,7 @@
 class ChallengesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_level
+  before_action :set_challenge, only: [:show, :select_choice]
 
   def index
     @challenges = @level.challenges
@@ -74,14 +75,33 @@ class ChallengesController < ApplicationController
     end
   end
 
+  # Alex adding changes to enabling selection of choices start
+  def select_choice
+    if @challenge.update(choice_params)
+      redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Choice saved."
+    else
+      redirect_to pages_gameboard_path(challenge_id: @challenge.id), alert: "Pick an option before submitting."
+    end
+  end
+
+  # Alex adding changes to enabling selection of choices end
+
   private
 
   # Set level to current user level
   def set_level
-    @level = current_user.level
-    if @level.nil? || @level.id.to_s != params[:level_id].to_s
-      redirect_to gameboard_path, alert: "Level not found."
+  @level = current_user.level
+    if @level.nil? || (params[:level_id].present? && @level.id.to_s != params[:level_id].to_s)
+      redirect_to pages_gameboard_path, alert: "Level not found."
     end
+  end
+
+  def set_challenge
+  @challenge = @level.challenges.find(params[:id])
+  end
+
+  def choice_params
+  params.require(:challenge).permit(:choice)
   end
 
 
