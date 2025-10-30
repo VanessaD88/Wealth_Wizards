@@ -2,7 +2,8 @@
     - User has no level (level = 0 scenario)
     - Current level is completed
     Shows game instructions and available levels to start %>
-<div class="container my-4">
+<main>
+<div class="container my-4 text-center">
   <%# Landing page header and instructions %>
   <h1>Become a Wealth Wizard!</h1>
 
@@ -22,36 +23,36 @@
 
   <%# Show current active level status if user is progressing through a level %>
   <% if @current_level && @current_level.completion_status == false %>
-    <div class="alert alert-info mb-4">
+    <div class="alert alert-info mb-4 d-inline-block text-start">
       You're currently on: <strong><%= @current_level.name %></strong>. Continue on the gameboard.
     </div>
     <div class="mb-4">
       <%= link_to "Go to Gameboard", pages_gameboard_path, class: "btn btn-primary" %>
   <% end %>
 
-  <%# Call-to-action: Only show Start Your Journey button when user can begin (no active/incomplete level) %>
-  <% unless @current_level && @current_level.completion_status == false %>
-    <div class="my-4 text-center">
+  <%# Only show the overview/card for the user's current level, not all %>
+  <% if @level %>
+    <section>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-6">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <%# Show the level's associated avatar icon (from app/assets/images) %>
+              <%= image_tag(@level_icon, alt: "#{@level[:name]} icon", class: "mb-3", width: 80, height: 80) %>
+              <h3 class="card-title"><%= @level[:name] %></h3>
+              <p class="card-text"><%= @level[:description] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  <% else %>
+    <%# No active/incomplete level: show CTA to start the journey %>
+    <div class="my-4">
       <%= button_to "Start Your Journey", levels_path, method: :post, class: "btn btn-lg btn-success" %>
     </div>
   <% end %>
 
-  <%# Renders the levels selection as Bootstrap-style cards with class names handled by the app's theme %>
-  <section>
-    <h2>Choose Your Level</h2>
-    <div class="row g-3">
-      <% @levels.each do |lvl| %>
-        <div class="col-12 col-md-6">
-          <div class="card h-100">
-            <div class="card-body">
-              <%# Level name as card title - styled by app/theme CSS %>
-              <h3 class="card-title"><%= lvl[:name] %></h3>
-              <%# Level instructional description %>
-              <p class="card-text"><%= lvl[:description] %></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </section>
+  <%# Remove multi-level listing; only one overview is shown per current level %>
 </div>
+</main>

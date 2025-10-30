@@ -13,7 +13,16 @@ class LevelsController < ApplicationController
   # Shows current active level if user is already progressing through one
   def index
     @current_level = current_user.level
-    @levels = LEVEL_DEFINITIONS
+    if @current_level && !@current_level.completion_status
+      # Find level definition whose name matches the user's level
+      level_def = LEVEL_DEFINITIONS.find { |lvl| lvl[:name] == @current_level.name }
+      @level = level_def || LEVEL_DEFINITIONS.first # fallback to Level 1 if no match
+      # Set the icon path (icons live directly under app/assets/images)
+      @level_icon = "icon_#{@level[:key]}.png"
+    else
+      @level = nil
+      @level_icon = nil
+    end
   end
 
   # POST /levels - Starts the user's journey at Level 1: Building Your Nest Egg
