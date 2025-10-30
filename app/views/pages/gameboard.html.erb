@@ -4,7 +4,7 @@
       <%# Check if there is a challenge object to render %>
       <% if @challenge %>
         <h2 class="mb-2"><%= @challenge.title %></h2>
-        <p class="text-dark">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %></p>
+        <p class="text-dark">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %>| Budget Impact: <%= @challenge.balance_impact%></p>
 
         <%# Create form based on challenge model%>
         <%= form_with model: @challenge,
