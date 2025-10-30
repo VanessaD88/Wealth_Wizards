@@ -41,9 +41,14 @@ main {
   padding-left: 40px;
 }
 
-.card-title, .card-text {
-  color: #333 !important;
-  display: block !important;
-  opacity: 1 !important;
-  font-size: 1.3em !important;
+.card-title {
+  color: $gold; // Gold headings/accent for titles
+  font-family: $headers-font;
+  font-size: 1.3em;
+  font-weight: bold;
+}
+.card-text {
+  color: $charcoal-ink; // Standard font for content
+  font-family: $body-font;
+  font-size: 1.15em;
 }
