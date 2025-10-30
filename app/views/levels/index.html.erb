@@ -46,9 +46,9 @@
     %>
     <div class="mt-4">
       <% if @level %>
-        <%= link_to "Continue Journey", pages_gameboard_path, class: "btn btn-lg btn-success" %>
+        <%= link_to "Continue Journey", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
       <% else %>
-        <%= button_to "Start Your Journey", levels_path, method: :post, class: "btn btn-lg btn-success" %>
+        <%= button_to "Start Your Journey", levels_path, method: :post, class: "btn btn-lg btn-primary" %>
       <% end %>
     </div>
   </div>
