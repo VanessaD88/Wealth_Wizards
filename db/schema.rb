@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_29_151945) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
+    t.string "username", default: "", null: false
     t.decimal "balance"
     t.decimal "decision_score"
     t.string "avatar"

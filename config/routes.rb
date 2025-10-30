@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   root to: "pages#home"
 
   # Gameboard route
@@ -22,6 +24,10 @@ Rails.application.routes.draw do
     # Gameboard routes
   resource :gameboard, only: [:show], controller: "gameboards"
   post "/gameboard/challenges", to: "gameboards#draw", as: :draw_gameboard_challenge
+
+  # User routes
+  resources :users, only: :show, controller: "profiles"
+  resource :profile, only: [:show, :edit, :update]
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
