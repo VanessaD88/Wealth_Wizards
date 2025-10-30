@@ -16,6 +16,16 @@ class PagesController < ApplicationController
       end
     prompt = @challenge&.challenge_prompt.to_s
     @challenge_options = parse_options(prompt)
+    correct_number = @challenge&.correct_answer.to_i
+    choice_number = @challenge&.choice.to_i
+    @answer_is_correct = choice_number.positive? && choice_number == correct_number
+    @correct_answer_text =
+      if correct_number.positive?
+        match = @challenge_options.find { |line| line.start_with?("#{correct_number}.") }
+        match&.split('.', 2)&.last&.strip
+      end
+    @show_answer_feedback = @challenge.present? && @challenge.choice.present?
+
 
   end
 

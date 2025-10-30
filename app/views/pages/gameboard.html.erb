@@ -44,18 +44,52 @@
               <% end %>
             </div>
             <div>
-              <%= form.submit "Submit Answer", class: "btn btn-primary" %>
+              <%# Disable button if feedback is already showing %>
+              <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
             </div>
           </div>
 
-        <% end %> <% else %>
+        <% end %>
+      <% else %>
         <p class="text-center text-muted">No challenge selected yet. Pick one from the gameboard.</p>
       <% end %>
+
+      <%# --- This is the new, merged feedback block --- %>
+      <% if @show_answer_feedback %>
+        <div class="card-custom mt-4">
+          <div class="card-body">
+            <h5 class="card-header">Result</h5>
+
+            <div class="card-body">
+              <!-- This "Correct/Wrong" message is now inside the styled card -->
+              <p class="mb-3 fw-semibold <%= @answer_is_correct ? 'text-success' : 'text-danger' %>">
+                <%= @answer_is_correct ? 'Correct!' : 'Wrong Answer' %>
+              </p>
+
+              <!-- The rest of the feedback details follow -->
+              <h6 class="fw-semibold text-success-emphasis">Correct Answer</h6>
+              <p class="text-muted mb-3">
+                Option <%= @challenge.correct_answer %>
+                <% if @correct_answer_text.present? %>
+                  – <%= @correct_answer_text %>
+                <% end %>
+              </p>
+              <h6 class="fw-semibold">Feedback</h6>
+              <p class="text-muted mb-0"><%= @challenge.feedback %></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <%= link_to "Continue your journey", pages_gameboard_path, class: "btn btn-outline-primary" %>
+        </div>
+      <% end %>
+      <%# --- End of merged feedback block --- %>
 
       <%= button_to "Generate New Challenge",
                     level_challenges_path(@level),
                     method: :post,
-                    class: "btn button-gold" %>
+                    class: "btn button-gold mt-4" %>
     </div>
   </div>
 </div>
