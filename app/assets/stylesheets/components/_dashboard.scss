@@ -1,0 +1,39 @@
+.card-dashboard {
+  background-color: $ivory-ledger;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  position: relative; // needed for pseudo-element positioning
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    border: 1px solid $gold; // or $gold for a warmer tone
+    border-radius: 0.4rem; // slightly smaller than card
+    pointer-events: none; // ensure clicks still go through
+  }
+
+  .card-header {
+    background-color: $ivory-ledger;
+    color: $gold;
+    font-weight: 700;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: 1.0rem;
+    padding-bottom: 0rem;
+    border-bottom: none;
+  }
+
+  .card-text {
+    color: $gold;
+    font-weight: 300;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    padding-top: 1.0rem;
+    padding-bottom: 0rem;
+  }
+}

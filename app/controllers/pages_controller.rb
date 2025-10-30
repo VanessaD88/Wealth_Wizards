@@ -18,6 +18,11 @@ class PagesController < ApplicationController
     @challenge_options = parse_options(prompt)
 
   end
+
+  def dashboard
+    @user = current_user
+    @level = @user.level
+  end
 private
 
   def parse_options(prompt)
