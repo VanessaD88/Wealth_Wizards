@@ -16,6 +16,10 @@ class ChallengesController < ApplicationController
 
   def create
     # JSON Output Prompt, use JSON so output can be pardsed
+    # This needs to be replaced with smarter logic later on, e.g. if user has completed
+    # xx easy questions ,switch to medium
+    difficulty = rand(1..3)
+
     prompt = <<~PROMPT
       You are a financial education expert creating a challenge for a game.
       The challenge is for a level named: "#{@level.name}"
@@ -26,11 +30,14 @@ class ChallengesController < ApplicationController
       The JSON object must have EXACTLY the following keys:
       - "title": A short, engaging title for the challenge.
       - "category": A single-word category (e.g., "Budgeting", "Investing", "Debt", "Savings").
-      - "difficulty": An integer from 1 (easy) to 5 (hard).
+      - "difficulty": Use the provided Difficulty value (#{difficulty}) instead of choosing your own. Higher difficulty must reflect more complex scenarios, trickier trade-offs, or nuanced financial concepts. Base the complexity on the provided Difficulty value: 1 = introductory, 2 = intermediate, 3 = advanced.
       - "challenge_prompt": The main question or scenario. This prompt MUST include four numbered answer options (e.g., "1. Do this \n 2. Do that...").
       - "description": A short paragraph providing more story or context (can be an empty string if not needed).
       - "correct_answer": The integer number (1, 2, 3, or 4) corresponding to the correct answer option in the challenge_prompt.
-      - "balance_impact": A positive or negative decimal number (e.g., 50.0 or -25.5) representing the financial consequence of a *correct* choice.
+      - "balance_impact": A positive integer (in Euros) representing the financial consequence of a *correct* choice. This value MUST be within the range corresponding to the 'difficulty' integer:
+          - difficulty == 1: 500 - 1000
+          - difficulty == 2: 1000 - 1500
+          - difficulty == 3: 1500 - 2000
       - "decision_score_impact": A positive decimal number (e.g., 10.0) representing the score impact of a *correct* choice.
       - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
 
@@ -56,7 +63,7 @@ class ChallengesController < ApplicationController
     @challenge = @level.challenges.new(
       title: challenge_data["title"],
       category: challenge_data["category"],
-      difficulty: challenge_data["difficulty"],
+      difficulty: difficulty,
       challenge_prompt: challenge_data["challenge_prompt"],
       description: challenge_data["description"],
       correct_answer: challenge_data["correct_answer"],
