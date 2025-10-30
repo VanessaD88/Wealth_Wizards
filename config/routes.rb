@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   get "/gameboard", to: "pages#gameboard", as: :pages_gameboard
 
   # Levels overview page (index is conditional view); POST for starting/reseting journey
-  resources :levels, only: [:index, :create]
+  # Minimal nested route for creating a challenge under a level (required for level_challenges_path(@level))
+  resources :levels, only: [:index, :create] do
+    resources :challenges, only: [:create]
+  end
 
 
   # Challenges routes

@@ -22,8 +22,7 @@
       You're currently on: <strong><%= @current_level.name %></strong>. Continue on the gameboard.
     </div>
     <div class="mb-4">
-      <%= link_to "Go to Gameboard", gameboard_path, class: "btn btn-primary" %>
-    </div>
+      <%= link_to "Go to Gameboard", pages_gameboard_path, class: "btn btn-primary" %>
   <% end %>
 
   <%# Call-to-action: Only show Start Your Journey button when user can begin (no active/incomplete level) %>
@@ -33,7 +32,7 @@
     </div>
   <% end %>
 
-  <%# Level selection section - displays all available levels (no start action here) %>
+  <%# Renders the levels selection as Bootstrap-style cards with class names handled by the app's theme %>
   <section>
     <h2>Choose Your Level</h2>
     <div class="row g-3">
@@ -41,7 +40,9 @@
         <div class="col-12 col-md-6">
           <div class="card h-100">
             <div class="card-body">
+              <%# Level name as card title - styled by app/theme CSS %>
               <h3 class="card-title"><%= lvl[:name] %></h3>
+              <%# Level instructional description %>
               <p class="card-text"><%= lvl[:description] %></p>
             </div>
           </div>
@@ -50,5 +51,3 @@
     </div>
   </section>
 </div>
-
-

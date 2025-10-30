@@ -40,3 +40,10 @@ main {
   padding-right: 40px;
   padding-left: 40px;
 }
+
+.card-title, .card-text {
+  color: #333 !important;
+  display: block !important;
+  opacity: 1 !important;
+  font-size: 1.3em !important;
+}
