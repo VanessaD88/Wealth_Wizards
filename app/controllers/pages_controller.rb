@@ -5,25 +5,44 @@ class PagesController < ApplicationController
   end
 
   def gameboard
+    # define variables needed, such as user and their current level
     @user = current_user
     @level = @user.level
     @challenges = @level ? @level.challenges : []
+
+    # check for current challenge ID, if not present take the most recent one
     @challenge =
       if params[:challenge_id].present?
         @challenges.find_by(id: params[:challenge_id])
       else
         @challenges.order(created_at: :desc).first
       end
+
+    # parse prompt to define correct answer and choice numbers
+    # convert to string
     prompt = @challenge&.challenge_prompt.to_s
+
+    # parse string using private parse_options, see below
     @challenge_options = parse_options(prompt)
+
+    # get correct number from challenge
     correct_number = @challenge&.correct_answer.to_i
+
+    # get user
     choice_number = @challenge&.choice.to_i
+    # Check if answer is correct, is it a positive integer and equal to correct_number
     @answer_is_correct = choice_number.positive? && choice_number == correct_number
+
+    # use the previously parsed prompt to show the correct answer text, checking where the number is equal
+    # to the correct option number
     @correct_answer_text =
       if correct_number.positive?
-        match = @challenge_options.find { |line| line.start_with?("#{correct_number}.") }
-        match&.split('.', 2)&.last&.strip
+        match = @challenge_options.find { |number, _text| number == correct_number }
+        match&.last
       end
+
+    # prepare answer feedback variable, if challenge exists and user has submitted a choice
+    # (challenge id contains choice variable)
     @show_answer_feedback = @challenge.present? && @challenge.choice.present?
 
 
@@ -36,6 +55,15 @@ class PagesController < ApplicationController
 private
 
   def parse_options(prompt)
-  prompt.to_s.split("\n").map(&:strip).select { |line| line.match?(/^\d+\.\s/) }
+    # take prompt, make it a string, split it by line and strip any white space and map over it
+    prompt.to_s.split("\n").map(&:strip)
+    # Use regex to only keep lines starting with a digit (d) followed by a .(escaped) followed by space
+          .select { |line| line.match?(/^\d+\.\s/) }
+          .map do |line|
+            # Split each line at the first ., e.g. 1. Do abc becomes ["1", "Do abc"]
+            number_str, text = line.split('.', 2).map(&:strip)
+            # Convert the number string to an integer -> to be able to compare in @answer_is_correct
+            [number_str.to_i, text]
+          end
   end
 end

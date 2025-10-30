@@ -9,7 +9,6 @@ class ChallengesController < ApplicationController
 
   # In case we want to show individual levels separately
   def show
-    @challenge = @level.challenges.find(params[:id])
   end
 
 
@@ -90,9 +89,10 @@ class ChallengesController < ApplicationController
 
   # Set level to current user level
   def set_level
-  @level = current_user.level
+    @level = current_user.level
     if @level.nil? || (params[:level_id].present? && @level.id.to_s != params[:level_id].to_s)
       redirect_to pages_gameboard_path, alert: "Level not found."
+      return
     end
   end
 
