@@ -139,5 +139,5 @@ class ChallengesController < ApplicationController
       user.update!(decision_score: 0.0)
     end
   end
-
+  
 end
