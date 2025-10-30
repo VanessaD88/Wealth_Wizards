@@ -28,10 +28,15 @@
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+                  <%= image_tag(
+                    "avatars/#{@user.avatar.to_s.downcase.presence || 'default'}.png",
+                    class: "avatar",
+                    alt: "User dropdown menu"
+                    ) %>
+
           </button>
           <div class="dropdown-menu dropdown-menu-end custom-dropup" aria-labelledby="userMenu">
-            <%= link_to "My Profile", "#", class: "dropdown-item" %>
+            <%= link_to "My Profile", profile_path, class: "dropdown-item" %>
             <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
           </div>
         </li>

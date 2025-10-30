@@ -1,6 +1,7 @@
 class ChallengesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_level
+  before_action :set_challenge, only: [:show, :select_choice]
 
   def index
     @challenges = @level.challenges
@@ -8,7 +9,6 @@ class ChallengesController < ApplicationController
 
   # In case we want to show individual levels separately
   def show
-    @challenge = @level.challenges.find(params[:id])
   end
 
 
@@ -74,14 +74,41 @@ class ChallengesController < ApplicationController
     end
   end
 
+  # Alex adding changes to enabling selection of choices start
+  # Triggered when user clicks submit on gameboard form
+  def select_choice
+    # Update the @challenge object with choice parameter from form
+    if @challenge.update(choice_params)
+      # if updates, to back to gameboard/challenge/id and show "answer saved"
+      redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
+    else
+      # if updates, to back to gameboard/challenge/id, but show alert to pick option
+      redirect_to pages_gameboard_path(challenge_id: @challenge.id), alert: "Pick an option before submitting."
+    end
+  end
+
+  # Alex adding changes to enabling selection of choices end
+
   private
 
   # Set level to current user level
   def set_level
+    # fetch current user level
     @level = current_user.level
-    if @level.nil? || @level.id.to_s != params[:level_id].to_s
-      redirect_to gameboard_path, alert: "Level not found."
+    # If level_id is in url and does not match user level, redirect to gameboard
+    # and say level not found
+    if (params[:level_id].present? && @level.id.to_s != params[:level_id].to_s)
+      redirect_to pages_gameboard_path, alert: "Level not found."
+      return
     end
+  end
+
+  def set_challenge
+  @challenge = @level.challenges.find(params[:id])
+  end
+
+  def choice_params
+  params.require(:challenge).permit(:choice)
   end
 
 
