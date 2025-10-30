@@ -20,8 +20,10 @@
     </div>
     <!-- Add Balance and decision making score-->
     <div class="card-text d-flex justify-content-center align-items-center gap-5">
-      <p> <strong> Balance: </strong> <%= @user.balance  %> </p>
-      <p> <strong> Decision-making: </strong> <%= @user.decision_score %> </p>
+      <h5> Balance:</h5>
+      <p><%= @user.balance %></p>
+      <h5> Decision-making:</h5>
+      <p> <%= @user.decision_score %> </p>
     </div>
     <!-- Level Icon as Badges-->
     <div class="card-text d-flex justify-content-center align-items-center">
