@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # Allow additional user attributes
   def configure_permitted_parameters
     extra = [:username, :avatar]
     devise_parameter_sanitizer.permit(:sign_up, keys: extra)
