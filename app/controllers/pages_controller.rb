@@ -3,7 +3,6 @@ class PagesController < ApplicationController
 
   def home
     @user= current_user
-    @user.avatar
   end
 
   def gameboard
