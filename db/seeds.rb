@@ -1,6 +1,6 @@
 puts "Cleaning database..."
-Level.destroy_all
 Challenge.destroy_all
+Level.destroy_all
 User.destroy_all
 
 puts "Seeding database..."
