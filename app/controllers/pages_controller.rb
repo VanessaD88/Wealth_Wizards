@@ -1,14 +1,47 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!, only: [ :home ]
 
+  # Landing page - no authentication required
   def home
-    @user= current_user
+    @user = current_user
   end
 
+  # Main gameboard view for playing challenges
+  # Special handling for Level 0 users: creates Level 1 and redirects to levels overview (shows Level 1 card)
+  # Redirects to levels overview if:
+  #   - User has no level yet
+  #   - Current level is already completed
+  # Otherwise displays challenges for the active level and allows challenge selection
   def gameboard
     # define variables needed, such as user and their current level
     @user = current_user
     @level = @user.level
+
+    # Special case: Level 0 users starting their journey get Level 1 created and shown Level 1 overview page
+    if @level&.name == "Level 0"
+      # Get Level 1 definition from LevelsController
+      level1_def = LevelsController::LEVEL_DEFINITIONS.find { |l| l[:key] == "level1" }
+      # Destroy Level 0
+      @level.destroy
+      # Create Level 1
+      @user.create_level!(
+        name: level1_def[:name],
+        description: level1_def[:description],
+        completion_status: false
+      )
+      # Redirect to levels overview to show Level 1 card instead of going directly to gameboard
+      redirect_to levels_path and return
+    end
+
+    # Redirect to Levels Overview when starting a new level (no level yet)
+    # or when the current level is completed
+    redirect_to levels_path and return if @level.nil? || @level.completion_status
+
+    # Load challenges for the active level
+    @challenges = @level.challenges
+
+    # Set current challenge: use specified challenge_id from params,
+    # or default to the most recently created challenge
     @challenges = @level ? @level.challenges : []
 
     # check for current challenge ID, if not present take the most recent one
