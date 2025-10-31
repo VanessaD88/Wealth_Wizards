@@ -1,3 +1,5 @@
+// Controller to view level badges on dashboard
+
 import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="levels"
