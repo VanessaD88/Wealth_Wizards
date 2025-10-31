@@ -1,5 +1,4 @@
 <main>
-  <div class="container">
   <div class="card-dashboard mb-3 mx-auto ">
     <div class="row align-items-start">
       <!-- Avatar + Username in Card Header-->
@@ -37,13 +36,24 @@
         </div>
       </div>
       <!-- Right Column: Level Icons -->
-      <div class="col-md-1 card-text d-flex flex-column align-items-end">
-        <% ["icon_level1", "icon_level2", "icon_level3"].each do |icon| %>
-          <div class="level-icon mb-3 me-5">
-            <%= image_tag(icon, alt: "Level icon", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
-            <div class="overlay"></div>
-          </div>
-        <% end %>
+      <div class="col-md-1 card-text d-flex flex-column align-items-end"
+          data-controller="levels"
+          data-levels-current-level-value="<%= current_user.level.name %>">
+
+        <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="1">
+          <%= image_tag("icon_level1", alt: "Icon Level 1", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
+          <div class="overlay"></div>
+        </div>
+
+        <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="2">
+          <%= image_tag("icon_level2", alt: "Icon Level 2", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
+          <div class="overlay"></div>
+        </div>
+
+        <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="3">
+          <%= image_tag("icon_level3", alt: "Icon Level 3", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
+          <div class="overlay"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -51,6 +61,5 @@
   <!-- Continue Button -->
   <div class="text-center">
    <%= link_to "Continue Your Journey", pages_gameboard_path , class: "btn btn-primary btn-lg mt-3" %>
-  </div>
   </div>
 </main>
