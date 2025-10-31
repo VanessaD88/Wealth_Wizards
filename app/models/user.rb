@@ -27,12 +27,16 @@ class User < ApplicationRecord
 
   # check user level
   def check_level
-    if self.balance >= 10000
+    if self.balance < 1
+      return 0
+    elsif self.balance >= 1 && self.balance < 10000
+      return 1
+    elsif self.balance >= 10000 && self.balance < 30000
       return 2
-    elsif self.balance >= 20000
+    elsif self.balance >= 30000 && self.balance < 40000
       return 3
-    else
-      return "Level 1 not conmpleted yet"
+    else # everything >40000 return 4 -> Game completed
+      return 4
     end
   end
 
