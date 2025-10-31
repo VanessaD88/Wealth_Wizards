@@ -18,7 +18,7 @@ class ChallengesController < ApplicationController
     # JSON Output Prompt, use JSON so output can be pardsed
     # This needs to be replaced with smarter logic later on, e.g. if user has completed
     # xx easy questions ,switch to medium
-    difficulty = rand(1..3)
+    difficulty = determine_difficulty
 
     prompt = <<~PROMPT
       You are a financial education expert creating a challenge for a game.
@@ -139,5 +139,20 @@ class ChallengesController < ApplicationController
       user.update!(decision_score: 0.0)
     end
   end
-  
+
+  def determine_difficulty
+    # Counting how many challenges the user answered on their current level
+    count = @level.challenges.joins(:level).where(levels: { user_id: current_user.id }).where.not(choice: nil).count
+
+    # Set difficulty to 1 if user answered 3 or less challenges
+    return 1 if count < 4
+
+    # Set difficulty according to the users' decision score
+    case current_user.decision_score.to_f
+    when 71..Float::INFINITY then 3
+    when 30..70 then 2
+    else 1
+    end
+  end
+
 end
