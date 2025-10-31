@@ -25,7 +25,7 @@ class User < ApplicationRecord
     end
   end
 
-  # check user level
+  # check user level based in conditions (methode is called in challenges create)
   def check_level
     if self.balance < 1
       return 0

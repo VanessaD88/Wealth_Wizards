@@ -74,10 +74,10 @@ class ChallengesController < ApplicationController
     )
 
 
-    # Vanessa's code to define level completion needs to happen inside challenge creation
+    # Vanessa's code to define level completion action
     @user.check_level()
     # Level 1 Goal Balance +10.000€
-    if @user
+    if @user.level.name 
     # Level 2
     # Level 3
     # End Vanessas Code
