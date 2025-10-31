@@ -12,7 +12,7 @@ users = [
   { username: "InvestorIvy", email: "ivy@example.com", balance: 5000, decision_score: 90},
 
   { username: "PassivePete", email: "pete@example.com", balance: 4200, decision_score: 84},
-  { username: "StreamQueen", email: "stream@example.com", balance: 10000, decision_score: 95},
+  { username: "StreamQueen", email: "stream@example.com", balance: 100000, decision_score: 95},
   { username: "RiskRanger", email: "ranger@example.com", balance: 8500, decision_score: 89}
 ]
 

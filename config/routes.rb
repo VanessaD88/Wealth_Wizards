@@ -21,12 +21,18 @@ Rails.application.routes.draw do
 
 
   # Challenges routes
-  resources :challenges, only: [:index, :show, :create] do
-    # creates extra actions for challenge records automatically, here PATCH /challenges/:id
+  # Decision rationale:
+  
+  # - :index (GET /challenges) - NOT INCLUDED: Challenges are displayed via pages#gameboard, not a standalone challenges index.
+  #   The challenges#index method exists but is unused; list view is handled by the gameboard page.
+  # - :new (GET /challenges/new) - NOT INCLUDED: Challenge creation is automated via AI in create action, no manual form needed.
+  #   The create action renders :new on error but this is defensive coding, not core functionality.
+  resources :challenges, only: [:show, :create] do
+    # Member route for updating user's choice on an existing challenge (used by gameboard form submission)
     member do
       patch :select_choice
+    end
   end
-end
 
     # Gameboard routes
   resource :gameboard, only: [:show], controller: "gameboards"

@@ -9,16 +9,27 @@
 %>
 <main>
   <div class="container my-4 text-center">
-    <%# ----- Page Heading & Instructions (always visible) ----- %>
+    <%# ----- Page Heading (always visible) ----- %>
     <h1>Become a Wealth Wizard!</h1>
-    <section class="mb-4">
-      <h2>Play. Learn. Level Up Your Money Skills.</h2>
-      <p>Your journey begins here — every decision shapes your path to mastery.</p>
-      <p>
-        Test your financial instincts, watch your wizard level rise, every move brings you closer to financial freedom.
-      </p>
-      <p>Here's your first quest:</p>
-    </section>
+    <%# ----- Instructions section: conditional based on level ----- %>
+    <%# Level 0: No instructional text (welcome card handles introduction) %>
+    <%# Level 1: Show "first quest" text %>
+    <%# Level 2-3: Show "next quest" text %>
+    <% if @level && @level[:key] != "level0" %>
+      <section class="mb-4">
+        <h2>Play. Learn. Level Up Your Money Skills.</h2>
+        <p>Your journey begins here — every decision shapes your path to mastery.</p>
+        <p>
+          Test your financial instincts, watch your wizard level rise, every move brings you closer to financial freedom.
+        </p>
+        <%# Level 1 shows "first quest", Level 2-3 show "next quest" %>
+        <% if @level[:key] == "level1" %>
+          <p>Here's your first quest:</p>
+        <% else %>
+          <p>Here's your next quest:</p>
+        <% end %>
+      </section>
+    <% end %>
     <%#
       The following card area always inherits .container spacing but is horizontally centered and
       visually separated from above content with "mt-5"
@@ -28,9 +39,15 @@
         <div class="card-body text-center">
           <%# If a level exists, show the actual overview card %>
           <% if @level %>
-            <%= image_tag(@level_icon, alt: "#{@level[:name]} icon", class: "mb-3", width: 80, height: 80) %>
-            <h3 class="card-title"><%= @level[:name] %></h3>
-            <p class="card-text"><%= @level[:description] %></p>
+            <%# Only show icon for Level 1, 2, 3 (not Level 0 welcome screen) %>
+            <%= image_tag(@level_icon, alt: "#{@level[:name]} icon", class: "mb-3", width: 80, height: 80) if @level_icon %>
+            <%# Level 0 uses the welcome description; Levels 1-3 show their name as title %>
+            <% if @level[:key] == "level0" %>
+              <p class="card-text" style="white-space: pre-line;"><%= @level[:description] %></p>
+            <% else %>
+              <h3 class="card-title"><%= @level[:name] %></h3>
+              <p class="card-text"><%= @level[:description] %></p>
+            <% end %>
           <%# Otherwise, prompt/encourage the user to start their journey %>
           <% else %>
             <h3 class="card-title">Ready to Begin?</h3>
@@ -40,15 +57,16 @@
       </div>
     </div>
     <%#
-      The journey button always appears below the main card, with conditional action and label:
-      - If active journey: CONTINUE button (links to existing gameboard)
-      - Else: START button (posts to create new journey/level)
+      The journey button always appears below the main card, with conditional label:
+      - Level 0 (new users): "Start Your Journey" button (links to gameboard to begin Level 1)
+      - Level 1-3 (active journey): "Continue Journey" button (links to existing gameboard)
+      - No level: "Start Your Journey" button (links to gameboard)
     %>
     <div class="mt-4">
-      <% if @level %>
+      <% if @level && @level[:key] != "level0" %>
         <%= link_to "Continue Journey", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
       <% else %>
-        <%= button_to "Start Your Journey", levels_path, method: :post, class: "btn btn-lg btn-primary" %>
+        <%= link_to "Start Your Journey", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
       <% end %>
     </div>
   </div>
