@@ -1,7 +1,7 @@
 .card-custom {
   background-color: $old-money-green;
   border-radius: 0.5rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   position: relative; // needed for pseudo-element positioning
   overflow: hidden;
 
@@ -12,8 +12,8 @@
     bottom: 10px;
     left: 10px;
     right: 10px;
-    border: 1px solid $ivory-ledger; // or $gold for a warmer tone
-    border-radius: 0.4rem; // slightly smaller than card
+    border: 1px solid $ivory-ledger;
+    border-radius: 0.4rem;
     pointer-events: none; // ensure clicks still go through
   }
 
@@ -23,8 +23,8 @@
     font-weight: 700;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
-    padding-top: 1.0rem;
-    padding-bottom: 0rem;
+    padding-top: 1rem;
+    padding-bottom: 0;
     border-bottom: none;
   }
 
@@ -36,10 +36,11 @@
   .card-body {
     padding-right: 1.5rem;
     padding-left: 1.5rem;
-    padding-bottom: 1.0rem;
+    padding-bottom: 1rem;
     color: $ivory-ledger;
   }
-    .list-group {
+
+  .list-group {
     background-color: $old-money-green;
     border-radius: 0.5rem;
     overflow: hidden;
@@ -48,10 +49,123 @@
   .list-group-item {
     background-color: $old-money-green;
     color: $ivory-ledger;
-    border: none;               // optional: remove the default grey divider
+    border: none;
   }
 
   .list-group-item:not(:last-child) {
-    border-bottom: 1px solid rgba($ivory-ledger, 0.25); // subtle separator if you want one
+    border-bottom: 1px solid rgba($ivory-ledger, 0.25);
   }
- }
+
+  &.result-card {
+    opacity: 0;
+    animation: resultFadeIn 0.4s ease-out forwards;
+  }
+}
+
+@keyframes resultFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user-choice-correct {
+  border-left: 4px solid $gold;
+  background-color: rgba($gold, 0.12);
+}
+
+.user-choice-correct::before {
+  content: "\2713";
+  color: $gold;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.user-choice-wrong {
+  border-left: 4px solid #c0392b;
+  background-color: rgba(#c0392b, 0.12);
+}
+
+.user-choice-wrong::before {
+  content: "\2717";
+  color: #c0392b;
+  font-weight: 700;
+  margin-right: 0.5rem;
+}
+
+.actual-answer {
+  box-shadow: inset 0 0 0 1px rgba($gold, 0.5);
+}
+
+.journey-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(#0b1a11, 0.75);
+  z-index: 2000;
+}
+
+.wizard-spinner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  animation: shimmer 1.2s linear infinite;
+}
+
+.wizard-spinner .wizard-coin {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: radial-gradient(circle, $gold 0%, darken($gold, 10%) 60%, $old-money-green 100%);
+  animation: coin-spin 0.8s linear infinite;
+  box-shadow: 0 0 25px rgba($gold, 0.6);
+}
+
+.wizard-spinner .sparkle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: $gold;
+  box-shadow: 0 0 18px rgba($gold, 0.85);
+  animation: sparkle-pulse 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes coin-spin {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes sparkle-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.2);
+  }
+}
