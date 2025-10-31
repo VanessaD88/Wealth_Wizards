@@ -38,7 +38,6 @@ class ChallengesController < ApplicationController
           - difficulty == 1: 500 - 1000
           - difficulty == 2: 1000 - 1500
           - difficulty == 3: 1500 - 2000
-      - "decision_score_impact": A positive decimal number (e.g., 10.0) representing the score impact of a *correct* choice.
       - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
 
       Example of a valid "challenge_prompt" format:
@@ -68,7 +67,6 @@ class ChallengesController < ApplicationController
       description: challenge_data["description"],
       correct_answer: challenge_data["correct_answer"],
       balance_impact: challenge_data["balance_impact"],
-      decision_score_impact: challenge_data["decision_score_impact"],
       feedback: challenge_data["feedback"],
       completion_status: false
     )
@@ -87,7 +85,7 @@ class ChallengesController < ApplicationController
     # Update the @challenge object with choice parameter from form
     if @challenge.update(choice_params)
       # Recalculate decision score based on challenge answers in the current level
-      update_user_decision_score(@level)
+      update_user_scores(@level, @challenge)
       # if updates, to back to gameboard/challenge/id and show "answer saved"
       redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
     else
@@ -120,7 +118,7 @@ class ChallengesController < ApplicationController
   params.require(:challenge).permit(:choice)
   end
 
-  def update_user_decision_score(level)
+  def update_user_scores(level, challenge)
     user = current_user
     # Count the number of the users completed challenges on their current level
     answered = level.challenges
@@ -137,6 +135,19 @@ class ChallengesController < ApplicationController
     else
       # Reset to zero if user has not answered any challenges
       user.update!(decision_score: 0.0)
+    end
+
+    # check if choice has been saved
+    if challenge&.choice.present?
+      # check if answer to this challenge id is correct
+      answer_correct = challenge.choice.to_i == challenge.correct_answer.to_i
+      # define current balance for user or take 0
+      current_balance = user.balance || 0
+      # take the impact of this challenge, if not available take 0
+      impact = challenge.balance_impact || 0
+      # here we could add logic to deduct from current balance in case of wrong answer after a certain logic, or level etc
+      new_balance = answer_correct ? (current_balance + impact) : current_balance
+      user.update!(balance: new_balance)
     end
   end
 
