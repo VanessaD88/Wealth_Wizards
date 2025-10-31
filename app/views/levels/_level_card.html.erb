@@ -1,0 +1,14 @@
+<%# _level_card.html.erb: renders a single level's name + description with style safeguards %>
+<div class="col-12 col-md-6">
+  <div class="card h-100">
+    <div class="card-body">
+      <%# Use inline (plus class) styles to prevent CSS conflicts from hiding text %>
+      <h3 class="card-title" style="color:#8d6a13; background:#fff; opacity:1;display:block;font-weight:bold;">
+        <%= lvl[:name] %>
+      </h3>
+      <p class="card-text" style="color:#111; background:#fff; opacity:1;display:block;">
+        <%= lvl[:description] %>
+      </p>
+    </div>
+  </div>
+</div>

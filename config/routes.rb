@@ -13,18 +13,26 @@ Rails.application.routes.draw do
 
   get "/gameboard", to: "pages#gameboard", as: :pages_gameboard
 
-  resources :levels, only: [] do
-    resources :challenges, only: [:index, :new, :create, :show]
+  # Levels overview page (index is conditional view); POST for starting/reseting journey
+  # Minimal nested route for creating a challenge under a level (required for level_challenges_path(@level))
+  resources :levels, only: [:index, :create] do
+    resources :challenges, only: [:create]
   end
 
 
   # Challenges routes
-  resources :challenges, only: [:index, :show, :create] do
-    # creates extra actions for challenge records automatically, here PATCH /challenges/:id
+  # Decision rationale:
+  
+  # - :index (GET /challenges) - NOT INCLUDED: Challenges are displayed via pages#gameboard, not a standalone challenges index.
+  #   The challenges#index method exists but is unused; list view is handled by the gameboard page.
+  # - :new (GET /challenges/new) - NOT INCLUDED: Challenge creation is automated via AI in create action, no manual form needed.
+  #   The create action renders :new on error but this is defensive coding, not core functionality.
+  resources :challenges, only: [:show, :create] do
+    # Member route for updating user's choice on an existing challenge (used by gameboard form submission)
     member do
       patch :select_choice
+    end
   end
-end
 
     # Gameboard routes
   resource :gameboard, only: [:show], controller: "gameboards"

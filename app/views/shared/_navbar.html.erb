@@ -22,14 +22,17 @@
         </li>
 
         <li class="nav-item dropup dropdown">
+          <%# data-turbo="false" disables Turbo Drive for this button, ensuring Bootstrap dropdown works properly %>
+          <%# Turbo can interfere with dropdown functionality, so we disable it here for reliable UI behavior %>
           <button class="btn p-0 border-0 bg-transparent avatar dropdown-toggle"
                   id="userMenu"
                   data-turbo="false"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
+                  <%# Render user avatar safely: use current_user if present, fall back to default avatar image %>
                   <%= image_tag(
-                    "avatars/#{@user.avatar.to_s.downcase.presence || 'default'}.png",
+                    "avatars/#{current_user&.avatar.to_s.downcase.presence || 'default'}.png",
                     class: "avatar",
                     alt: "User dropdown menu"
                     ) %>
