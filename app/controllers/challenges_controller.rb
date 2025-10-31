@@ -86,15 +86,42 @@ class ChallengesController < ApplicationController
     if @challenge.update(choice_params)
       # Recalculate decision score based on challenge answers in the current level
       update_user_scores(@level, @challenge)
+      level_completion(@challenge)
       # if updates, to back to gameboard/challenge/id and show "answer saved"
-      redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
+      # redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
     else
       # if updates, to back to gameboard/challenge/id, but show alert to pick option
       redirect_to pages_gameboard_path(challenge_id: @challenge.id), alert: "Pick an option before submitting."
     end
   end
 
+
+  # Vanessa's code to check balance for level completion and update level if neccessary
+  def level_completion(challenge)
+    level_number = current_user.check_level # "should be" level number according to balance methode in user.rb
+    if current_user.level.name.include?(level_number.to_s) # if user level is correct for current balance
+      redirect_to pages_gameboard_path(challenge_id: challenge.id), notice: "Answer saved."
+    else
+      case level_number # nice to have would be to also update the description accordingly
+      when 1
+        current_user.level.update!(name: "Level 1: Building Your Nest Egg")
+        redirect_to dashboard_path
+      when 2
+        current_user.level.update!(name: "Level 2: Passive Income")
+        redirect_to dashboard_path
+      when 3
+        current_user.level.update!(name: "Level 3: Different Income Streams")
+        redirect_to dashboard_path
+      when 4
+        @current_user.level.update!(name: "Game completed")
+        redirect_to dashboard_path
+      end
+    end
+  end
+  # End Vanessas Code
+
   # Alex adding changes to enabling selection of choices end
+
 
   private
 
