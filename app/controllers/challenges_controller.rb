@@ -73,6 +73,15 @@ class ChallengesController < ApplicationController
       completion_status: false
     )
 
+
+    # Vanessa's code to define level completion needs to happen inside challenge creation
+    @user.check_level()
+    # Level 1 Goal Balance +10.000€
+    if @user
+    # Level 2
+    # Level 3
+    # End Vanessas Code
+
     # Redirect to the gameboard page
     if @challenge.save
       redirect_to pages_gameboard_path
@@ -97,6 +106,7 @@ class ChallengesController < ApplicationController
   end
 
   # Alex adding changes to enabling selection of choices end
+
 
   private
 
@@ -139,5 +149,5 @@ class ChallengesController < ApplicationController
       user.update!(decision_score: 0.0)
     end
   end
-  
+
 end

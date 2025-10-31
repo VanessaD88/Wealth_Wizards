@@ -25,6 +25,17 @@ class User < ApplicationRecord
     end
   end
 
+  # check user level
+  def check_level
+    if self.balance >= 10000
+      return 2
+    elsif self.balance >= 20000
+      return 3
+    else
+      return "Level 1 not conmpleted yet"
+    end
+  end
+
   private
   def ensure_default_level
     return if level.present?
