@@ -33,7 +33,7 @@ class User < ApplicationRecord
       return 1
     elsif self.balance >= 10000 && self.balance < 30000
       return 2
-    elsif self.balance >= 30000 && self.balance < 40000
+    elsif self.balance >= 30000 && self.balance <= 40000
       return 3
     else # everything >40000 return 4 -> Game completed
       return 4
