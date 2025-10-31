@@ -71,15 +71,6 @@ class ChallengesController < ApplicationController
       completion_status: false
     )
 
-    if @challenge.choice.present?
-        answer_correct = @challenge.choice.to_i == @challenge.correct_answer.to_i
-        current_balance = current_user.balance || 0
-        impact = @challenge.balance_impact || 0
-
-        new_balance = answer_correct ? current_balance + impact : current_balance
-        current_user.update!(balance: new_balance)
-    end
-
     # Redirect to the gameboard page
     if @challenge.save
       redirect_to pages_gameboard_path
@@ -94,7 +85,7 @@ class ChallengesController < ApplicationController
     # Update the @challenge object with choice parameter from form
     if @challenge.update(choice_params)
       # Recalculate decision score based on challenge answers in the current level
-      update_user_score(@level, @challenge)
+      update_user_scores(@level, @challenge)
       # if updates, to back to gameboard/challenge/id and show "answer saved"
       redirect_to pages_gameboard_path(challenge_id: @challenge.id), notice: "Answer saved."
     else
@@ -127,7 +118,7 @@ class ChallengesController < ApplicationController
   params.require(:challenge).permit(:choice)
   end
 
-  def update_user_score(level, challenge)
+  def update_user_scores(level, challenge)
     user = current_user
     # Count the number of the users completed challenges on their current level
     answered = level.challenges
