@@ -6,7 +6,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # After creating new account, redirect to profile page
   def after_sign_up_path_for(resource)
-    user_path(resource)
+    levels_path
   end
 
   # After updating profile, redirect to profile page
