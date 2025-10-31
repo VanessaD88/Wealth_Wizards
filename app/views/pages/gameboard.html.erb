@@ -3,8 +3,8 @@
     <div class="col-md-8">
       <%# Check if there is a challenge object to render %>
       <% if @challenge %>
-        <h2 class="mb-2"><%= @challenge.title %></h2>
-        <p class="text-dark">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %>| Budget Impact: <%= @challenge.balance_impact%></p>
+        <h2 class="display-5 fw-bold mb-3"><%= @challenge.title %></h2>
+        <p class="lead mb-4">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %>| Budget Impact: <%= @challenge.balance_impact.round%></p>
 
         <%# Create form based on challenge model%>
         <%= form_with model: @challenge,
@@ -14,11 +14,11 @@
                       method: :patch,
                       local: true do |form| %>
 
-          <div class="card-custom">
-            <h5 class="card-header">Task</h5>
-            <div class="card-body">
+          <div class="card-custom shadow rounded-3">
+            <h5 class="card-header p-3">Task</h5>
+            <div class="card-body p-4">
               <% if @challenge.description.present? %>
-                <p class="text-muted mb-4"><%= @challenge.description %></p>
+                <p class="text-muted mb-2"><%= @challenge.description %></p>
               <% end %>
 
               <div class="list-group">
@@ -37,47 +37,58 @@
                 <% end %>
               </div>
             </div>
-          </div>
 
-          <div class="mt-4 d-flex justify-content-between align-items-center">
-            <div>
+          </div>
+          <div class="card-footer d-flex justify-content-end mt-3">
               <%# Disable button if feedback is already showing %>
               <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
-            </div>
           </div>
-
-        <% end %> <%# Closes form_with %>
+        <% end %>
 
         <% if @show_answer_feedback %>
-          <div class="card-custom mt-4">
-            <h5 class="card-header">Result</h5>
-            <div class="card-body">
-              <p class="mb-3 fw-semibold <%= @answer_is_correct ? 'text-success' : 'text-danger' %>">
-                <%= @answer_is_correct ? 'Correct!' : 'Wrong Answer' %>
+          <div class="card-custom mt-4 shadow rounded-3">
+            <h5 class="card-header p-3">Result</h5>
+            <div class="card-body p-4">
+              <span class="badge mb-3 fs-6 px-3 py-2 <%= @answer_is_correct ? 'bg-success' : 'bg-danger' %>">
+                <%= @answer_is_correct ? 'Correct' : 'Wrong Answer' %>
+              </span>
+              <p class="mb-3">
+                <% if @answer_is_correct %>
+                  You have improved your decision making score and <strong> gained <%= @challenge.balance_impact.round %></strong> € budget.
+                <% # Here we should implement logic on when to lose budget or we can remove it and only have decision points lost %>
+                <% else %>
+                  You have decreased your decision making score and lost <strong> 0</strong> € budget.
+                <% end %>
               </p>
-
-              <h6 class="fw-semibold text-success-emphasis">Correct Answer</h6>
+              <h5 class="fw-semibold">The Correct Answer</h5>
               <p class="text-muted mb-3">
                 Option <%= @challenge.correct_answer %>
                 <% if @correct_answer_text.present? %>
                   – <%= @correct_answer_text %>
                 <% end %>
+
               </p>
+              <hr class="my-3">
               <h6 class="fw-semibold">Feedback</h6>
               <p class="text-muted mb-0"><%= @challenge.feedback %></p>
             </div>
           </div>
-        <% end %> <%# Closes if @show_answer_feedback %>
+        <% end %>
 
-        <div class="mt-3">
-         <%= button_to "Continue your Journey",
-              level_challenges_path(@level),
-              method: :post,
-              class: "btn button-gold mt-4",
-              disabled: !@show_answer_feedback %>
+        <div class="card-footer d-flex justify-content-end mt-3">
+         <% if @show_answer_feedback %>
+            <%= button_to "Continue your Journey",
+                  level_challenges_path(@level),
+                  method: :post,
+                  class: "btn button-gold px-4",
+                  form_class: "d-inline" %>
+          <% end %>
+        </div>
+        <div class="spinner-border text-light ms-3 d-none" role="status" data-role="continue-spinner">
+          <span class="visually-hidden">Loading...</span>
         </div>
 
-      <% end %> <%# <-- This 'end' was missing and is required to close 'if @challenge' %>
+      <% end %>
 
       <%= button_to "Generate New Challenge",
                     level_challenges_path(@level),
@@ -86,3 +97,6 @@
     </div>
   </div>
 </div>
+
+<h1><%=@user.decision_score%>
+<%=@user.balance%> </h1>
