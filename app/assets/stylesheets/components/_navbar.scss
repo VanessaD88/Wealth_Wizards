@@ -10,6 +10,12 @@
   left: 0;
   width: 100%;
   z-index: 1030; // ensure it stays above content
+
+  h1 {
+  margin: 0;             // removes default top/bottom margin
+  font-size: 1.5rem;     // adjust size as needed
+  color: $gold;          // example styling
+  }
 }
 
 .navbar .navbar-brand img {
