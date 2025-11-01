@@ -1,7 +1,7 @@
 <main>
   <div class="container d-flex justify-content-center align-items-center">
     <div class="col-12 col-lg-5">
-      <h2 class="text-center mb-3">Profile</h2>
+      <h2 class="text-center mb-3"> <%= @user.username %>'s Profile</h2>
 
       <!-- Display selected Avatar -->
       <%= turbo_frame_tag "avatar_frame" do %>
