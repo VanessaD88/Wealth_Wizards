@@ -1,48 +1,52 @@
-<nav class="navbar navbar-expand-sm navbar-light navbar-ww fixed-bottom">
+<nav class="navbar navbar-expand-sm navbar-light navbar-ww">
   <div class="container-fluid">
+    <!-- Logo left -->
+    <%= link_to root_path, class: "navbar-brand" do %>
+      <%= image_tag("logo.png", alt: "Home") %>
+    <% end %>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav">
         <% if user_signed_in? %>
 
         <li class="nav-item active">
-          <%= link_to dashboard_path, class: "avatar" do %>
+          <%= link_to dashboard_path, class: "nav-link d-flex flex-column align-items-center" do %>
             <%= image_tag("Icon_Dashboard.png", class: "avatar") %>
+            <div class="nav-label">Dashboard</div>
           <% end %>
         </li>
-
 
         <li class="nav-item">
-          <%= link_to pages_gameboard_path, class: "avatar" do %>
+          <%= link_to pages_gameboard_path, class: "nav-link d-flex flex-column align-items-center" do %>
             <%= image_tag("Icon_Game.png", class: "avatar") %>
+            <div class="nav-label">Gameboard</div>
           <% end %>
         </li>
 
-        <li class="nav-item dropup dropdown">
-          <%# data-turbo="false" disables Turbo Drive for this button, ensuring Bootstrap dropdown works properly %>
-          <%# Turbo can interfere with dropdown functionality, so we disable it here for reliable UI behavior %>
-          <button class="btn p-0 border-0 bg-transparent avatar dropdown-toggle"
-                  id="userMenu"
-                  data-turbo="false"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <%# Render user avatar safely: use current_user if present, fall back to default avatar image %>
-                  <%= image_tag(
-                    "avatars/#{current_user&.avatar.to_s.downcase.presence || 'default'}.png",
-                    class: "avatar",
-                    alt: "User dropdown menu"
-                    ) %>
-
-          </button>
-          <div class="dropdown-menu dropdown-menu-end custom-dropup" aria-labelledby="userMenu">
-            <%= link_to "My Profile", profile_path, class: "dropdown-item" %>
-            <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
-          </div>
-        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link d-flex flex-column align-items-center"
+            href="#"
+            id="userMenu"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            data-turbo="false">
+            <%= image_tag(
+              "avatars/#{current_user&.avatar.to_s.downcase.presence || 'default'}.png",
+              class: "avatar",
+              alt: "User dropdown menu"
+            ) %>
+            <div class="nav-label">Account</div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end custom-dropup" aria-labelledby="userMenu">
+            <li><%= link_to "My Profile", profile_path, class: "dropdown-item" %></li>
+            <li><%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %></li>
+          </ul>
+</li>
 
         <% else %>
           <li class="nav-item">
