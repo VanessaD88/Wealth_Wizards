@@ -1,73 +1,14 @@
-<%#
-  Levels Overview Page
-  ---------------------
-  - This page displays either a single overview card for the user's current level or a motivational start card if no journey started.
-  - The page is fully wrapped in <main> and .container for unified padding and layout.
-  - Only one call-to-action button appears below the card, adapting label and action to the current journey status.
-  - Consistency with the global style foundation: all main sections sit inside <main> and spacing is adjusted with Bootstrap margin utils (e.g., mt-5, mt-4).
-  - Comments explain each control flow branch for collaboration/maintenance.
-%>
 <main>
   <div class="container my-4 text-center">
-    <%# ----- Page Heading (always visible) ----- %>
-    <h1>Become a Wealth Wizard!</h1>
-    <%# ----- Instructions section: conditional based on level ----- %>
-    <%# Level 0: No instructional text (welcome card handles introduction) %>
-    <%# Level 1: Show "first quest" text %>
-    <%# Level 2-3: Show "next quest" text %>
-    <% if @level && @level[:key] != "level0" %>
-      <section class="mb-4">
-        <h2>Play. Learn. Level Up Your Money Skills.</h2>
-        <p>Your journey begins here — every decision shapes your path to mastery.</p>
-        <p>
-          Test your financial instincts, watch your wizard level rise, every move brings you closer to financial freedom.
-        </p>
-        <%# Level 1 shows "first quest", Level 2-3 show "next quest" %>
-        <% if @level[:key] == "level1" %>
-          <p>Here's your first quest:</p>
-        <% else %>
-          <p>Here's your next quest:</p>
-        <% end %>
-      </section>
-    <% end %>
-    <%#
-      The following card area always inherits .container spacing but is horizontally centered and
-      visually separated from above content with "mt-5"
-    %>
-    <div class="d-flex justify-content-center mt-5">
-      <div class="card-dashboard card h-100 w-100" style="max-width: 600px;">
-        <div class="card-body text-center">
-          <%# If a level exists, show the actual overview card %>
-          <% if @level %>
-            <%# Only show icon for Level 1, 2, 3 (not Level 0 welcome screen) %>
-            <%= image_tag(@level_icon, alt: "#{@level[:name]} icon", class: "mb-3", width: 80, height: 80) if @level_icon %>
-            <%# Level 0 uses the welcome description; Levels 1-3 show their name as title %>
-            <% if @level[:key] == "level0" %>
-              <p class="card-text" style="white-space: pre-line;"><%= @level[:description] %></p>
-            <% else %>
-              <h3 class="card-title"><%= @level[:name] %></h3>
-              <p class="card-text"><%= @level[:description] %></p>
-            <% end %>
-          <%# Otherwise, prompt/encourage the user to start their journey %>
-          <% else %>
-            <h3 class="card-title">Ready to Begin?</h3>
-            <p class="card-text">Start your adventure to become a Wealth Wizard!</p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-    <%#
-      The journey button always appears below the main card, with conditional label:
-      - Level 0 (new users): "Start Your Journey" button (links to gameboard to begin Level 1)
-      - Level 1-3 (active journey): "Continue Journey" button (links to existing gameboard)
-      - No level: "Start Your Journey" button (links to gameboard)
-    %>
+    <h1 class= mb-5>Welcome to the world of Wealth Wizards!</h1>
+    <%= image_tag "icon_level1.png", alt: "Level 1", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+    <%= image_tag "icon_level2.png", alt: "Level 2", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+    <%= image_tag "icon_level3.png", alt: "Level 3", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+     <h5 class= mt-5>Ready to begin your financial Journey?</h5>
+
     <div class="mt-4">
-      <% if @level && @level[:key] != "level0" %>
-        <%= link_to "Continue Journey", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
-      <% else %>
-        <%= link_to "Start Your Journey", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
-      <% end %>
+        <%# <%= link_to "Continue", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
+        <%= link_to "Continue", pages_gameboard_path(from: "landing_continue"), class: "btn btn-lg btn-primary" %>
     </div>
   </div>
 </main>
