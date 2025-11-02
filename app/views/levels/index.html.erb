@@ -1,15 +1,5 @@
-<%#
-  Levels Overview Page
-  ---------------------
-  - This page displays either a single overview card for the user's current level or a motivational start card if no journey started.
-  - The page is fully wrapped in <main> and .container for unified padding and layout.
-  - Only one call-to-action button appears below the card, adapting label and action to the current journey status.
-  - Consistency with the global style foundation: all main sections sit inside <main> and spacing is adjusted with Bootstrap margin utils (e.g., mt-5, mt-4).
-  - Comments explain each control flow branch for collaboration/maintenance.
-%>
 <main>
   <div class="container my-4 text-center">
-    <%# ----- Page Heading (always visible) ----- %>
     <h1>Become a Wealth Wizard!</h1>
     <%# ----- Instructions section: conditional based on level ----- %>
     <%# Level 0: No instructional text (welcome card handles introduction) %>
