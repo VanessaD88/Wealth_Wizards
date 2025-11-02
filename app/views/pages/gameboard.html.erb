@@ -1,7 +1,7 @@
 <main>
   <div class="container"
      data-controller="overlay-instructions"
-     data-overlay-instructions-show-value="<%= @show_overlay %>">
+     data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">
     <!-- Conditional Overlay with instruction -->
   <div id="game-overlay" class="overlay d-none">
     <div class="overlay-content text-center">

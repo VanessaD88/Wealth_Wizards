@@ -5,6 +5,7 @@ export default class extends Controller {
   static values = { show: Boolean }
 
   connect() {
+    console.log("Overlay controller connected. Show value:", this.showValue)
     if (this.showValue) this.showOverlay()
   }
 
