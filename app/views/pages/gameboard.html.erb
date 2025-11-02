@@ -1,5 +1,19 @@
-<main> 
+<main>
 <div class="container">
+  <!-- Conditional Overlay with instruction -->
+  data-controller="overlay"
+  data-overlay-show-value="<%= @show_overlay %>">
+
+  <div id="game-overlay" class="overlay d-none">
+    <div class="overlay-content text-center">
+      <%= render "levels/overlay_instructions" %>
+      <button class="btn btn-primary mt-3" data-action="click->overlay#hideOverlay">
+        Continue
+      </button>
+    </div>
+  </div>
+  <!-- End of Overlay with instruction -->
+
   <div class="row justify-content-center">
     <div class="col-md-8">
       <%# Check if there is a challenge object to render %>

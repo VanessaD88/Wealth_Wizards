@@ -17,6 +17,10 @@ class PagesController < ApplicationController
     @user = current_user
     @level = @user.level
 
+    # Check if user comes from landingpage to dashboard, if yes show overlay
+    referrer_path = URI(request.referrer || "").path rescue nil
+    @show_overlay = (referrer_path == root_path)
+
     # Special case: Level 0 users starting their journey get Level 1 created and shown Level 1 overview page
     if @level&.name == "Level 0"
       # Get Level 1 definition from LevelsController
