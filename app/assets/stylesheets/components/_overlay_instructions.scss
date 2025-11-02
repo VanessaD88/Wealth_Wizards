@@ -16,7 +16,8 @@
 
 /* Content box inside overlay */
 .overlay-content {
-  background: white;
+  position: relative;
+  background: $ivory-ledger;
   padding: 2rem;
   border-radius: 0.5rem;
   max-width: 600px;
@@ -24,7 +25,6 @@
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-
 
 /* Optional fade-in animation */
 @keyframes fadeIn {
