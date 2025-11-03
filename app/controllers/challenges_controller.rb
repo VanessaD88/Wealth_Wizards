@@ -105,16 +105,16 @@ class ChallengesController < ApplicationController
       case level_number # nice to have would be to also update the description accordingly
       when 1
         current_user.level.update!(name: "Level 1: Building Your Nest Egg")
-        redirect_to dashboard_path
+        redirect_to pages_gameboard_path(from: "level_up"), notice: "Congratulations! You leveled up!"
       when 2
         current_user.level.update!(name: "Level 2: Passive Income")
-        redirect_to dashboard_path
+        redirect_to pages_gameboard_path(from: "level_up"), notice: "Congratulations! You leveled up!"
       when 3
         current_user.level.update!(name: "Level 3: Different Income Streams")
-        redirect_to dashboard_path
+        redirect_to pages_gameboard_path(from: "level_up"), notice: "Congratulations! You leveled up!"
       when 4
         @current_user.level.update!(name: "Game completed")
-        redirect_to dashboard_path
+        redirect_to pages_gameboard_path(from: "level_up"), notice: "Congratulations! You leveled up!"
       end
     end
   end
