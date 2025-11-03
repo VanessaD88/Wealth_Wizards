@@ -1,0 +1,10 @@
+<%# Gold Rain Animation Partial
+    Simple helper partial for gold rain effects.
+    Usage: render with local_assigns for mode, duration, intensity, and auto_trigger
+%>
+<div data-controller="gold-rain" 
+     data-gold-rain-mode-value="<%= local_assigns.fetch(:mode, 'fullscreen') %>"
+     data-gold-rain-duration-value="<%= local_assigns.fetch(:duration, 5000) %>"
+     data-gold-rain-intensity-value="<%= local_assigns.fetch(:intensity, 1) %>"
+     data-gold-rain-auto-trigger-value="<%= local_assigns.fetch(:auto_trigger, false) %>">
+</div>

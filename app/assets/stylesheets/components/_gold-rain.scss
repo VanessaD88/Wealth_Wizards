@@ -1,0 +1,77 @@
+// Gold Rain Animation Component
+// Two modes: "fullscreen" (level up) and "localized" (challenge card)
+// See GOLD_RAIN_USAGE.md for complete documentation
+
+// Rain column container
+.gold-rain-column {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+
+// Individual gold coin
+.gold-rain-coin {
+  position: absolute;
+  filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6)) drop-shadow(0 0 4px rgba(201, 162, 78, 0.4));
+  will-change: transform, opacity;
+}
+
+// Full-screen animation (level ups) - dramatic rotation, covers entire viewport
+@keyframes gold-rain-fullscreen {
+  0% {
+    transform: translateY(-150px) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.95;
+    transform: translateY(-100px) rotate(180deg) scale(1);
+  }
+  95% {
+    opacity: 0.95;
+    transform: translateY(calc(100vh + 100px)) rotate(720deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(100vh + 150px)) rotate(900deg) scale(0.8);
+  }
+}
+
+// Localized animation (challenge cards) - subtle rotation, contained within parent
+@keyframes gold-rain-localized {
+  0% {
+    transform: translateY(-50px) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0) rotate(90deg) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(calc(100% + 50px)) rotate(360deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(100% + 100px)) rotate(450deg) scale(0.7);
+  }
+}
+
+// Visual effects - fullscreen has stronger glow
+.gold-rain-fullscreen .gold-rain-coin {
+  filter: drop-shadow(0 0 12px rgba(201, 162, 78, 0.8)) 
+          drop-shadow(0 0 6px rgba(201, 162, 78, 0.5))
+          drop-shadow(0 0 2px rgba(201, 162, 78, 0.3));
+}
+
+.gold-rain-localized .gold-rain-coin {
+  filter: drop-shadow(0 0 6px rgba(201, 162, 78, 0.6)) 
+          drop-shadow(0 0 3px rgba(201, 162, 78, 0.4));
+}
+
+// Performance optimization - GPU acceleration
+.gold-rain-fullscreen,
+.gold-rain-localized {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}

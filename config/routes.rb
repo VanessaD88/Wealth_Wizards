@@ -47,4 +47,7 @@ Rails.application.routes.draw do
 
   # dashboard route
   get "dashboard", to: "pages#dashboard", as: :dashboard
+
+  # Test route for gold rain effects (remove in production)
+  get "test/gold-rain", to: "pages#gold_rain_test", as: :gold_rain_test
 end
