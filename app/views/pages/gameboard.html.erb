@@ -76,7 +76,7 @@
             </div>
           </div>
 
-          <%# Toast notification that congratulates or encourages the user, shown while feedback is visible %>
+          <%# Changed to add toast to class (temporary notification) with some styles, triggered in JS script below %>
           <div class="answer-toast <%= @answer_is_correct ? 'answer-toast--success' : 'answer-toast--failure' %> d-none"
                data-role="answer-toast">
             <%# Visual icon: checkmark when correct, cross when incorrect %>
@@ -114,65 +114,65 @@
 </div>
 
 </main>
-<%# Fullscreen overlay that stays hidden until we show the loading animation %>
+
+<%# d-none so its hidden, data-role assigned for stimulus %>
 <div class="journey-overlay d-none" data-role="journey-spinner">
-  <%# Wrapper that animates both the icon and the caption %>
   <div class="wizard-spinner">
-    <%# Row containing the twinkling sparkles and spinning coin %>
     <div class="wizard-spinner__icon">
-      <%# Left sparkle orb %>
-      <div class="sparkle"></div>
-      <%# Central spinning coin %>
-      <div class="wizard-coin"></div>
-      <%# Right sparkle orb %>
-      <div class="sparkle"></div>
+      <div class="wizard-spinner__sparkle"></div>
+      <div class="wizard-spinner__coin"></div>
+      <div class="wizard-spinner__sparkle"></div>
     </div>
-    <%# Caption shown beneath the icon while the next challenge loads %>
+    <%# capiton for users%>
     <p class="wizard-spinner__text">Conjuring your next challenge...</p>
   </div>
 </div>
 
+<%# I used a script tag to have the JS directly on the page, we could refactor it and move it to a dedicated file if we want to be cleaner %>
+
 <script>
-  // When Turbo completes loading a page, reset the overlay, wire submit handlers, and scroll to feedback
+  // Using turbo from hotwire, every time page is loaded
   document.addEventListener("turbo:load", () => {
+    // select the loading spinners overlay (see role) and add d-none to ensure it is hidden, for e.g. when user clicks back
     const overlay = document.querySelector('[data-role="journey-spinner"]');
-    // Ensure the overlay is hidden after a navigation
     if (overlay) overlay.classList.add("d-none");
 
-    // Attach a submit listener to every "Continue your Journey" form
-    document.querySelectorAll('[data-behavior="continue-journey"]').forEach((form) => {
-      form.addEventListener("submit", () => {
+    // Select the continue-journey form
+    const continueForm = document.querySelector('[data-behavior="continue-journey"]');
+    // if element exists, check for submit, if submit is clicked make the journey spinner visible
+    if (continueForm) {
+      continueForm.addEventListener("submit", () => {
         const spinner = document.querySelector('[data-role="journey-spinner"]');
-        // Reveal the overlay as soon as the form submits
         if (spinner) spinner.classList.remove("d-none");
 
-        const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
-        // Disable the trigger button to avoid duplicate submissions
+        // and disable submit button
+        const submitButton = continueForm.querySelector('button[type="submit"], input[type="submit"]');
         if (submitButton) submitButton.disabled = true;
       });
-    });
+    }
 
-    // If feedback is rendered, scroll it smoothly into view
+    // if feedabck card is rendered, scrollIntoView
     const feedbackCard = document.getElementById("feedback-card");
     if (feedbackCard) {
+      // this tells the browser we want to to animate something, its needed for some animations
       requestAnimationFrame(() => {
+        // of the shelf JS function to move the screen downwards
         feedbackCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
       });
     }
 
-    // Reveal the toast (if present) briefly and hide it after a short delay
+    // Toast it not food unfortunately, temporary popups are apparently called that (or snackbar)
     const toast = document.querySelector('[data-role="answer-toast"]');
     if (toast) {
-      // Show the toast now that the DOM has settled
       toast.classList.remove("d-none");
-      // Hide the toast after 2.5 seconds for a lightweight notification
+      // Hide the toast after some time
       window.setTimeout(() => {
         toast.classList.add("answer-toast--hidden");
       }, 2500);
     }
   });
 
-  // Before Turbo caches the page, hide the overlay so it stays invisible on revisit
+  // Before Turbo caches the page hide overlay so it stays invisible on revisit
   document.addEventListener("turbo:before-cache", () => {
     const overlay = document.querySelector('[data-role="journey-spinner"]');
     if (overlay) overlay.classList.add("d-none");
