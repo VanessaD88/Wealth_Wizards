@@ -10,7 +10,7 @@
         <%# Create form based on challenge model%>
         <%= form_with model: @challenge,
                       # the select_choice_challenge_path is created in the member do section of routes.rb file
-                      # set URL to the patch one, so challenge choice gets updated
+                      # set URL to the patch one, so challenge choice gets.  updated
                       url: select_choice_challenge_path(@challenge),
                       method: :patch,
                       local: true do |form| %>
