@@ -86,6 +86,13 @@ class PagesController < ApplicationController
     @user = current_user
     @level = @user.level
   end
+
+  # Test page for gold rain effects - demonstrates both fullscreen and localized modes
+  # Access via: /test/gold-rain
+  def gold_rain_test
+    # No variables needed - just rendering test view
+  end
+
 private
 
   def parse_options(prompt)

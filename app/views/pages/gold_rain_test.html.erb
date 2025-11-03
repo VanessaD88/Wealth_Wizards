@@ -1,0 +1,246 @@
+<%# Gold Rain Test Page - Demonstrates both fullscreen and localized effects %>
+<%# Access via: /test/gold-rain %>
+
+<main>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-12 text-center mb-5">
+        <h1 class="display-4 mb-3">Gold Rain Effects Test</h1>
+        <p class="lead">Test both fullscreen (level up) and localized (challenge card) gold rain animations</p>
+        <%= link_to "← Back to Home", root_path, class: "btn btn-secondary mb-4" %>
+      </div>
+    </div>
+
+    <%# Fullscreen Effect Section %>
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">🌠 Fullscreen Effect (Level Up)</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-3">
+              This effect covers the entire viewport and is used for major milestones like level completion.
+              It features 120 coins (intensity 2), lasts 5 seconds, and uses dramatic rotation.
+            </p>
+            <div class="d-flex gap-2 mb-3" data-controller="gold-rain-test">
+              <button type="button" 
+                      class="btn btn-primary"
+                      data-gold-rain-test-target="triggerFullscreen"
+                      data-action="click->gold-rain-test#triggerFullscreen">
+                Trigger Fullscreen Effect
+              </button>
+              <button type="button" 
+                      class="btn btn-secondary"
+                      data-action="click->gold-rain-test#triggerFullscreenIntense">
+                Trigger Intense (Intensity 3)
+              </button>
+            </div>
+            <div class="alert alert-info">
+              <strong>How it works:</strong> The effect is fixed to the viewport, has a high z-index (9999),
+              and covers the entire screen. Perfect for celebrating level completion!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Localized Effect Section %>
+    <div class="row">
+      <div class="col-12 col-md-6 mb-4">
+        <div class="card shadow h-100" style="position: relative; overflow: hidden; min-height: 300px;">
+          <%# Localized gold rain container - only active when triggered %>
+          <div data-controller="gold-rain" 
+               data-gold-rain-mode-value="localized"
+               data-gold-rain-duration-value="3000"
+               data-gold-rain-intensity-value="1"
+               data-gold-rain-auto-trigger-value="false"
+               id="localized-rain-container">
+          </div>
+          <div class="card-header bg-success text-white">
+            <h4 class="mb-0">✨ Localized Effect (Challenge Card)</h4>
+          </div>
+          <div class="card-body">
+            <p class="mb-3">
+              This effect is contained within the challenge card and is used for correct answers.
+              It features 20 coins (intensity 1), lasts 3 seconds, and uses subtle rotation.
+            </p>
+            <div data-controller="gold-rain-test">
+              <button type="button" 
+                      class="btn btn-success"
+                      data-action="click->gold-rain-test#triggerLocalized">
+                Trigger Card Effect
+              </button>
+            </div>
+            <div class="mt-3">
+              <small class="text-muted">
+                <strong>Note:</strong> Parent card has <code>position: relative</code> and <code>overflow: hidden</code>
+                to contain the effect.
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 mb-4">
+        <div class="card shadow h-100" style="position: relative; overflow: hidden; min-height: 300px;">
+          <%# Another localized example for comparison %>
+          <div data-controller="gold-rain" 
+               data-gold-rain-mode-value="localized"
+               data-gold-rain-duration-value="3000"
+               data-gold-rain-intensity-value="2"
+               data-gold-rain-auto-trigger-value="false"
+               id="localized-rain-intense-container">
+          </div>
+          <div class="card-header bg-warning text-dark">
+            <h4 class="mb-0">🎯 Localized Effect (Intense)</h4>
+          </div>
+          <div class="card-body">
+            <p class="mb-3">
+              Same localized effect but with intensity 2 (40 coins) for more dramatic celebrations.
+              Useful for bonus questions or special achievements.
+            </p>
+            <div data-controller="gold-rain-test">
+              <button type="button" 
+                      class="btn btn-warning"
+                      data-action="click->gold-rain-test#triggerLocalizedIntense">
+                Trigger Intense Card Effect
+              </button>
+            </div>
+            <div class="mt-3">
+              <small class="text-muted">
+                This card also demonstrates how multiple localized effects can work independently.
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Comparison Table %>
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="card shadow">
+          <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">📊 Effect Comparison</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>Fullscreen (Level Up)</th>
+                    <th>Localized (Challenge Card)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Position</strong></td>
+                    <td>Fixed (viewport)</td>
+                    <td>Absolute (parent container)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Coverage</strong></td>
+                    <td>Entire screen (100vh × 100vw)</td>
+                    <td>Card/container bounds</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Z-index</strong></td>
+                    <td>9999</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Coin Size</strong></td>
+                    <td>24px ± 3px</td>
+                    <td>18px ± 3px</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Base Coins</strong></td>
+                    <td>60 (× intensity)</td>
+                    <td>20 (× intensity)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Columns</strong></td>
+                    <td>8</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Duration</strong></td>
+                    <td>5 seconds</td>
+                    <td>3 seconds</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Rotation</strong></td>
+                    <td>900°</td>
+                    <td>450°</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Glow Effect</strong></td>
+                    <td>Strong (12px blur)</td>
+                    <td>Subtle (6px blur)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Use Case</strong></td>
+                    <td>Level completion, major milestones</td>
+                    <td>Correct answers, small achievements</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%# Code Examples %>
+    <div class="row mt-5">
+      <div class="col-12">
+        <div class="card shadow">
+          <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">💻 Usage Examples</h4>
+          </div>
+          <div class="card-body">
+            <h5>Fullscreen Effect:</h5>
+            <pre class="bg-light p-3 rounded"><code>&lt;%# In level completion popup %&gt;
+&lt;div data-controller="gold-rain" 
+     data-gold-rain-mode-value="fullscreen"
+     data-gold-rain-duration-value="5000"
+     data-gold-rain-intensity-value="2"
+     data-gold-rain-auto-trigger-value="true"&gt;
+&lt;/div&gt;</code></pre>
+
+            <h5 class="mt-4">Localized Effect:</h5>
+            <pre class="bg-light p-3 rounded"><code>&lt;%# In challenge card (parent must have position: relative) %&gt;
+&lt;div class="challenge-card" style="position: relative; overflow: hidden;"&gt;
+  &lt;div data-controller="gold-rain" 
+       data-gold-rain-mode-value="localized"
+       data-gold-rain-duration-value="3000"
+       data-gold-rain-intensity-value="1"&gt;
+  &lt;/div&gt;
+  &lt;!-- Card content --&gt;
+&lt;/div&gt;</code></pre>
+
+            <h5 class="mt-4">Manual Trigger (JavaScript):</h5>
+            <pre class="bg-light p-3 rounded"><code>const element = document.querySelector('[data-controller="gold-rain"]')
+const controller = this.application.getControllerForElementAndIdentifier(
+  element,
+  "gold-rain"
+)
+controller.trigger()</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Fullscreen gold rain container (hidden until triggered) %>
+  <div data-controller="gold-rain" 
+       data-gold-rain-mode-value="fullscreen"
+       data-gold-rain-duration-value="5000"
+       data-gold-rain-intensity-value="2"
+       data-gold-rain-auto-trigger-value="false"
+       id="fullscreen-rain-container">
+  </div>
+</main>
+
