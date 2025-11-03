@@ -15,7 +15,7 @@
                       method: :patch,
                       local: true do |form| %>
 
-          <div class="card-custom gameboard-card shadow rounded-3">
+          <div class="card-custom shadow rounded-3">
             <h5 class="card-header">Task</h5>
             <div class="card-body">
               <% if @challenge.description.present? %>
@@ -48,7 +48,7 @@
         <% end %>
 
         <% if @show_answer_feedback %>
-          <div class="card-custom gameboard-card mt-4 shadow rounded-3" id="feedback-card">
+          <div class="card-custom mt-4 shadow rounded-3" id="feedback-card">
             <h5 class="card-header mb-2">Result</h5>
             <div class="card-body">
               <span class="badge mb-3 fs-6 px-3 py-2 <%= @answer_is_correct ? 'bg-success' : 'bg-danger' %>">
@@ -79,9 +79,9 @@
           <%# Changed to add toast to class (temporary notification) with some styles, triggered in JS script below %>
           <div class="answer-toast <%= @answer_is_correct ? 'answer-toast--success' : 'answer-toast--failure' %> d-none"
                data-role="answer-toast">
-            <%# Visual icon: checkmark when correct, cross when incorrect %>
+            <%# Checkmark and x depending on answer %>
             <span class="answer-toast__icon"><%= @answer_is_correct ? "✓" : "✗" %></span>
-            <%# Personalized message addressing the user by username %>
+            <%# Address user %>
             <div>
               <% if @answer_is_correct %>
                 <p>Congratulations <strong><%= current_user.username %></strong>, this answer is correct!</p>
