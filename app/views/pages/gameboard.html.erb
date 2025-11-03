@@ -99,33 +99,46 @@
 </div>
 
 </main>
+<%# Fullscreen overlay that stays hidden until we show the loading animation %>
 <div class="journey-overlay d-none" data-role="journey-spinner">
+  <%# Wrapper that animates both the icon and the caption %>
   <div class="wizard-spinner">
+    <%# Row containing the twinkling sparkles and spinning coin %>
     <div class="wizard-spinner__icon">
+      <%# Left sparkle orb %>
       <div class="sparkle"></div>
+      <%# Central spinning coin %>
       <div class="wizard-coin"></div>
+      <%# Right sparkle orb %>
       <div class="sparkle"></div>
     </div>
+    <%# Caption shown beneath the icon while the next challenge loads %>
     <p class="wizard-spinner__text">Conjuring your next challenge...</p>
   </div>
 </div>
 
 <script>
+  // When Turbo completes loading a page, reset the overlay and wire the submit handlers
   document.addEventListener("turbo:load", () => {
     const overlay = document.querySelector('[data-role="journey-spinner"]');
+    // Ensure the overlay is hidden after a navigation
     if (overlay) overlay.classList.add("d-none");
 
+    // Attach a submit listener to every "Continue your Journey" form
     document.querySelectorAll('[data-behavior="continue-journey"]').forEach((form) => {
       form.addEventListener("submit", () => {
         const spinner = document.querySelector('[data-role="journey-spinner"]');
+        // Reveal the overlay as soon as the form submits
         if (spinner) spinner.classList.remove("d-none");
 
         const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+        // Disable the trigger button to avoid duplicate submissions
         if (submitButton) submitButton.disabled = true;
       });
     });
   });
 
+  // Before Turbo caches the page, hide the overlay so it stays invisible on revisit
   document.addEventListener("turbo:before-cache", () => {
     const overlay = document.querySelector('[data-role="journey-spinner"]');
     if (overlay) overlay.classList.add("d-none");
