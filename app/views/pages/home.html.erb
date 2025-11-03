@@ -9,16 +9,19 @@
             style: "max-width: 400px; height: auto;" %>
       </div>
 
-      <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
-      <p class="lead mb-5">
-       Step into the world of Wealth Wizards. An adventure where saving, investing, and growing money is just a game. Complete challenges and make real-world money moves while having fun.
-       Master Money like a Wizard and start your adventure in financial freedom right here.
-      </p>
-      <% if user_signed_in? %>
-        <%= link_to "Continue Your Journey", pages_gameboard_path(from: "landing_continue"), class: "btn btn-primary btn-lg mt-3" %>
-      <% else %>
-        <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
-      <% end %>
+      <div class="col-md-7 d-flex flex-column justify-content-center align-items-center text-center">
+        <h1 class="mb-3">Become a Wealth Wizard!</h1>
+        <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
+        <p class="lead mb-5">
+        Step into the world of Wealth Wizards. An adventure where saving, investing, and growing money is just a game. Complete challenges and make real-world money moves while having fun.
+        Master Money like a Wizard and start your adventure in financial freedom right here.
+        </p>
+        <% if user_signed_in? %>
+          <%= link_to "Continue Your Journey", pages_gameboard_path(from: "landing_continue"), class: "btn btn-primary btn-lg mt-3" %>
+        <% else %>
+          <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
+        <% end %>
+      </div>
     </div>
   </div>
 </main>
