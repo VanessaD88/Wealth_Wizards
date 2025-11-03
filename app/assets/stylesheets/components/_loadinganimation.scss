@@ -1,0 +1,156 @@
+// defined here because used in a variety of classes below
+$color-backdrop-dark: #0b1a11;
+$z-index-overlay: 2000;
+
+
+.journey-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba($color-backdrop-dark, 0.75);
+  z-index: $z-index-overlay;
+}
+
+// the beautiful spinner animation
+// apparently the &__ notation is common notation to make nesting more readible, nesting everything relevant as part of the spinners
+.wizard-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  animation: shimmer 1.2s linear infinite;
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  &__text {
+    color: $ivory-ledger;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  &__coin {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      $gold 0%,
+      darken($gold, 10%) 60%,
+      $old-money-green 100%
+    );
+    animation: coin-spin 0.8s linear infinite;
+    box-shadow: 0 0 25px rgba($gold, 0.6);
+  }
+
+  &__sparkle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: $gold;
+    box-shadow: 0 0 18px rgba($gold, 0.85);
+    animation: sparkle-pulse 0.6s ease-in-out infinite alternate;
+  }
+
+  // Defining the animations used in the classes above
+  @keyframes coin-spin {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+
+  @keyframes sparkle-pulse {
+    from {
+      transform: scale(0.6);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer {
+    0%,
+    100% {
+      filter: brightness(1);
+    }
+    50% {
+      filter: brightness(1.2);
+    }
+  }
+}
+
+// Toast notification in middle of screen,
+.answer-toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: $old-money-green;
+  background: rgba($ivory-ledger, 0.95);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+  animation: toast-fade-in 0.3s ease-out forwards;
+  z-index: 10;
+}
+
+.answer-toast__icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.answer-toast--success .answer-toast__icon {
+  color: #2e7d32;
+}
+
+.answer-toast--failure {
+  color: #8b1f2a;
+}
+
+.answer-toast--failure .answer-toast__icon {
+  color: #c62828;
+}
+
+// Applied by JavaScript to fade out toast
+.answer-toast--hidden {
+  animation: toast-fade-out 0.25s ease-in forwards;
+}
+
+@keyframes toast-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes toast-fade-out {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+}
