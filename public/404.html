@@ -1,67 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lost in the Financial Maze? (404) - Wealth Wizards</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8">
+  
+  <!-- Bootstrap CSS - Using CDN for public error pages (since we can't use Rails asset pipeline) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom styles matching Wealth Wizards theme -->
   <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    /* Theme colors matching application.scss */
+    :root {
+      --ivory-ledger: #F4F1E7;
+      --old-money-green: #3B5D43;
+      --hover-green: #4F7258;
+      --gold: #C9A24E;
+      --charcoal-ink: #2E2E2E;
+    }
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+    /* Body styling to match application layout */
+    body {
+      background-color: var(--ivory-ledger);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--charcoal-ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /* Main container matching application.scss main padding */
+    main {
+      padding-top: 60px;
+      padding-bottom: 30px;
+      padding-left: 40px;
+      padding-right: 40px;
+      flex: 1;
+    }
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+    /* Error code display - large and prominent using theme gold */
+    .error-code {
+      font-size: 8rem;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /* Heading styling matching application.scss h1 */
+    h1 {
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Card styling matching card-custom component */
+    .error-card {
+      background-color: var(--old-money-green);
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Card border effect matching card-custom::before */
+    .error-card::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      border: 1px solid var(--ivory-ledger);
+      border-radius: 0.4rem;
+      pointer-events: none;
+    }
+
+    /* Card body matching card-custom styling */
+    .error-card .card-body {
+      padding: 2rem;
+      color: var(--ivory-ledger);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card header matching card-custom header */
+    .error-card .card-header {
+      background-color: var(--old-money-green);
+      color: var(--gold);
+      font-weight: 700;
+      padding: 1.5rem;
+      border-bottom: none;
+    }
+
+    /* Button styling matching button-gold component */
+    .btn-gold {
+      background-color: var(--gold);
+      color: var(--old-money-green);
+      border-radius: 0.5rem;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn-gold:hover {
+      background-color: #d4b05e;
+      color: var(--old-money-green);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Link styling for navigation */
+    .error-links a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .error-links a:hover {
+      color: var(--hover-green);
+      text-decoration: underline;
+    }
+
+    /* Wizard icon/emoji for thematic consistency */
+    .wizard-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .error-code {
+        font-size: 5rem;
+      }
+      
+      main {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .error-links a {
+        display: block;
+        margin: 0.5rem 0;
+      }
+    }
   </style>
 </head>
 
-<body class="rails-default-error-page">
-  <!-- This file lives in public/404.html -->
-  <div class="dialog">
-    <div>
-      <h1>The page you were looking for doesn't exist.</h1>
-      <p>You may have mistyped the address or the page may have moved.</p>
+<body>
+  <!-- Main content area matching application layout structure -->
+  <main>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+          
+          <!-- Error Code Display -->
+          <div class="text-center mb-4">
+            <div class="wizard-icon">🧙</div>
+            <div class="error-code">404</div>
+          </div>
+
+          <!-- Error Card matching card-custom component styling -->
+          <div class="error-card">
+            <div class="card-header text-center">
+              <h2 class="mb-0">Lost in the Financial Maze?</h2>
+            </div>
+            <div class="card-body text-center">
+              <p class="lead mb-4">
+                This page doesn't exist in our realm of Wealth Wizards.
+              </p>
+              <p class="mb-4">
+                The page you're looking for may have been moved, deleted, or never existed. 
+                Don't worry - even the wisest wizards get lost sometimes!
+              </p>
+              
+              <!-- Navigation links to help users find their way back -->
+              <div class="error-links mb-4">
+                <a href="/">🏠 Return to Home</a>
+                <a href="/dashboard">📊 View Dashboard</a>
+                <a href="/gameboard">🎮 Go to Gameboard</a>
+              </div>
+
+              <!-- Primary action button -->
+              <a href="/" class="btn-gold">
+                Start Your Journey
+              </a>
+            </div>
+          </div>
+
+          <!-- Helpful message for users -->
+          <div class="text-center mt-4">
+            <small class="text-muted">
+              Need help? Try visiting our home page or check your navigation.
+            </small>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
+  </main>
 </body>
 </html>
