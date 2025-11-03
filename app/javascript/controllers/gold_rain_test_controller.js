@@ -1,31 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Test Controller for Gold Rain Effects
+// Test Controller for Gold Rain Effects - Used only on /test/gold-rain page
 // Handles triggering both fullscreen and localized effects for testing
 export default class extends Controller {
+  // Helper method to get and trigger gold rain controller
+  triggerGoldRain(containerId, logMessage) {
+    const container = document.getElementById(containerId)
+    if (!container) {
+      console.error(`${containerId} not found`)
+      return
+    }
+
+    const controller = this.application.getControllerForElementAndIdentifier(container, "gold-rain")
+    if (controller) {
+      controller.trigger()
+      console.log(logMessage)
+    } else {
+      console.error("Gold rain controller not found")
+    }
+  }
 
   // Trigger fullscreen effect (intensity 2 - standard)
   triggerFullscreen(event) {
     event.preventDefault()
-    
-    const fullscreenContainer = document.getElementById("fullscreen-rain-container")
-    if (!fullscreenContainer) {
-      console.error("Fullscreen rain container not found")
-      return
-    }
-
-    // Get the gold rain controller
-    const goldRainController = this.application.getControllerForElementAndIdentifier(
-      fullscreenContainer,
-      "gold-rain"
-    )
-
-    if (goldRainController) {
-      goldRainController.trigger()
-      console.log("✨ Fullscreen gold rain triggered!")
-    } else {
-      console.error("Gold rain controller not found")
-    }
+    this.triggerGoldRain("fullscreen-rain-container", "✨ Fullscreen gold rain triggered!")
   }
 
   // Trigger fullscreen effect with intensity 3 (epic)
@@ -73,47 +71,13 @@ export default class extends Controller {
   // Trigger localized effect (intensity 1 - subtle)
   triggerLocalized(event) {
     event.preventDefault()
-    
-    const localizedContainer = document.getElementById("localized-rain-container")
-    if (!localizedContainer) {
-      console.error("Localized rain container not found")
-      return
-    }
-
-    const goldRainController = this.application.getControllerForElementAndIdentifier(
-      localizedContainer,
-      "gold-rain"
-    )
-
-    if (goldRainController) {
-      goldRainController.trigger()
-      console.log("✨ Localized gold rain triggered!")
-    } else {
-      console.error("Gold rain controller not found")
-    }
+    this.triggerGoldRain("localized-rain-container", "✨ Localized gold rain triggered!")
   }
 
   // Trigger localized effect with intensity 2
   triggerLocalizedIntense(event) {
     event.preventDefault()
-    
-    const localizedContainer = document.getElementById("localized-rain-intense-container")
-    if (!localizedContainer) {
-      console.error("Intense localized rain container not found")
-      return
-    }
-
-    const goldRainController = this.application.getControllerForElementAndIdentifier(
-      localizedContainer,
-      "gold-rain"
-    )
-
-    if (goldRainController) {
-      goldRainController.trigger()
-      console.log("🎯 Intense localized gold rain triggered!")
-    } else {
-      console.error("Gold rain controller not found")
-    }
+    this.triggerGoldRain("localized-rain-intense-container", "🎯 Intense localized gold rain triggered!")
   }
 }
 

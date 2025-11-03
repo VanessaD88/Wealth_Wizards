@@ -1,14 +1,6 @@
-// Gold Rain Animation Component - Flexible System for Full-Screen and Localized Effects
-//
-// Usage:
-// Full-screen (Level Up): <div data-controller="gold-rain" data-gold-rain-mode-value="fullscreen"></div>
-// Localized (Challenge Card): <div data-controller="gold-rain" data-gold-rain-mode-value="localized"></div>
-//
-// Trigger via JavaScript: goldRainController.trigger()
-
-// Container base styles (applied via JavaScript controller)
-// Base styles are applied via inline styles in controller for flexibility
-// These classes are used for targeting and mode-specific styling
+// Gold Rain Animation Component
+// Two modes: "fullscreen" (level up) and "localized" (challenge card)
+// See GOLD_RAIN_USAGE.md for complete documentation
 
 // Rain column container
 .gold-rain-column {
@@ -20,13 +12,11 @@
 // Individual gold coin
 .gold-rain-coin {
   position: absolute;
-  // Size and positioning handled inline by controller for flexibility
   filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6)) drop-shadow(0 0 4px rgba(201, 162, 78, 0.4));
   will-change: transform, opacity;
 }
 
-// Full-screen animation (for level ups)
-// Coins fall from top to bottom of viewport with dramatic rotation
+// Full-screen animation (level ups) - dramatic rotation, covers entire viewport
 @keyframes gold-rain-fullscreen {
   0% {
     transform: translateY(-150px) rotate(0deg) scale(0.8);
@@ -46,8 +36,7 @@
   }
 }
 
-// Localized animation (for challenge cards)
-// Shorter, more contained fall within card boundaries
+// Localized animation (challenge cards) - subtle rotation, contained within parent
 @keyframes gold-rain-localized {
   0% {
     transform: translateY(-50px) rotate(0deg) scale(0.7);
@@ -67,61 +56,33 @@
   }
 }
 
-// Additional visual effects for full-screen mode
-.gold-rain-fullscreen {
-  // Add subtle background overlay for dramatic effect (optional)
-  // background: linear-gradient(to bottom, rgba(201, 162, 78, 0.05) 0%, transparent 100%);
-  
-  .gold-rain-coin {
-    // Larger glow effect for full-screen
-    filter: drop-shadow(0 0 12px rgba(201, 162, 78, 0.8)) 
-            drop-shadow(0 0 6px rgba(201, 162, 78, 0.5))
-            drop-shadow(0 0 2px rgba(201, 162, 78, 0.3));
-  }
+// Visual effects - fullscreen has stronger glow
+.gold-rain-fullscreen .gold-rain-coin {
+  filter: drop-shadow(0 0 12px rgba(201, 162, 78, 0.8)) 
+          drop-shadow(0 0 6px rgba(201, 162, 78, 0.5))
+          drop-shadow(0 0 2px rgba(201, 162, 78, 0.3));
 }
 
-// Subtle effect for localized mode
-.gold-rain-localized {
-  .gold-rain-coin {
-    // Smaller, more subtle glow for card context
-    filter: drop-shadow(0 0 6px rgba(201, 162, 78, 0.6)) 
-            drop-shadow(0 0 3px rgba(201, 162, 78, 0.4));
-  }
+.gold-rain-localized .gold-rain-coin {
+  filter: drop-shadow(0 0 6px rgba(201, 162, 78, 0.6)) 
+          drop-shadow(0 0 3px rgba(201, 162, 78, 0.4));
 }
 
-// Performance optimization
+// Performance optimization - GPU acceleration
 .gold-rain-fullscreen,
 .gold-rain-localized {
-  // Use GPU acceleration
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
-// Responsive adjustments for mobile
+// Mobile adjustments - reduced effects for performance
 @media (max-width: 768px) {
-  .gold-rain-fullscreen {
-    // Reduce coin count on mobile for better performance
-    .gold-rain-coin {
-      filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6));
-    }
+  .gold-rain-fullscreen .gold-rain-coin {
+    filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6));
   }
   
   .gold-rain-localized .gold-rain-coin {
-    // Keep localized effects consistent on mobile
     filter: drop-shadow(0 0 5px rgba(201, 162, 78, 0.5));
-  }
-}
-
-// Animation states for manual control
-.gold-rain-paused {
-  .gold-rain-coin {
-    animation-play-state: paused;
-  }
-}
-
-.gold-rain-stopped {
-  .gold-rain-coin {
-    animation: none;
   }
 }
