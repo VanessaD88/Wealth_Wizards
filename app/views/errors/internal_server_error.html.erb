@@ -32,13 +32,13 @@
             <% if user_signed_in? %>
               <%= link_to "View Dashboard", dashboard_path %>
             <% end %>
-            <%= link_to "Try Again", "javascript:location.reload()" %>
+            <%= link_to "Try Again", "#", onclick: "location.reload(); return false;" %>
           </div>
 
           <!-- Action buttons -->
           <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
             <%= link_to "Go to Home", root_path, class: "button-gold" %>
-            <button onclick="location.reload()" class="button-gold">Reload Page</button>
+            <a href="#" onclick="location.reload(); return false;" class="button-gold">Reload Page</a>
           </div>
         </div>
       </div>

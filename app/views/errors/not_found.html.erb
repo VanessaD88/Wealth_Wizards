@@ -31,10 +31,12 @@
           </div>
 
           <!-- Primary action button - conditional based on journey status -->
-          <% if user_signed_in? && current_user.level&.name != "Level 0" %>
-            <%= link_to "Continue Journey", pages_gameboard_path, class: "button-gold mt-3" %>
-          <% elsif user_signed_in? %>
-            <%= link_to "Start Your Journey", pages_gameboard_path, class: "button-gold mt-3" %>
+          <% if user_signed_in? %>
+            <% if current_user.level && current_user.level.name != "Level 0" %>
+              <%= link_to "Continue Journey", pages_gameboard_path, class: "button-gold mt-3" %>
+            <% else %>
+              <%= link_to "Start Your Journey", pages_gameboard_path, class: "button-gold mt-3" %>
+            <% end %>
           <% else %>
             <%= link_to "Start Your Journey", new_user_session_path, class: "button-gold mt-3" %>
           <% end %>

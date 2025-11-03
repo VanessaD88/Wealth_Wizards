@@ -32,23 +32,15 @@ class ApplicationController < ActionController::Base
   # This method is called automatically by Rails when:
   #   - ActiveRecord::RecordNotFound is raised (e.g., User.find(999999))
   #   - A catch-all route matches an invalid path (see config/routes.rb)
-  # Formats handled:
-  #   - HTML: Renders app/views/errors/not_found.html.erb with full layout
-  #   - JSON: Returns simple JSON error for API requests
-  #   - Any other: Returns HTTP 404 status with no body
   # Status code: 404 Not Found (tells browsers/search engines the resource doesn't exist)
   def render_not_found
-    respond_to do |format|
-      format.html { render 'errors/not_found', status: :not_found }
-      format.json { render json: { error: 'Not found' }, status: :not_found }
-      format.any { head :not_found }
-    end
+    render 'errors/not_found', status: :not_found
   end
 
   # Renders the 500 (Internal Server Error) page when an unexpected exception occurs
   # This method is called automatically by Rails when:
   #   - Any StandardError exception is raised in any controller action
-  #   - ONLY in production/staging environments (see line 10: unless Rails.env.development?)
+  #   - ONLY in production/staging environments (see line 18: unless Rails.env.development?)
   #   - In development, Rails shows detailed error pages instead for debugging
   # Common scenarios that trigger this:
   #   - Database connection failures
@@ -58,10 +50,6 @@ class ApplicationController < ActionController::Base
   # Error logging:
   #   - Logs exception message and full backtrace to Rails logger
   #   - Check logs/ directory or production logs for full error details
-  # Formats handled:
-  #   - HTML: Renders app/views/errors/internal_server_error.html.erb with full layout
-  #   - JSON: Returns simple JSON error for API requests
-  #   - Any other: Returns HTTP 500 status with no body
   # Status code: 500 Internal Server Error (tells browsers it's a server-side problem)
   # @param exception [StandardError] The exception object that triggered this handler
   def render_internal_server_error(exception)
@@ -69,10 +57,6 @@ class ApplicationController < ActionController::Base
     Rails.logger.error "Internal Server Error: #{exception.message}"
     Rails.logger.error exception.backtrace.join("\n")
 
-    respond_to do |format|
-      format.html { render 'errors/internal_server_error', status: :internal_server_error }
-      format.json { render json: { error: 'Internal server error' }, status: :internal_server_error }
-      format.any { head :internal_server_error }
-    end
+    render 'errors/internal_server_error', status: :internal_server_error
   end
 end

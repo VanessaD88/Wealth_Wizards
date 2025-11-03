@@ -59,11 +59,8 @@ Rails.application.routes.draw do
   get "errors/internal_server_error", to: "errors#internal_server_error", as: :error_internal_server_error
 
   # Catch-all route for unmatched paths (404s) - must be last
-  # Excludes Rails internal paths and asset requests
-  match "*path", to: "errors#not_found", via: :all, 
-    constraints: lambda { |req| 
-      !req.path.starts_with?("/rails") && 
-      !req.path.starts_with?("/assets") &&
-      !req.path.starts_with?("/packs")
-    }
+  # This catches any URL that doesn't match routes above
+  # Note: Rails automatically handles /rails, /assets, and /packs paths correctly,
+  # so we don't need to exclude them manually
+  match "*path", to: "errors#not_found", via: :all
 end
