@@ -31,27 +31,8 @@
 
     /* Main container matching application.scss main padding */
     main {
-      padding-top: 60px;
-      padding-bottom: 30px;
-      padding-left: 40px;
-      padding-right: 40px;
+      padding: 60px 40px 30px;
       flex: 1;
-    }
-
-    /* Error code display - large and prominent using theme gold */
-    .error-code {
-      font-size: 8rem;
-      font-weight: 700;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    /* Heading styling matching application.scss h1 */
-    h1 {
-      font-weight: 700;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
     }
 
     /* Card styling matching card-custom component */
@@ -78,41 +59,42 @@
       pointer-events: none;
     }
 
-    /* Card body matching card-custom styling */
+    /* Card body matching card-custom styling exactly */
     .error-card .card-body {
-      padding: 2rem;
+      padding: 0 1.5rem 1.0rem;
       color: var(--ivory-ledger);
       position: relative;
       z-index: 1;
     }
 
-    /* Card header matching card-custom header */
+    /* Card header matching card-custom header exactly */
     .error-card .card-header {
       background-color: var(--old-money-green);
       color: var(--gold);
       font-weight: 700;
-      padding: 1.5rem;
+      padding: 1.0rem 1.5rem 0;
       border-bottom: none;
     }
 
-    /* Button styling matching button-gold component */
+    /* Button styling matching button-gold component exactly */
     .btn-gold {
       background-color: var(--gold);
       color: var(--old-money-green);
       border-radius: 0.5rem;
       font-weight: 600;
-      padding: 0.5rem 1.5rem;
+      padding: 0.3rem 1.2rem;
       text-decoration: none;
       transition: all 0.3s ease;
       border: none;
       display: inline-block;
     }
 
-    .btn-gold:hover {
+    .btn-gold:hover,
+    .btn-gold:focus,
+    .btn-gold:active {
       background-color: #d4b05e;
       color: var(--old-money-green);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      border-color: #d4b05e;
     }
 
     /* Link styling for navigation */
@@ -129,26 +111,33 @@
       text-decoration: underline;
     }
 
-    /* Wizard icon/emoji for thematic consistency */
-    .wizard-icon {
-      font-size: 4rem;
-      margin-bottom: 1rem;
+    /* Error image styling - matches application image display */
+    .error-image {
+      max-width: 350px;
+      height: auto;
+      margin: 0 auto;
+      display: block;
+    }
+
+    /* Image container for better spacing matching app layout */
+    .error-image-container {
+      margin-bottom: 3rem;
+      padding: 0 1rem;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      .error-code {
-        font-size: 5rem;
-      }
-      
       main {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding: 60px 20px 30px;
       }
 
       .error-links a {
         display: block;
         margin: 0.5rem 0;
+      }
+
+      .error-image {
+        max-width: 280px;
       }
     }
   </style>
@@ -161,10 +150,9 @@
       <div class="row justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
           
-          <!-- Error Code Display -->
-          <div class="text-center mb-4">
-            <div class="wizard-icon">🧙</div>
-            <div class="error-code">404</div>
+          <!-- Error image display - image already contains error code -->
+          <div class="error-image-container text-center">
+            <img src="/assets/404.png" alt="404 Error - Lost Wizard" class="error-image" onerror="this.style.display='none'">
           </div>
 
           <!-- Error Card matching card-custom component styling -->
@@ -173,7 +161,7 @@
               <h2 class="mb-0">Lost in the Financial Maze?</h2>
             </div>
             <div class="card-body text-center">
-              <p class="lead mb-4">
+              <p class="lead mb-3">
                 This page doesn't exist in our realm of Wealth Wizards.
               </p>
               <p class="mb-4">
@@ -183,25 +171,17 @@
               
               <!-- Navigation links to help users find their way back -->
               <div class="error-links mb-4">
-                <a href="/">🏠 Return to Home</a>
-                <a href="/dashboard">📊 View Dashboard</a>
-                <a href="/gameboard">🎮 Go to Gameboard</a>
+                <a href="/">Return to Home</a>
+                <a href="/dashboard">View Dashboard</a>
+                <a href="/gameboard">Go to Gameboard</a>
               </div>
 
               <!-- Primary action button -->
-              <a href="/" class="btn-gold">
+              <a href="/" class="btn-gold mt-3">
                 Start Your Journey
               </a>
             </div>
           </div>
-
-          <!-- Helpful message for users -->
-          <div class="text-center mt-4">
-            <small class="text-muted">
-              Need help? Try visiting our home page or check your navigation.
-            </small>
-          </div>
-
         </div>
       </div>
     </div>

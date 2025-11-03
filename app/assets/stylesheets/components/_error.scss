@@ -1,0 +1,50 @@
+// Error page component styling
+// Shared styles for 404 and 500 error pages
+
+.error-image {
+  max-width: 350px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.error-image-container {
+  margin-bottom: 3rem;
+  padding: 0 1rem;
+}
+
+.error-links {
+  a {
+    color: $gold;
+    text-decoration: none;
+    font-weight: 600;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: $hover-green;
+      text-decoration: underline;
+    }
+  }
+}
+
+.error-alert {
+  background-color: rgba($gold, 0.1);
+  border-left: 4px solid $gold;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 0.25rem;
+}
+
+// Responsive adjustments for error pages
+@media (max-width: 768px) {
+  .error-links a {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .error-image {
+    max-width: 280px;
+  }
+}
+
