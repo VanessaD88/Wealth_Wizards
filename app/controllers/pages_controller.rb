@@ -17,6 +17,9 @@ class PagesController < ApplicationController
     @user = current_user
     @level = @user.level
 
+    # Check if user comes from landingpage to dashboard, if yes show overlay
+    @show_overlay = params[:from] == "landing_continue"
+
     # Special case: Level 0 users starting their journey get Level 1 created and shown Level 1 overview page
     if @level&.name == "Level 0"
       # Get Level 1 definition from LevelsController

@@ -4,6 +4,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   position: relative; // needed for pseudo-element positioning
   overflow: hidden;
+  max-width: 900px;
 
   &::before {
     content: "";
@@ -26,14 +27,41 @@
     padding-top: 1.0rem;
     padding-bottom: 0rem;
     border-bottom: none;
+    margin: 15px;
   }
 
   .card-text {
-    color: $gold;
-    font-weight: 300;
     padding-right: 1.5rem;
     padding-left: 1.5rem;
     padding-top: 1.0rem;
     padding-bottom: 0rem;
-  }
+    margin-bottom: 15px;
+}
+
+// Icons for level
+
+.level-icon {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  display: inline-block;
+}
+
+
+.level-icon .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(245, 222, 179, 0.7); // beige overlay
+  border-radius: 50%;
+  transition: opacity 0.3s ease;
+}
+
+// to remove or hide the overlay
+.level-icon.active .overlay {
+  opacity: 0;
+  pointer-events: none;
+}
 }

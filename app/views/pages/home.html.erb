@@ -1,16 +1,13 @@
-<div class="container my-5">
-  <div class="row align-items-center">
-    <!-- Image -->
-    <div class="col-md-5 text-center mb-4 mb-md-0">
-      <%= image_tag "Wizard.png",
-          alt: "Wizard",
-          class: "img-fluid",
-          style: "max-width: 400px; height: auto;" %>
-    </div>
-
-    <!-- Text & Button  -->
-    <div class="col-md-7 text-center">
-      <h1 class="mb-3">Become a Wealth Wizard!</h1>
+<main>
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Image -->
+      <div class="col-md-5 text-center mb-4 mb-md-0">
+        <%= image_tag "Wizard.png",
+            alt: "Wizard",
+            class: "img-fluid",
+            style: "max-width: 400px; height: auto;" %>
+      </div>
 
       <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
       <p class="lead mb-5">
@@ -18,11 +15,10 @@
        Master Money like a Wizard and start your adventure in financial freedom right here.
       </p>
       <% if user_signed_in? %>
-        <% path = current_user.level.name.include?("0") ? dashboard_path : pages_gameboard_path %>
-        <%= link_to "Continue Your Journey", path , class: "btn btn-primary btn-lg mt-3" %>
+        <%= link_to "Continue Your Journey", pages_gameboard_path(from: "landing_continue"), class: "btn btn-primary btn-lg mt-3" %>
       <% else %>
         <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
       <% end %>
     </div>
   </div>
-</div>
+</main>
