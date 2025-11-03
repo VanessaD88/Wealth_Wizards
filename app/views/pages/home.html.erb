@@ -9,21 +9,16 @@
             style: "max-width: 400px; height: auto;" %>
       </div>
 
-      <!-- Text & Button  -->
-      <div class="col-md-7 text-center">
-        <h1 class="mb-3">Become a Wealth Wizard!</h1>
-        <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
-        <p class="lead mb-5">
-        Step into the world of Wealth Wizards. An adventure where saving, investing, and growing money is just a game. Complete challenges and make real-world money moves while having fun.
-        Master money like a Wizard and start your adventure in financial freedom right here.
-        </p>
-        <% if user_signed_in? %>
-          <% path = current_user.level.name.include?("0") ? dashboard_path : pages_gameboard_path %>
-          <%= link_to "Continue Your Journey", path , class: "btn btn-primary btn-lg mt-3" %>
-        <% else %>
-          <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
-        <% end %>
-      </div>
+      <h2 class="mb-5">Play. Learn. Level Up Your Money Skills.</h2>
+      <p class="lead mb-5">
+       Step into the world of Wealth Wizards. An adventure where saving, investing, and growing money is just a game. Complete challenges and make real-world money moves while having fun.
+       Master Money like a Wizard and start your adventure in financial freedom right here.
+      </p>
+      <% if user_signed_in? %>
+        <%= link_to "Continue Your Journey", pages_gameboard_path(from: "landing_continue"), class: "btn btn-primary btn-lg mt-3" %>
+      <% else %>
+        <%= link_to "Start Your Journey", new_user_session_path, class: "btn btn-primary btn-lg mt-3" %>
+      <% end %>
     </div>
   </div>
 </main>

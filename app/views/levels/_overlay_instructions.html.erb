@@ -1,0 +1,23 @@
+<main>
+  <div class="container text-center">
+    <div class="overlay-header mb-4">
+      <% if @user&.level&.name&.include?("1") %>
+        <h5 class= mb-4>Every decision shapes your path to mastery!</h5>
+        <%= image_tag "icon_level1.png", alt: "Level 1", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+        <p>Start your financial journey by learning how to save smart. Make choices that grow your money, avoid common pitfalls, and watch your nest egg take shape.</p>
+      <% elsif @user&.level&.name&.include?("2") %>
+        <h5 class= mb-4>Take your skills to the next level!</h5>
+        <%= image_tag "icon_level2.png", alt: "Level 2", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+        <p>Learn how to make money work for you. Explore investments, interest, and smart strategies that earn while you focus on other adventures.</p>
+        <p>Can you unlock the secret to steady, hands-off income?</p>
+      <% elsif @user&.level&.name&.include?("3") %>
+        <h5 class= mb-4>Diversify your income!</h5>
+        <%= image_tag "icon_level3.png", alt: "Level 3", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+        <p>Become a true Wealth Wizard: manage multiple streams, balance risks and rewards, and discover how to maximize your earnings.</p>
+        <p>The more you explore, the more your financial empire grows!</p>
+      <% else %>
+        <%= image_tag "wizard.png", alt: "Wealth Wizard", class: "img-fluid mb-3", style: "max-width: 150px;" %>
+      <% end %>
+    </div>
+  </div>
+</main>
