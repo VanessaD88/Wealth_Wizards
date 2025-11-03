@@ -75,14 +75,3 @@
   backface-visibility: hidden;
   perspective: 1000px;
 }
-
-// Mobile adjustments - reduced effects for performance
-@media (max-width: 768px) {
-  .gold-rain-fullscreen .gold-rain-coin {
-    filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6));
-  }
-  
-  .gold-rain-localized .gold-rain-coin {
-    filter: drop-shadow(0 0 5px rgba(201, 162, 78, 0.5));
-  }
-}
