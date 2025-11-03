@@ -52,6 +52,9 @@ Rails.application.routes.draw do
   get "test/gold-rain", to: "pages#gold_rain_test", as: :gold_rain_test
 
   # Error page routes (for testing - actual errors are handled by ApplicationController#rescue_from)
+  # Note: Explicitly route /404 and /500 to dynamic error pages (takes precedence over static files)
+  get "404", to: "errors#not_found", as: :error_404
+  get "500", to: "errors#internal_server_error", as: :error_500
   get "errors/not_found", to: "errors#not_found", as: :error_not_found
   get "errors/internal_server_error", to: "errors#internal_server_error", as: :error_internal_server_error
 

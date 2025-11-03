@@ -7,9 +7,8 @@ class ErrorsController < ApplicationController
     render status: :not_found
   end
 
-  # 500 Internal Server Error page
+  # 500 Internal Server Error page: exception to StandardError
   def internal_server_error
     render status: :internal_server_error
   end
 end
-
