@@ -98,6 +98,6 @@ private
             number_str, text = line.split('.', 2).map(&:strip)
             # Convert the number string to an integer -> to be able to compare in @answer_is_correct
             [number_str.to_i, text]
-          end
+      end
   end
 end

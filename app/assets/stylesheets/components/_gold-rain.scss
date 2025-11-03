@@ -1,0 +1,107 @@
+// Gold Rain Animation Component - Modern 2025 Design
+// Smooth, elegant coin rain effect with modern visual styling
+// Usage: Include in view where animation is needed
+
+// Container for full-page gold rain overlay
+.gold-rain-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none; // Don't block clicks/interactions0
+  z-index: 9999; // Above all content
+  overflow: hidden;
+}
+
+// Individual rain column - uses percentage width for full screen coverage
+.pcoin-rain {
+  position: absolute;
+  top: 0;
+  width: 5%; // Percentage width ensures full coverage
+  height: 100vh;
+  will-change: transform; // Optimize performance
+
+  img {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 0 8px rgba(201, 162, 78, 0.6)) drop-shadow(0 0 4px rgba(201, 162, 78, 0.4));
+    // Modern gold glow effect using theme color
+    will-change: transform, opacity; // Performance optimization
+
+    // Varied sizes for depth and visual interest
+    &:nth-child(odd) {
+      width: 22px;
+      height: 22px;
+    }
+
+    &:nth-child(3n) {
+      width: 26px;
+      height: 26px;
+    }
+
+    // Distribute coins horizontally within each column for natural spread
+    &:nth-child(1) { left: 10%; }
+    &:nth-child(2) { left: 30%; }
+    &:nth-child(3) { left: 50%; }
+    &:nth-child(4) { left: 70%; }
+    &:nth-child(5) { left: 20%; }
+    &:nth-child(6) { left: 60%; }
+    &:nth-child(7) { left: 80%; }
+    &:nth-child(8) { left: 40%; }
+    &:nth-child(9) { left: 15%; }
+    &:nth-child(10) { left: 85%; }
+    &:nth-child(11) { left: 25%; }
+    &:nth-child(12) { left: 75%; }
+    &:nth-child(13) { left: 5%; }
+    &:nth-child(14) { left: 45%; }
+    &:nth-child(15) { left: 90%; }
+  }
+}
+
+// Modern, smooth falling animation with rotation and easing
+@keyframes gold-rain {
+  0% {
+    transform: translateY(-150px) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.9;
+    transform: translateY(-100px) rotate(180deg) scale(1);
+  }
+  95% {
+    opacity: 0.9;
+    transform: translateY(calc(100vh - 50px)) rotate(720deg) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(100vh + 50px)) rotate(900deg) scale(0.8);
+  }
+}
+
+// Apply animation to each coin with staggered delays - runs once per trigger
+.pcoin-rain img {
+  animation-name: gold-rain;
+  animation-duration: 5s; // Slower, more elegant speed
+  animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1); // Smooth easing
+  animation-iteration-count: 1; // Play animation once, not continuously
+  animation-fill-mode: forwards; // Keep final state after animation
+
+  // Stagger delays for continuous flow - varied timing creates natural rain effect
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.8s; }
+  &:nth-child(3) { animation-delay: 1.2s; }
+  &:nth-child(4) { animation-delay: 0.4s; }
+  &:nth-child(5) { animation-delay: 1.6s; }
+  &:nth-child(6) { animation-delay: 2.0s; }
+  &:nth-child(7) { animation-delay: 0.6s; }
+  &:nth-child(8) { animation-delay: 1.4s; }
+  &:nth-child(9) { animation-delay: 2.4s; }
+  &:nth-child(10) { animation-delay: 1.0s; }
+  &:nth-child(11) { animation-delay: 0.2s; }
+  &:nth-child(12) { animation-delay: 1.8s; }
+  &:nth-child(13) { animation-delay: 2.2s; }
+  &:nth-child(14) { animation-delay: 0.3s; }
+  &:nth-child(15) { animation-delay: 1.5s; }
+}
