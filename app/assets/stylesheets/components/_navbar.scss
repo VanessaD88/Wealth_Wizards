@@ -2,29 +2,42 @@
   justify-content: space-between;
   background: $old-money-green;
   padding: 0; // removes extra space
-  height: 56px; // adjusted to actual navbar height
+  height: 80px; // adjusted to actual navbar height
   border-top: 1px solid $gold;
-  // fixes navbar on the bottom
+  // fixes navbar on the top
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
   z-index: 1030; // ensure it stays above content
+
+  h1 {
+  margin: 0;             // removes default top/bottom margin
+  font-size: 1.5rem;     // adjust size as needed
+  color: $gold;          // example styling
+  }
+}
+
+.navbar .navbar-brand img {
+  height: 80px;
+  width: auto;
 }
 
 .navbar-ww .navbar-collapse {
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 // center the icon
 .navbar-ww .navbar-nav {
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: 0;
+  margin-right: 0;
+  display: flex;
+  align-items: center;
 }
 
 // icons for navbar
 .navbar-ww img {
-  height: 60px;
+  height: 40px;
   width: auto;
 }
 
@@ -57,7 +70,7 @@
   border-bottom: 1px solid $gold;
   // fixes navbar on the bottom
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
   width: 100%;
   z-index: 1030; // ensure it stays above content
