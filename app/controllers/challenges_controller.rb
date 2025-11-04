@@ -58,6 +58,11 @@ class ChallengesController < ApplicationController
     ai_content = ai_reply.content
     challenge_data = JSON.parse(ai_content)
 
+    if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
+      redirect_to level_challenges_path(@level)
+      return
+    end
+
     # Create new challenge with parsed data
     @challenge = @level.challenges.new(
       title: challenge_data["title"],
