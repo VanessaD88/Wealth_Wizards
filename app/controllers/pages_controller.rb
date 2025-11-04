@@ -5,13 +5,6 @@ class PagesController < ApplicationController
   def home
     @user = current_user
   end
-
-  # Main gameboard view for playing challenges
-  # Special handling for Level 0 users: creates Level 1 and redirects to levels overview (shows Level 1 card)
-  # Redirects to levels overview if:
-  #   - User has no level yet
-  #   - Current level is already completed
-  # Otherwise displays challenges for the active level and allows challenge selection
   def gameboard
     # define variables needed, such as user and their current level
     @user = current_user
@@ -39,15 +32,13 @@ class PagesController < ApplicationController
       redirect_to levels_path and return
     end
 
-    # Redirect to Levels Overview when starting a new level (no level yet)
-    # or when the current level is completed
+    # Redirect to Levels Overview when starting a new level (no level yet) or when the current level is completed
     redirect_to levels_path and return if @level.nil? || @level.completion_status
 
     # Load challenges for the active level
     @challenges = @level.challenges
 
-    # Set current challenge: use specified challenge_id from params,
-    # or default to the most recently created challenge
+    # Set current challenge: use specified challenge_id from params, or default to the most recently created challenge
     @challenges = @level ? @level.challenges : []
 
     # check for current challenge ID, if not present take the most recent one
@@ -57,6 +48,10 @@ class PagesController < ApplicationController
       else
         @challenges.order(created_at: :desc).first
       end
+    # Vanessa: auto-generate a challenge if none exists yet (to get rid of generate challenge button)
+    if @challenge.nil?
+      redirect_to level_challenges_path(@level), method: :post and return
+    end
 
     # parse prompt to define correct answer and choice numbers
     # convert to string
@@ -84,8 +79,6 @@ class PagesController < ApplicationController
     # prepare answer feedback variable, if challenge exists and user has submitted a choice
     # (challenge id contains choice variable)
     @show_answer_feedback = @challenge.present? && @challenge.choice.present?
-
-
   end
 
   def dashboard
