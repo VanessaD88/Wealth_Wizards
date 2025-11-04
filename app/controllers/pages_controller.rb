@@ -54,7 +54,12 @@ class PagesController < ApplicationController
 
     # Vanessa: load challenge if gameboard is empty (to get rid of generate challenge button)
     if @challenge.nil?
-
+      @challenge = CreateService.new.call(current_user)
+      if @challenge.save
+        redirect_to pages_gameboard_path
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
     # End Code Vanessa
 
