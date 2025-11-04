@@ -12,7 +12,7 @@ class ChallengesController < ApplicationController
   end
 
   def create
-
+    Challenges::Create.call!
     # Redirect to the gameboard page
     if @challenge.save
       redirect_to pages_gameboard_path
