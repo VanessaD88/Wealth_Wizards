@@ -51,16 +51,8 @@ Rails.application.routes.draw do
   # Test route for gold rain effects (remove in production)
   get "test/gold-rain", to: "pages#gold_rain_test", as: :gold_rain_test
 
-  # Error page routes (for testing - actual errors are handled by ApplicationController#rescue_from)
-  # Note: Explicitly route /404 and /500 to dynamic error pages (takes precedence over static files)
-  get "404", to: "errors#not_found", as: :error_404
-  get "500", to: "errors#internal_server_error", as: :error_500
-  get "errors/not_found", to: "errors#not_found", as: :error_not_found
-  get "errors/internal_server_error", to: "errors#internal_server_error", as: :error_internal_server_error
-
-  # Catch-all route for unmatched paths (404s) - must be last
-  # This catches any URL that doesn't match routes above
-  # Note: Rails automatically handles /rails, /assets, and /packs paths correctly,
-  # so we don't need to exclude them manually
-  match "*path", to: "errors#not_found", via: :all
+  # Catch-all route for 404 errors - must be last
+  # When no other route matches, show our 404 page
+  # catches any invalid URL path
+  match "*path", to: "pages#not_found", via: :all
 end

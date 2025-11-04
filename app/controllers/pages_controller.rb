@@ -1,9 +1,15 @@
 class PagesController < ApplicationController
-  skip_before_action :authenticate_user!, only: [ :home ]
+  skip_before_action :authenticate_user!, only: [ :home, :not_found ]
 
   # Landing page - no authentication required
   def home
     @user = current_user
+  end
+
+  # 404 error page - serves static HTML file
+  # called when a route doesn't match any defined routes
+  def not_found
+    render file: Rails.root.join('public', '404.html'), status: :not_found, layout: false
   end
 
   # Main gameboard view for playing challenges
