@@ -80,11 +80,11 @@ class ChallengesController < ApplicationController
   end
 
   def set_challenge
-  @challenge = @level.challenges.find(params[:id])
+    @challenge = @level.challenges.find(params[:id])
   end
 
   def choice_params
-  params.require(:challenge).permit(:choice)
+    params.require(:challenge).permit(:choice)
   end
 
   def update_user_scores(level, challenge)
