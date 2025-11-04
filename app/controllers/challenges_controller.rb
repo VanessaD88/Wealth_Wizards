@@ -13,13 +13,14 @@ class ChallengesController < ApplicationController
 
   def create
     @challenge = CreateService.new.call(current_user)
-    # Redirect to the gameboard page
     if @challenge.save
       redirect_to pages_gameboard_path
     else
       render :new, status: :unprocessable_entity
     end
   end
+
+
 
   # Alex adding changes to enabling selection of choices start
   # Triggered when user clicks submit on gameboard form
