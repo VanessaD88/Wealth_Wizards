@@ -1,8 +1,9 @@
-class Challenges::Create
+class CreateService
 
-  def call
+  def call(current_user)
+    @level = current_user.level
     # code copied from challenges controller
-    difficulty = determine_difficulty
+    difficulty = determine_difficulty(current_user)
 
         # JSON Output Prompt, use JSON so output can be pardsed
         prompt = <<~PROMPT
@@ -59,7 +60,7 @@ class Challenges::Create
 
   private
 
-  def determine_difficulty
+  def determine_difficulty(current_user)
     # Counting how many challenges the user answered on their current level
     count = @level.challenges.joins(:level).where(levels: { user_id: current_user.id }).where.not(choice: nil).count
 
