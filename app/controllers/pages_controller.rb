@@ -52,9 +52,11 @@ class PagesController < ApplicationController
         @challenges.order(created_at: :desc).first
       end
 
+    # Vanessa: load challenge if gameboard is empty (to get rid of generate challenge button)
     if @challenge.nil?
-    
+
     end
+    # End Code Vanessa
 
     # parse prompt to define correct answer and choice numbers
     # convert to string
