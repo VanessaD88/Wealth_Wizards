@@ -1,66 +1,221 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- Page title shown in browser tab -->
+  <title>Magic Failed! (500) - Wealth Wizards</title>
+
+  <!-- Viewport meta tag - makes page responsive on mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Character encoding - tells browser how to interpret text -->
+  <meta charset="utf-8">
+
+  <!-- Bootstrap CSS - loads Bootstrap 5.3 from CDN (Content Delivery Network) -->
+  <!-- CDN means we don't need to download Bootstrap, it loads from the internet -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS styles - matches our app's theme colors -->
   <style>
-  .rails-default-error-page {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    /* CSS Custom Properties (variables) - define colors once, use everywhere */
+    /* These match the colors in our app's application.scss file */
+    :root {
+      --ivory-ledger: #F4F1E7;      /* Background color */
+      --old-money-green: #3B5D43;   /* Card background */
+      --hover-green: #4F7258;        /* Link hover color */
+      --gold: #C9A24E;              /* Gold accent color */
+      --charcoal-ink: #2E2E2E;      /* Text color */
+    }
 
-  .rails-default-error-page div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+    /* Body styling - applies to entire page */
+    body {
+      background-color: var(--ivory-ledger);  /* Use the ivory color variable */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;  /* System fonts */
+      color: var(--charcoal-ink);              /* Text color */
+      min-height: 100vh;                        /* Full viewport height */
+      display: flex;                            /* Flexbox layout */
+      flex-direction: column;                   /* Stack content vertically */
+    }
 
-  .rails-default-error-page div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /* Main content area - matches padding from our app layout */
+    main {
+      padding: 60px 40px 30px;  /* top right bottom left - space around content */
+      flex: 1;                    /* Takes remaining space */
+    }
 
-  .rails-default-error-page h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+    /* Error card - matches our card-custom component styling */
+    .error-card {
+      background-color: var(--old-money-green);  /* Green card background */
+      border-radius: 0.5rem;                    /* Rounded corners */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* Subtle shadow */
+      position: relative;                        /* Needed for border effect */
+      overflow: hidden;                          /* Hides border overflow */
+      max-width: 600px;                          /* Maximum card width */
+      margin: 0 auto;                            /* Centers card horizontally */
+    }
 
-  .rails-default-error-page div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    /* Card border effect - creates inner border like card-custom component */
+    .error-card::before {
+      content: "";                               /* Empty content */
+      position: absolute;                        /* Position relative to card */
+      top: 10px;                                 /* 10px from top */
+      bottom: 10px;                              /* 10px from bottom */
+      left: 10px;                                /* 10px from left */
+      right: 10px;                               /* 10px from right */
+      border: 1px solid var(--ivory-ledger);    /* Ivory border */
+      border-radius: 0.4rem;                     /* Slightly smaller radius */
+      pointer-events: none;                      /* Clicks go through to content */
+    }
+
+    /* Card body - content inside card */
+    .error-card .card-body {
+      padding: 0 1.5rem 1.0rem;                  /* Space inside card */
+      color: var(--ivory-ledger);                /* Ivory text color */
+      position: relative;                        /* Puts content above border */
+      z-index: 1;                                /* Above the ::before border */
+    }
+
+    /* Card header - title section */
+    .error-card .card-header {
+      background-color: var(--old-money-green);  /* Same green as card */
+      color: var(--gold);                        /* Gold text */
+      font-weight: 700;                          /* Bold text */
+      padding: 1.0rem 1.5rem 0;                  /* Space around header */
+      border-bottom: none;                       /* Remove Bootstrap default border */
+    }
+
+    /* Button styling - matches our button-gold component */
+    .btn-gold {
+      background-color: var(--gold);             /* Gold background */
+      color: var(--old-money-green);             /* Green text */
+      border-radius: 0.5rem;                     /* Rounded corners */
+      font-weight: 600;                          /* Semi-bold text */
+      padding: 0.3rem 1.2rem;                    /* Space inside button */
+      text-decoration: none;                     /* Remove link underline */
+      transition: all 0.3s ease;                /* Smooth color change */
+      border: none;                              /* Remove default border */
+      display: inline-block;                     /* Makes padding work */
+    }
+
+    /* Button hover effect - when mouse hovers over button */
+    .btn-gold:hover,
+    .btn-gold:focus,
+    .btn-gold:active {
+      background-color: #d4b05e;                 /* Lighter gold on hover */
+      color: var(--old-money-green);             /* Keep green text */
+      border-color: #d4b05e;                     /* Match border to background */
+    }
+
+    /* Navigation links styling */
+    .error-links a {
+      color: var(--gold);                        /* Gold link color */
+      text-decoration: none;                     /* Remove underline */
+      font-weight: 600;                          /* Bold links */
+      margin: 0 1rem;                            /* Space between links */
+      transition: color 0.3s ease;              /* Smooth color change */
+    }
+
+    /* Link hover effect */
+    .error-links a:hover {
+      color: var(--hover-green);                 /* Green on hover */
+      text-decoration: underline;                /* Add underline on hover */
+    }
+
+    /* Error image styling - makes images look awesome! */
+    .error-image {
+      max-width: 350px;                          /* Maximum image width */
+      height: auto;                              /* Keeps aspect ratio */
+      margin: 0 auto;                            /* Centers image horizontally */
+      display: block;                            /* Makes margin centering work */
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));  /* Adds subtle shadow for depth */
+    }
+
+    /* Image container - spacing around image */
+    .error-image-container {
+      margin-bottom: 3rem;                       /* Space below image */
+      padding: 0 1rem;                           /* Horizontal padding on mobile */
+      text-align: center;                        /* Centers image container content */
+    }
+
+    /* Alert box - info message for 500 errors */
+    .error-alert {
+      background-color: rgba(201, 162, 78, 0.1);  /* Light gold background (rgba = red, green, blue, alpha/opacity) */
+      border-left: 4px solid var(--gold);        /* Thick left border in gold */
+      padding: 1rem;                              /* Space inside alert */
+      margin: 1rem 0;                            /* Space around alert */
+      border-radius: 0.25rem;                    /* Rounded corners */
+    }
   </style>
 </head>
 
-<body class="rails-default-error-page">
-  <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <div>
-      <h1>We're sorry, but something went wrong.</h1>
+<body>
+  <!-- Main content area - matches Bootstrap container structure -->
+  <main>
+    <!-- Bootstrap container - centers content and adds padding -->
+    <div class="container">
+      <!-- Bootstrap row - creates horizontal layout -->
+      <div class="row justify-content-center">
+        <!-- Bootstrap columns - responsive width -->
+        <!-- col-12 = full width on mobile, col-md-10 = 10/12 width on tablet, col-lg-8 = 8/12 width on desktop -->
+        <div class="col-12 col-md-10 col-lg-8">
+
+          <!-- Error image - image already contains "500" text -->
+          <div class="error-image-container text-center">
+            <!-- Image tag - loads 500.png from assets folder -->
+            <!-- onerror hides image if file doesn't exist -->
+            <img src="/assets/500.png" alt="500 Error - Magic Failed" class="error-image" onerror="this.style.display='none'">
+          </div>
+
+          <!-- Error card - matches our app's card styling -->
+          <div class="error-card">
+            <!-- Card header - title section -->
+            <div class="card-header text-center">
+              <!-- h2 = heading level 2, mb-0 = margin-bottom 0 (Bootstrap utility) -->
+              <h2 class="mb-0">The Magic Failed!</h2>
+            </div>
+
+            <!-- Card body - main content -->
+            <div class="card-body text-center">
+              <!-- lead = Bootstrap class for larger text, mb-3 = margin-bottom (Bootstrap utility) -->
+              <p class="lead mb-3">
+                Something went wrong on our end. Our Wealth Wizards are working to fix this issue.
+              </p>
+              <!-- mb-3 = margin-bottom 3 (Bootstrap spacing utility) -->
+              <p class="mb-3">
+                Don't worry - your progress is safe! This is a temporary problem that we're resolving.
+              </p>
+
+              <!-- Alert message - info box explaining what happened -->
+              <!-- text-start = align text to left (Bootstrap utility), mb-4 = margin-bottom 4 -->
+              <div class="error-alert text-start mb-4">
+                <!-- strong = bold text, <br> = line break -->
+                <strong>What happened?</strong><br>
+                The server encountered an unexpected error. This doesn't affect your saved data or progress.
+              </div>
+
+              <!-- Navigation links - help users find their way back -->
+              <div class="error-links mb-4">
+                <!-- Regular anchor tags - links to other pages -->
+                <a href="/">Return to Home</a>
+                <a href="/dashboard">View Dashboard</a>
+                <!-- javascript:location.reload() = reloads current page when clicked -->
+                <a href="javascript:location.reload()">Try Again</a>
+              </div>
+
+              <!-- Action buttons -->
+              <!-- d-flex = display flex (Bootstrap utility), flex-wrap = wrap items to next line -->
+              <!-- justify-content-center = center items (Bootstrap utility), gap-2 = space between items -->
+              <!-- mt-3 = margin-top 3 (Bootstrap spacing utility) -->
+              <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                <!-- Button to go home -->
+                <a href="/" class="btn-gold">Go to Home</a>
+                <!-- Button to reload page - onclick runs JavaScript -->
+                <button onclick="location.reload()" class="btn-gold">Reload Page</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
-  </div>
+  </main>
 </body>
 </html>
