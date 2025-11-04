@@ -70,7 +70,12 @@
                     You have improved your decision making score and <strong> gained <%= @challenge.balance_impact.round %></strong> € budget.
                   <% # Here we should implement logic on when to lose budget or we can remove it and only have decision points lost %>
                   <% else %>
-                    You have decreased your decision making score and lost <strong> 0</strong> € budget.
+                    <%# You have decreased your decision making score and lost <strong> 0</strong> € budget. Your decision-making score decreased to <strong><%= current_user.decision_score %>
+                      <% if @deduction_amount && @deduction_amount > 0 %>
+                          Your decision-making score decreased to <strong><%= current_user.decision_score %>%</strong> and you <strong>lost <%= @deduction_amount %>$</strong> of your savings.
+                        <% else %>
+                          Your decision-making score decreased to <strong><%= current_user.decision_score %>%</strong>, but you did not lose any money this time.
+                        <% end %>
                   <% end %>
                 </p>
                 <h5 class="fw-semibold">The Correct Answer</h5>

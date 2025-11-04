@@ -173,7 +173,40 @@ class ChallengesController < ApplicationController
       # take the impact of this challenge, if not available take 0
       impact = challenge.balance_impact || 0
       # here we could add logic to deduct from current balance in case of wrong answer after a certain logic, or level etc
-      new_balance = answer_correct ? (current_balance + impact) : current_balance
+      # new_balance = answer_correct ? (current_balance + impact) : current_balance
+
+      # Updating the users' balance depending on their answer
+      if answer_correct
+        new_balance = current_balance + impact
+      else
+        # Count how many wrong choices the user made on the current level
+        wrong_answers_count = level.challenges
+                             .joins(:level)
+                             .where(levels: { user_id: user.id })
+                             .where.not(choice: nil)
+                             .where.not("challenges.choice = challenges.correct_answer")
+                             .count
+        # Determine if a deduction is due for the user, depending on their level and amount of wrong choices
+        deduction_needed = case level.name
+                     when /Level 1/i
+                       wrong_answers_count % 3 == 0
+                     when /Level 2/i
+                       wrong_answers_count % 2 == 0
+                     when /Level 3/i
+                       true
+                     else
+                       false
+                     end
+        # Adjust the user balance
+        if deduction_needed
+          deduction_amount = 500
+          new_balance = current_balance - deduction_amount
+        else
+          deduction_amount = 0
+          new_balance = current_balance
+        end
+        @deduction_amount = deduction_amount
+      end
       user.update!(balance: new_balance)
     end
   end
