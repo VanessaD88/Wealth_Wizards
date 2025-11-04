@@ -123,7 +123,7 @@
           </div>
 
           <div class="card-footer d-flex justify-content-end mt-3">
-            <%= button_to "Continue your Journey",
+            <%= button_to "Next Challenge",
                   level_challenges_path(@level),
                   method: :post,
                   class: "btn button-gold px-4",
@@ -131,11 +131,6 @@
                   form: { data: { behavior: "continue-journey" } } %>
           </div>
         <% end %>
-
-        <%= button_to "Generate New Challenge",
-                      level_challenges_path(@level),
-                      method: :post,
-                      class: "btn button-gold mt-4" %>
       </div>
     </div>
   </div>
