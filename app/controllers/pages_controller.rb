@@ -18,7 +18,6 @@ class PagesController < ApplicationController
 
     # Show level completion overlay if level just changed
     @show_level_up_overlay = params[:from] == "level_up"
-
     # Special case: Level 0 users starting their journey get Level 1 created and shown Level 1 overview page
     if @level&.name == "Level 0"
       # Get Level 1 definition from LevelsController
@@ -32,7 +31,7 @@ class PagesController < ApplicationController
         completion_status: false
       )
       # Redirect to levels overview to show Level 1 card instead of going directly to gameboard
-      redirect_to levels_path and return
+     # redirect_to levels_path and return
     end
 
     # Redirect to Levels Overview when starting a new level (no level yet) or when the current level is completed
@@ -55,7 +54,9 @@ class PagesController < ApplicationController
     # Vanessa: load challenge if gameboard is empty (to get rid of generate challenge button)
     if @challenge.nil?
       @challenge = CreateService.new.call(current_user)
-      if @challenge.save
+      if @challenge.save && @show_overlay
+        redirect_to pages_gameboard_path(from: "landing_continue")
+      elsif @challenge.valid?
         redirect_to pages_gameboard_path
       else
         render :new, status: :unprocessable_entity
