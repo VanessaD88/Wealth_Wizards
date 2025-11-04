@@ -50,9 +50,4 @@ Rails.application.routes.draw do
 
   # Test route for gold rain effects (remove in production)
   get "test/gold-rain", to: "pages#gold_rain_test", as: :gold_rain_test
-
-  # Catch-all route for 404 errors - must be last
-  # When no other route matches, show our 404 page
-  # catches any invalid URL path
-  match "*path", to: "pages#not_found", via: :all
 end
