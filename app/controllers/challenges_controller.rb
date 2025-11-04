@@ -11,9 +11,6 @@ class ChallengesController < ApplicationController
   def show
   end
 
-
-
-
   def create
     # JSON Output Prompt, use JSON so output can be pardsed
     # This needs to be replaced with smarter logic later on, e.g. if user has completed

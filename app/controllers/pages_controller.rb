@@ -48,25 +48,10 @@ class PagesController < ApplicationController
       else
         @challenges.order(created_at: :desc).first
       end
-    # Vanessa: auto-generate a challenge if none exists yet (to get rid of generate challenge button)
+
     if @challenge.nil?
-      redirect_to level_challenges_path(@level), method: :post and return
+    
     end
-    #auto generate js (refactoring/ cleaner version would be in js controller)
-    document.addEventListener("turbo:load", () => {
-      const autoGenerate = document.querySelector('[data-auto-generate]');
-      if (autoGenerate) {
-        fetch(autoGenerate.dataset.url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
-          }
-        }).then(() => {
-          Turbo.visit(window.location.href);
-        });
-      }
-    });
-    # End Vanessa Code
 
     # parse prompt to define correct answer and choice numbers
     # convert to string
