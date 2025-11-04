@@ -3,17 +3,17 @@
 <head>
   <!-- Page title shown in browser tab -->
   <title>Magic Failed! (500) - Wealth Wizards</title>
-  
+
   <!-- Viewport meta tag - makes page responsive on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  
+
   <!-- Character encoding - tells browser how to interpret text -->
   <meta charset="utf-8">
-  
+
   <!-- Bootstrap CSS - loads Bootstrap 5.3 from CDN (Content Delivery Network) -->
   <!-- CDN means we don't need to download Bootstrap, it loads from the internet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+
   <!-- Custom CSS styles - matches our app's theme colors -->
   <style>
     /* CSS Custom Properties (variables) - define colors once, use everywhere */
@@ -144,32 +144,6 @@
       margin: 1rem 0;                            /* Space around alert */
       border-radius: 0.25rem;                    /* Rounded corners */
     }
-
-    /* Responsive design - styles for mobile devices (screens smaller than 768px) */
-    @media (max-width: 768px) {
-      /* Reduce padding on mobile */
-      main {
-        padding: 60px 20px 30px;
-      }
-
-      /* Stack links vertically on mobile */
-      .error-links a {
-        display: block;                          /* Each link on own line */
-        margin: 0.5rem 0;                       /* Vertical spacing */
-      }
-
-      /* Make buttons full width on mobile */
-      .btn-gold {
-        display: block;                          /* Button takes full width */
-        width: 100%;                             /* Full width */
-        margin: 0.5rem 0;                        /* Vertical spacing */
-      }
-
-      /* Smaller image on mobile */
-      .error-image {
-        max-width: 280px;
-      }
-    }
   </style>
 </head>
 
@@ -183,7 +157,7 @@
         <!-- Bootstrap columns - responsive width -->
         <!-- col-12 = full width on mobile, col-md-10 = 10/12 width on tablet, col-lg-8 = 8/12 width on desktop -->
         <div class="col-12 col-md-10 col-lg-8">
-          
+
           <!-- Error image - image already contains "500" text -->
           <div class="error-image-container text-center">
             <!-- Image tag - loads 500.png from assets folder -->
@@ -198,7 +172,7 @@
               <!-- h2 = heading level 2, mb-0 = margin-bottom 0 (Bootstrap utility) -->
               <h2 class="mb-0">The Magic Failed!</h2>
             </div>
-            
+
             <!-- Card body - main content -->
             <div class="card-body text-center">
               <!-- lead = Bootstrap class for larger text, mb-3 = margin-bottom (Bootstrap utility) -->
@@ -209,7 +183,7 @@
               <p class="mb-3">
                 Don't worry - your progress is safe! This is a temporary problem that we're resolving.
               </p>
-              
+
               <!-- Alert message - info box explaining what happened -->
               <!-- text-start = align text to left (Bootstrap utility), mb-4 = margin-bottom 4 -->
               <div class="error-alert text-start mb-4">
@@ -217,7 +191,7 @@
                 <strong>What happened?</strong><br>
                 The server encountered an unexpected error. This doesn't affect your saved data or progress.
               </div>
-              
+
               <!-- Navigation links - help users find their way back -->
               <div class="error-links mb-4">
                 <!-- Regular anchor tags - links to other pages -->
