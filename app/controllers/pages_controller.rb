@@ -20,6 +20,9 @@ class PagesController < ApplicationController
     # Check if user comes from landingpage to dashboard, if yes show overlay
     @show_overlay = params[:from] == "landing_continue"
 
+    # Show level completion overlay if level just changed
+    @show_level_up_overlay = params[:from] == "level_up"
+
     # Special case: Level 0 users starting their journey get Level 1 created and shown Level 1 overview page
     if @level&.name == "Level 0"
       # Get Level 1 definition from LevelsController
