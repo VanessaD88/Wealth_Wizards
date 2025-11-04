@@ -205,7 +205,8 @@ class ChallengesController < ApplicationController
           deduction_amount = 0
           new_balance = current_balance
         end
-        @deduction_amount = deduction_amount
+        @deduction_amount = deduction_amount # variable instantiation
+        flash[:deduction_amount] = deduction_amount # store deduction amount temporarily in flash to retrieve it in the Pages controller
       end
       user.update!(balance: new_balance)
     end

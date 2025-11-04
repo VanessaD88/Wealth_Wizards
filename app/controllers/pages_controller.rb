@@ -17,6 +17,9 @@ class PagesController < ApplicationController
     @user = current_user
     @level = @user.level
 
+    # Retrieve any deduction amount stored from the previous request
+    @deduction_amount = flash[:deduction_amount]
+
     # Check if user comes from landingpage to dashboard, if yes show overlay
     @show_overlay = params[:from] == "landing_continue"
 
