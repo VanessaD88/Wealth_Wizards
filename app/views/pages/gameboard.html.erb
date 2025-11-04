@@ -2,14 +2,28 @@
   <div class="container"
      data-controller="overlay-instructions"
      data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">
-    <!-- Conditional Overlay with instruction -->
+  <!-- Conditional Overlay with instruction -->
   <div id="game-overlay" class="overlay d-none">
     <div class="overlay-content text-center">
       <button class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close" data-action="click->overlay-instructions#hideOverlay"></button>
       <%= render "levels/overlay_instructions" %>
     </div>
   </div>
-    <!-- End of Overlay with instruction -->
+  <!-- End of Overlay with instruction -->
+
+  <!-- Conditional Overlay for level completion -->
+  <div id="level-up-overlay"
+        class="overlay d-none"
+        data-controller="overlay-level-up"
+        data-overlay-level-up-show-value="<%= @show_level_up_overlay ? 'true' : 'false' %>">
+    <div class="overlay-content text-center position-relative">
+      <button class="btn-close position-absolute top-0 end-0 m-3"
+              aria-label="Close"
+              data-action="click->overlay-level-up#hideOverlay"></button>
+      <%= render "levels/overlay_level_completion" %>
+    </div>
+  </div>
+  <!-- End of Overlay for level completion  -->
 
     <!-- Gameboard Content -->
     <div class="row justify-content-center">
@@ -34,75 +48,83 @@
                   <p class="text-muted mb-2"><%= @challenge.description %></p>
                 <% end %>
 
-                <div class="list-group">
-                  <%# Use the parsed challenge options to display answer options line by line%>
+               <div class="list-group">
+                <%# Use the parsed challenge options to display answer options line by line%>
                   <% @challenge_options.each do |number, text| %>
-                    <div class="list-group-item list-group-item-action d-flex align-items-start gap-3">
+                    <%# use form.label to ensure every row is clickable %>
+                    <%# the label is for challenge :choice attribute and gives the value: nubmer to each radio button (1,2,3,4) %>
+                    <%= form.label :choice, value: number, class: "list-group-item list-group-item-action d-flex align-items-start gap-3" do %>
                       <%= form.radio_button :choice, number,
-                            id: "option_#{number}",
                             class: "form-check-input mt-1" %>
-
-                      <label for="option_#{number}" class="form-check-label fw-medium mb-0 flex-grow-1">
+                      <div class="form-check-label fw-medium mb-0 flex-grow-1">
                         <span class="badge bg-success-subtle text-success-emphasis me-2">Option <%= number %></span>
                         <span><%= text %></span>
-                      </label>
-                    </div>
+                      </div>
+                    <% end %>
                   <% end %>
                 </div>
               </div>
-
             </div>
+
             <div class="card-footer d-flex justify-content-end mt-3">
-                <%# Disable button if feedback is already showing %>
-                <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
+              <%# Disable button if feedback is already showing %>
+              <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
             </div>
           <% end %>
 
-          <% if @show_answer_feedback %>
-            <div class="card-custom mt-4 shadow rounded-3">
-              <h5 class="card-header">Result</h5>
-              <div class="card-body">
-                <span class="badge mb-3 fs-6 px-3 py-2 <%= @answer_is_correct ? 'bg-success' : 'bg-danger' %>">
-                  <%= @answer_is_correct ? 'Correct' : 'Wrong Answer' %>
-                </span>
-                <p class="mb-3">
-                  <% if @answer_is_correct %>
-                    You have improved your decision making score and <strong> gained <%= @challenge.balance_impact.round %></strong> € budget.
-                  <% # Here we should implement logic on when to lose budget or we can remove it and only have decision points lost %>
-                  <% else %>
-                    <%# You have decreased your decision making score and lost <strong> 0</strong> € budget. Your decision-making score decreased to <strong><%= current_user.decision_score %>
-                      <% if @deduction_amount && @deduction_amount > 0 %>
-                          Your decision-making score decreased to <strong><%= current_user.decision_score %>%</strong> and you <strong>lost <%= @deduction_amount %>$</strong> of your savings.
-                        <% else %>
-                          Your decision-making score decreased to <strong><%= current_user.decision_score %>%</strong>, but you did not lose any money this time.
-                        <% end %>
-                  <% end %>
-                </p>
-                <h5 class="fw-semibold">The Correct Answer</h5>
-                <p class="text-muted mb-3">
-                  Option <%= @challenge.correct_answer %>
-                  <% if @correct_answer_text.present? %>
-                    – <%= @correct_answer_text %>
-                  <% end %>
+        <% end %>
 
-                </p>
-                <hr class="my-3">
-                <h6 class="fw-semibold">Feedback</h6>
-                <p class="text-muted mb-0"><%= @challenge.feedback %></p>
-              </div>
+        <% if @show_answer_feedback %>
+          <div class="card-custom gameboard-card mt-4 shadow rounded-3" id="feedback-card">
+            <h5 class="card-header mb-2">Result</h5>
+            <div class="card-body">
+              <span class="badge mb-3 fs-6 px-3 py-2 <%= @answer_is_correct ? 'bg-success' : 'bg-danger' %>">
+                <%= @answer_is_correct ? 'Correct' : 'Wrong Answer' %>
+              </span>
+              <p class="mb-3">
+                <% if @answer_is_correct %>
+                  You have improved your decision making score and <strong> gained <%= @challenge.balance_impact.round %></strong> € budget.
+                <% # Here we should implement logic on when to lose budget or we can remove it and only have decision points lost %>
+                <% else %>
+                  You have decreased your decision making score and lost <strong> 0</strong> € budget.
+                <% end %>
+              </p>
+              <h5 class="fw-semibold">The Correct Answer</h5>
+              <p class="text-muted mb-3">
+                Option <%= @challenge.correct_answer %>
+                <% if @correct_answer_text.present? %>
+                  – <%= @correct_answer_text %>
+                <% end %>
+              </p>
+              <hr class="my-3">
+              <h6 class="fw-semibold">Feedback</h6>
+              <p class="text-muted mb-0"><%= @challenge.feedback %></p>
             </div>
-          <% end %>
-
-          <div class="card-footer d-flex justify-content-end mt-3">
-          <% if @show_answer_feedback %>
-              <%= button_to "Continue your Journey",
-                    level_challenges_path(@level),
-                    method: :post,
-                    class: "btn button-gold px-4",
-                    form_class: "d-inline" %>
-            <% end %>
           </div>
 
+          <%# Changed to add toast to class (temporary notification) with some styles, triggered in JS script below %>
+          <div class="answer-toast <%= @answer_is_correct ? 'answer-toast--success' : 'answer-toast--failure' %> d-none"
+               data-role="answer-toast">
+            <%# Checkmark and x depending on %>
+            <span class="answer-toast__icon"><%= @answer_is_correct ? "✓" : "✗" %></span>
+            <%# Address user %>
+            <div>
+              <% if @answer_is_correct %>
+                <p>Congratulations <strong><%= current_user.username %></strong>, this answer is correct!</p>
+              <% else %>
+                <p>Unfortunately, <strong><%= current_user.username %></strong>, this answer is not correct.</p>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="card-footer d-flex justify-content-end mt-3">
+            <%= button_to "Continue your Journey",
+                  level_challenges_path(@level),
+                  method: :post,
+                  class: "btn button-gold px-4",
+                  form_class: "d-inline continue-journey-form",
+                  form: { data: { behavior: "continue-journey" } } %>
+          </div>
         <% end %>
 
         <%= button_to "Generate New Challenge",
@@ -112,4 +134,78 @@
       </div>
     </div>
   </div>
+
 </main>
+
+<%# d-none so its hidden, data-role assigned for stimulus %>
+<div class="journey-overlay d-none" data-role="journey-spinner">
+  <div class="wizard-spinner">
+    <div class="wizard-spinner__icon">
+      <div class="wizard-spinner__sparkle"></div>
+      <div class="wizard-spinner__coin"></div>
+      <div class="wizard-spinner__sparkle"></div>
+    </div>
+    <%# capiton for users%>
+    <p class="wizard-spinner__text">Conjuring your next challenge...</p>
+  </div>
+</div>
+
+<%# I used a script tag to have the JS directly on the page, we could refactor it and move it to a dedicated file if we want to be cleaner %>
+
+<script>
+  // Using turbo from hotwire, every time page is loaded
+  document.addEventListener("turbo:load", () => {
+    // select the loading spinners overlay (see role) and add d-none to ensure it is hidden, for e.g. when user clicks back
+    const overlay = document.querySelector('[data-role="journey-spinner"]');
+    if (overlay) overlay.classList.add("d-none");
+
+    // Select the continue-journey form
+    const continueForm = document.querySelector('[data-behavior="continue-journey"]');
+    // if element exists, check for submit, if submit is clicked make the journey spinner visible
+    if (continueForm) {
+      continueForm.addEventListener("submit", () => {
+        const spinner = document.querySelector('[data-role="journey-spinner"]');
+        if (spinner) spinner.classList.remove("d-none");
+
+        // and disable submit button
+        const submitButton = continueForm.querySelector('button[type="submit"], input[type="submit"]');
+        if (submitButton) submitButton.disabled = true;
+      });
+    }
+
+    // if feedabck card is rendered, scrollIntoView
+    const feedbackCard = document.getElementById("feedback-card");
+    const toast = document.querySelector('[data-role="answer-toast"]');
+
+    const revealToast = () => {
+      // only trigger if toast is there (see above)
+      if (!toast) return;
+      toast.classList.remove("d-none");
+      // Hide the toast after some time
+      window.setTimeout(() => {
+        toast.classList.add("answer-toast--hidden");
+      }, 2500);
+    };
+
+    if (feedbackCard) {
+      // this tells the browser we want to to animate something, its needed for some animations
+      requestAnimationFrame(() => {
+        // of the shelf JS function to move the screen downwards
+        feedbackCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+        requestAnimationFrame(revealToast);
+      });
+    } else {
+      revealToast();
+    }
+  });
+
+  // Before turbo caches the page hide overlay so it stays invisible on revisit
+  document.addEventListener("turbo:before-cache", () => {
+    const overlay = document.querySelector('[data-role="journey-spinner"]');
+    if (overlay) overlay.classList.add("d-none");
+    // Remove the toast from DOM before caching so it stays invisible on revisit
+    const toast = document.querySelector('[data-role="answer-toast"]');
+    if (toast) toast.remove();
+  });
+
+</script>
