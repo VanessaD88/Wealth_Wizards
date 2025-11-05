@@ -63,3 +63,21 @@
    <%= link_to "Continue Your Journey", pages_gameboard_path , class: "btn btn-primary btn-lg mt-3" %>
   </div>
 </main>
+
+<!-- Test view charts -->
+<div class="container mt-4">
+  <h2>Your Progress</h2>
+
+  <div class="mb-4">
+    <canvas class="progress-chart" data-level="1" data-balance="<%= current_user.balance %>"></canvas>
+  </div>
+
+  <div class="mb-4">
+    <canvas class="progress-chart" data-level="2" data-balance="<%= current_user.balance %>"></canvas>
+  </div>
+
+  <div class="mb-4">
+    <canvas class="progress-chart" data-level="3" data-balance="<%= current_user.balance %>"></canvas>
+  </div>
+</div>
+
