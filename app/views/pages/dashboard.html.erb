@@ -7,11 +7,21 @@
         <%= @user.username %>'s Achievements</h1>
       </div>
     </div>
-    <div class="row align-items-start">
-      <!-- Level, Savings, Decision-making underneatch Avatar and Unsername-->
-      <div class="col card-header d-flex justify-content-center align-items-center">
 
-      </div>
+    <div class="row align-items-start">
+        <!-- Total Savings -->
+        <div class="mb-2 text-center">
+          <p class="mb-0"> 💰 Total savings: <%= number_with_delimiter(@user.balance, delimiter: ",", separator: ".") %> $</p>
+        </div>
+        <div class="text-center">
+          <p class="mb-0"> ✍🏽 You completed <%= @user.decision_score %> challenges so far </p>
+        </div>
+        <!-- Decision-making Score -->
+        <div class="text-center">
+          <p class="mb-0"> ✅ <%= @user.decision_score %> % of your choices were correct </p>
+        </div>
+
+
     </div>
 
     <div class="row align-items-center mb-5">
