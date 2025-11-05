@@ -1,4 +1,20 @@
 class CreateService
+  class Result
+    # Object to report service outcome back to controllers, success is defined as an explicit method below, so no attribute reader
+    attr_reader :challenge, :reason
+
+    def initialize(success:, challenge: nil, reason: nil)
+      # define the attributes to be passed, was it succesful, what is the challenge, what is the failure reason
+      @success = success
+      @challenge = challenge
+      @reason = reason
+    end
+
+    # define using boolean Ruby (with ?) to pass boolean value to controller
+    def success?
+      @success
+    end
+  end
 
   def call(current_user)
     @level = current_user.level
@@ -26,14 +42,15 @@ class CreateService
               - difficulty == 3: 1500 - 2000
           - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
 
-          Example of a valid "challenge_prompt" format:
-          "What is the best way to start building an emergency fund?
-          1. Invest all your money in cryptocurrency.
-          2. Open a dedicated high-yield savings account.
-          3. Buy a new luxury car on finance.
-          4. Pay off all student debt before saving anything."
 
-          Example of a valid "choice" for the above prompt: 2
+          Example of a valid "challenge_prompt" format for level 3:
+            "If inflation is 3% and your savings account earns 1%, what’s happening to your money’s value?"
+            1. It’s growing faster than inflation.
+            2. It stays the same.
+            3. It’s losing purchasing power.
+            4. It doubles every year.
+
+            Example of a valid "choice" for the above prompt: 3
 
           JSON:
         PROMPT
@@ -44,11 +61,16 @@ class CreateService
         ai_content = ai_reply.content
         challenge_data = JSON.parse(ai_content)
 
-        # Redirect to the gameboard page
-        # if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
-        #   redirect_to level_challenges_path(@level)
-        #   return
-        # end
+        if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
+          # is either description or challenge_prompt missing, if yes, save result with error reason
+          return Result.new(success: false, reason: :incomplete_payload)
+        end
+
+        # Check, if prompt contains numbered option, as the lack of them breaks the regexp to create the answer options
+        option_count = challenge_data["challenge_prompt"].to_s
+                         .split("\n")
+                         .count { |line| line.strip.match?(/^\d+\.\s/) }
+        return Result.new(success: false, reason: :missing_options) if option_count.zero?
 
         # Create new challenge with parsed data
         @challenge = @level.challenges.new(
@@ -62,6 +84,8 @@ class CreateService
           feedback: challenge_data["feedback"],
           completion_status: false
         )
+        # If everything worked, pass to the controller with success = true and pass the challenge
+        Result.new(success: true, challenge: @challenge)
   end
 
   private

@@ -12,10 +12,28 @@ class ChallengesController < ApplicationController
   end
 
   def create
-    @challenge = CreateService.new.call(current_user)
-    if @challenge.save
-      redirect_to pages_gameboard_path
+    # Create a result variable to be able to check detailed challenge before saving, rather than object existence
+    result = CreateService.new.call(current_user)
+
+    # the success attribute is defined in create_service and checked here
+    if result.success?
+
+      # Define the new challenge (as in code before, just nested in result variable)
+      @challenge = result.challenge
+      if @challenge.save
+        # Send user back, as before
+        redirect_to pages_gameboard_path
+      else
+        # Validation error if fails (see lectures)
+        render :new, status: :unprocessable_entity
+      end
+    # check for reason, defined in create_service
+    elsif [:incomplete_payload, :missing_options].include?(result.reason)
+      # If payload is incomplete, do another post to generate challenge again
+      redirect_to level_challenges_path(@level), status: :temporary_redirect
     else
+      # keep the unhappy path, in case any other error comes so if statements don't break the code
+      @challenge = result.challenge
       render :new, status: :unprocessable_entity
     end
   end
