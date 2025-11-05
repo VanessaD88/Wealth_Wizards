@@ -8,50 +8,55 @@
       </div>
     </div>
 
-    <div class="row align-items-start">
+    <div class="row align-items-start mb-3">
         <!-- Total Savings -->
-        <div class="mb-2 text-center">
-          <p class="mb-0"> 💰 Total savings: <%= number_with_delimiter(@user.balance, delimiter: ",", separator: ".") %> $</p>
+        <div class="mb-1 text-center">
+          <p class="mb-0"> 💰 You have <strong><%= number_with_delimiter(@user.balance, delimiter: ",", separator: ".") %>$</strong> savings</p>
         </div>
-        <div class="text-center">
-          <p class="mb-0"> ✍🏽 You completed <%= @user.decision_score %> challenges so far </p>
+        <div class="mb-1 text-center">
+          <p class="mb-0"> ✍🏽 You completed <%= @user.level.challenges.count %> challenges in level
+          <% level_name = @user.level.name %>
+          <% if level_name.include?("1") %>
+            1
+          <% elsif level_name.include?("2") %>
+            2
+          <% elsif level_name.include?("3") %>
+            3
+          <% else %>
+            0
+          <% end %>
+        </p>
         </div>
         <!-- Decision-making Score -->
-        <div class="text-center">
-          <p class="mb-0"> ✅ <%= @user.decision_score %> % of your choices were correct </p>
+        <div class="mb-1 text-center">
+          <p class="mb-0"> ✅ <%= @user.decision_score.to_i %>% of your choices were correct </p>
         </div>
-
-
     </div>
 
     <div class="row align-items-center mb-5">
-      <!-- Center Column: Level, Savings, Decision-making -->
-      <div class="col-md-11 d-flex flex-column justify-content-center align-items-center text-center">
-        <!-- Current Level -->
-        <div class="mb-3 text-center">
-          <% level_name = @user.level.name %>
-          <% if level_name.include?("1") %>
-            <strong>Currently in Level 1</strong>
-          <% elsif level_name.include?("2") %>
-            <strong>Currently in Level 2</strong>
-          <% elsif level_name.include?("3") %>
-            <strong>Currently in Level 3</strong>
-          <% else %>
-            <strong>Game not started yet</strong>
-          <% end %>
-        </div>
-        <!-- Total Savings -->
-        <div class="mb-2 text-center">
-          <h5 class="mb-1">💰 Total savings</h5>
-          <p class="mb-0">  <%= number_with_delimiter(@user.balance, delimiter: ",", separator: ".") %> $</p>
-        </div>
-        <!-- Decision-making Score -->
-        <div class="text-center">
-          <h5 class="mb-1">✅ Decision-making</h5>
-          <p class="mb-0"><%= @user.decision_score %> %</p>
-        </div>
-      </div>
+      <!-- Level 1,2,3 Progress Bar -->
+      <div data-controller="chart" class="col-md-11 d-flex flex-column justify-content-center align-items-center text-center">
+          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+            <canvas data-chart-target="level" data-level="1"
+                    data-user-balance="<%= current_user.balance %>"
+                    data-user-level="<%= current_user.level.name %>">
+            </canvas>
+          </div>
 
+          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+            <canvas data-chart-target="level" data-level="2"
+                    data-user-balance="<%= current_user.balance %>"
+                    data-user-level="<%= current_user.level.name %>">
+            </canvas>
+          </div>
+
+          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+            <canvas data-chart-target="level" data-level="3"
+                    data-user-balance="<%= current_user.balance %>"
+                    data-user-level="<%= current_user.level.name %>">
+            </canvas>
+          </div>
+      </div>
       <!-- Right Column: Level Icons -->
       <div class="col-md-1 card-text d-flex flex-column align-items-end"
           data-controller="levels"
@@ -73,31 +78,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Chart test -->
-    <div class="container mt-4" data-controller="chart">
-      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-        <canvas data-chart-target="level" data-level="1"
-                data-user-balance="<%= current_user.balance %>"
-                data-user-level="<%= current_user.level.name %>">
-        </canvas>
-      </div>
-
-      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-        <canvas data-chart-target="level" data-level="2"
-                data-user-balance="<%= current_user.balance %>"
-                data-user-level="<%= current_user.level.name %>">
-        </canvas>
-      </div>
-
-      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-        <canvas data-chart-target="level" data-level="3"
-                data-user-balance="<%= current_user.balance %>"
-                data-user-level="<%= current_user.level.name %>">
-        </canvas>
-      </div>
-    </div>
-    <!-- End Chart test -->
   </div>
 
   <!-- Continue Button -->

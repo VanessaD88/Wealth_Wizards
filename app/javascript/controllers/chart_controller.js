@@ -32,7 +32,7 @@ export default class extends Controller {
       if (level === 3) {
         if (["1","2"].some(n => levelName.includes(n))) progress = 0
         else if (levelName.includes("3")) progress = Math.min(((balance - 30000) / 10000) * 100, 100)
-        else if (levelName.includes("4")) progress = 100
+        else if (levelName.includes("complete")) progress = 100
       }
 
       console.log(`Level ${level} progress:`, progress)
