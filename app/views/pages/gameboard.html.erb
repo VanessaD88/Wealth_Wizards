@@ -2,16 +2,12 @@
   <div class="container"
      data-controller="overlay-instructions"
      data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">
-  <!-- Conditional Overlay with instruction -->
   <div id="game-overlay" class="overlay d-none">
     <div class="overlay-content text-center">
       <button class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close" data-action="click->overlay-instructions#hideOverlay"></button>
       <%= render "levels/overlay_instructions" %>
     </div>
   </div>
-  <!-- End of Overlay with instruction -->
-
-  <!-- Conditional Overlay for level completion -->
   <div id="level-up-overlay"
         class="overlay d-none"
         data-controller="overlay-level-up"
@@ -23,31 +19,27 @@
       <%= render "levels/overlay_level_completion" %>
     </div>
   </div>
-  <!-- End of Overlay for level completion  -->
-
-    <!-- Gameboard Content -->
-    <div class="row justify-content-center">
+  <div class="row justify-content-center">
       <div class="col-md-8">
         <%# Check if there is a challenge object to render %>
         <% if @challenge %>
           <h2 class="display-5 fw-bold mb-3"><%= @challenge.title %></h2>
           <p class="lead mb-4">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %>| Budget Impact: <%= @challenge.balance_impact.round%></p>
-
+          <% unless @show_answer_feedback %>
           <%# Create form based on challenge model%>
-          <%= form_with model: @challenge,
-                        # the select_choice_challenge_path is created in the member do section of routes
-                        # set URL to the patch one, so challenge choice gets updated
-                        url: select_choice_challenge_path(@challenge),
-                        method: :patch,
-                        local: true do |form| %>
+            <%= form_with model: @challenge,
+                          # the select_choice_challenge_path is created in the member do section of routes
+                          # set URL to the patch one, so challenge choice gets updated
+                          url: select_choice_challenge_path(@challenge),
+                          method: :patch,
+                          local: true do |form| %>
 
-            <div class="card-custom shadow rounded-3">
-              <h5 class="card-header">Task</h5>
-              <div class="card-body">
-                <% if @challenge.description.present? %>
-                  <p class="text-muted mb-2"><%= @challenge.description %></p>
-                <% end %>
-
+              <div class="card-custom shadow rounded-3">
+                <h5 class="card-header">Task</h5>
+                <div class="card-body">
+                  <% if @challenge.description.present? %>
+                    <p class="text-muted mb-2"><%= @challenge.description %></p>
+                  <% end %>
                <div class="list-group">
                 <%# Use the parsed challenge options to display answer options line by line%>
                   <% @challenge_options.each do |number, text| %>
@@ -64,9 +56,10 @@
                   <% end %>
                 </div>
               </div>
-            </div>
 
-            <div class="card-footer d-flex justify-content-end mt-3">
+
+          </div>
+          <div class="card-footer d-flex justify-content-end mt-3">
               <%# Disable button if feedback is already showing %>
               <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
             </div>
@@ -131,6 +124,8 @@
                   form: { data: { behavior: "continue-journey" } } %>
           </div>
         <% end %>
+
+        <% end %>
       </div>
     </div>
   </div>
@@ -152,12 +147,24 @@
 
 <%# I used a script tag to have the JS directly on the page, we could refactor it and move it to a dedicated file if we want to be cleaner %>
 
+<%# Hidden audio element used by the spinner to play the coin sound effect %>
+<%= audio_tag "coin_sound.mp3",
+              id: "coin-sound",
+              preload: "auto",
+              class: "d-none" %>
+
 <script>
   // Using turbo from hotwire, every time page is loaded
   document.addEventListener("turbo:load", () => {
     // select the loading spinners overlay (see role) and add d-none to ensure it is hidden, for e.g. when user clicks back
     const overlay = document.querySelector('[data-role="journey-spinner"]');
     if (overlay) overlay.classList.add("d-none");
+    // Cache the coin audio so we can trigger it when the spinner appears
+    const coinSound = document.getElementById("coin-sound");
+    // Stop any residual playback on load in case we navigated back mid-loop
+    if (coinSound) {
+      coinSound.pause();
+    }
 
     // Select the continue-journey form
     const continueForm = document.querySelector('[data-behavior="continue-journey"]');
@@ -166,6 +173,13 @@
       continueForm.addEventListener("submit", () => {
         const spinner = document.querySelector('[data-role="journey-spinner"]');
         if (spinner) spinner.classList.remove("d-none");
+        // Attempt to play the coin audio whenever the spinner becomes visible
+        if (coinSound) {
+          coinSound.currentTime = 0;
+          coinSound.play().catch(() => {
+            // Ignore autoplay rejections silently
+          });
+        }
 
         // and disable submit button
         const submitButton = continueForm.querySelector('button[type="submit"], input[type="submit"]');
@@ -188,12 +202,7 @@
     };
 
     if (feedbackCard) {
-      // this tells the browser we want to to animate something, its needed for some animations
-      requestAnimationFrame(() => {
-        // of the shelf JS function to move the screen downwards
-        feedbackCard.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
         requestAnimationFrame(revealToast);
-      });
     } else {
       revealToast();
     }
@@ -206,6 +215,12 @@
     // Remove the toast from DOM before caching so it stays invisible on revisit
     const toast = document.querySelector('[data-role="answer-toast"]');
     if (toast) toast.remove();
+    // Pause and reset the coin audio so it doesn't bleed into future visits
+    const coinSound = document.getElementById("coin-sound");
+    if (coinSound) {
+      coinSound.pause();
+      coinSound.currentTime = 0;
+    }
   });
 
 </script>

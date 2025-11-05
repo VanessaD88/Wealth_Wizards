@@ -60,7 +60,7 @@ class PagesController < ApplicationController
       begin
         result = CreateService.new.call(current_user)
         attempts += 1
-      end while result && !result.success? && result.reason == :incomplete_payload && attempts < 3
+      end while result && !result.success? && [:incomplete_payload, :missing_options].include?(result.reason) && attempts < 3
 
       if result&.success?
         @challenge = result.challenge
@@ -71,8 +71,8 @@ class PagesController < ApplicationController
         else
           render :new, status: :unprocessable_entity
         end
-      elsif result&.reason == :incomplete_payload
-        # Give control back to the controller workflow to retrigger the POST
+      elsif [:incomplete_payload, :missing_options].include?(result&.reason)
+        # Give control back to the controller workflow to retrigger the POST when prompt data is unusable
         redirect_to level_challenges_path(@level), status: :temporary_redirect and return
       else
         # Display validation errors from whatever the service returned

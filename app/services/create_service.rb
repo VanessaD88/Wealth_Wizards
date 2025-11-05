@@ -40,14 +40,15 @@ class CreateService
               - difficulty == 3: 1500 - 2000
           - "feedback": A detailed explanation of why the correct choice is the best answer and why the others are incorrect.
 
-          Example of a valid "challenge_prompt" format:
-          "What is the best way to start building an emergency fund?
-          1. Invest all your money in cryptocurrency.
-          2. Open a dedicated high-yield savings account.
-          3. Buy a new luxury car on finance.
-          4. Pay off all student debt before saving anything."
 
-          Example of a valid "choice" for the above prompt: 2
+          Example of a valid "challenge_prompt" format for level 3:
+            "If inflation is 3% and your savings account earns 1%, what’s happening to your money’s value?"
+            1. It’s growing faster than inflation.
+            2. It stays the same.
+            3. It’s losing purchasing power.
+            4. It doubles every year.
+
+            Example of a valid "choice" for the above prompt: 3
 
           JSON:
         PROMPT
@@ -62,6 +63,12 @@ class CreateService
           # Tell the caller to regenerate when essential fields are missing
           return Result.new(success: false, reason: :incomplete_payload)
         end
+
+        # Ensure the prompt actually contains numbered answer options
+        option_count = challenge_data["challenge_prompt"].to_s
+                         .split("\n")
+                         .count { |line| line.strip.match?(/^\d+\.\s/) }
+        return Result.new(success: false, reason: :missing_options) if option_count.zero?
 
         # Create new challenge with parsed data
         challenge = @level.challenges.new(

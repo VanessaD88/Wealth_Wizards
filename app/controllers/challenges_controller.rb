@@ -22,8 +22,8 @@ class ChallengesController < ApplicationController
       else
         render :new, status: :unprocessable_entity
       end
-    elsif result.reason == :incomplete_payload
-      # Retry the POST end-to-end so the service runs again with fresh LLM output
+    elsif [:incomplete_payload, :missing_options].include?(result.reason)
+      # Retry the POST end-to-end so the service runs again with fresh LLM output or missing options
       redirect_to level_challenges_path(@level), status: :temporary_redirect
     else
       # Fall back to rendering errors for any other unexpected failure
