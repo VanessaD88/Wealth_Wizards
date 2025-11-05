@@ -10,10 +10,18 @@ users = [
   { username: "SageSaver", email: "sage@example.com", balance: 1500, decision_score: 75},
   { username: "MoneyMaven", email: "maven@example.com", balance: 1800, decision_score: 82},
   { username: "InvestorIvy", email: "ivy@example.com", balance: 5000, decision_score: 90},
-
   { username: "PassivePete", email: "pete@example.com", balance: 4200, decision_score: 84},
   { username: "StreamQueen", email: "stream@example.com", balance: 100000, decision_score: 95},
   { username: "RiskRanger", email: "ranger@example.com", balance: 8500, decision_score: 89}
+
+  { username: "Moonmuffin", email: "moonmuffin@mail.com", balance: 29950, decision_score: 30},
+  { username: "Hexalot", email: "hex@mail.com", balance: 29950, decision_score: 30},
+  { username: "Fizzlebang ", email: "fizzle@mail.com ", balance: 29950, decision_score: 30},
+  { username: "HocusBrokus", email: "hocusbrokus@mail.com", balance: 29950, decision_score: 30},
+  { username: "ProfitusMaxima", email: "profitusmaxima@mail.com", balance: 29950, decision_score: 30},
+  { username: "AccioAssets", email: "accioassets@mail.com", balance: 29950, decision_score: 30},
+  { username: "Budgetbasilisk", email: "budgetbasilisk@mail.com", balance: 29950, decision_score: 30},
+  { username: "GalleonGuru", email: "galleonguru@mail.com", balance: 29950, decision_score: 30}
 ]
 
 users.each do |user_data|
