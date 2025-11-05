@@ -5,9 +5,17 @@ Rails.application.config.assets.version = "1.0"
 
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
+Rails.application.config.assets.paths << Rails.root.join("app", "assets", "sounds") # expose audio assets
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w(bootstrap.min.js popper.js)
+
+# Pre-load the coin sounds so they can be played in the browser
+Rails.application.config.assets.precompile += %w(
+  coin_sound.mp3
+  coin_sound_1.mp3
+  coin_sound_2.mp3
+) # ensure each spinner audio clip is compiled
