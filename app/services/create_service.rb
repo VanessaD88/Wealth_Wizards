@@ -36,7 +36,7 @@ class CreateService
           - "challenge_prompt": The main question or scenario. This prompt MUST include four numbered answer options (e.g., "1. Do this \n 2. Do that...").
           - "description": A short paragraph providing more story or context (can be an empty string if not needed).
           - "correct_answer": The integer number (1, 2, 3, or 4) corresponding to the correct answer option in the challenge_prompt.
-          - "balance_impact": A positive integer (in Euros) representing the financial consequence of a *correct* choice. This value MUST be within the range corresponding to the 'difficulty' integer:
+          - "balance_impact": A positive integer (in $) representing the financial consequence of a *correct* choice. This value MUST be within the range corresponding to the 'difficulty' integer:
               - difficulty == 1: 500 - 1000
               - difficulty == 2: 1000 - 1500
               - difficulty == 3: 1500 - 2000

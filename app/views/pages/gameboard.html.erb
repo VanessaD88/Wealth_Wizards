@@ -89,7 +89,7 @@
               </span>
               <p class="mb-3">
                 <% if @answer_is_correct %>
-                  You have improved your decision making score and <strong> gained <%= @challenge.balance_impact.round %></strong> € budget.
+                  You have improved your decision making score and <strong> gained <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %></strong> $ budget.
                 <% # Here we should implement logic on when to lose budget or we can remove it and only have decision points lost %>
                 <% else %>
                   <%# You have decreased your decision making score and lost <strong> 0</strong> € budget. %>
