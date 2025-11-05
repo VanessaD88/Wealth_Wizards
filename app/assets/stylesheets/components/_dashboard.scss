@@ -5,6 +5,7 @@
   position: relative; // needed for pseudo-element positioning
   overflow: hidden;
   max-width: 900px;
+  padding: 1rem 1.5rem; // equal left/right padding
 
   &::before {
     content: "";
@@ -28,6 +29,7 @@
     padding-bottom: 0rem;
     border-bottom: none;
     margin: 15px;
+    margin-bottom: 0px;
   }
 
   .card-text {
@@ -41,8 +43,8 @@
 // Icons for level
 
 .level-icon {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   position: relative;
   display: inline-block;
 }
@@ -64,4 +66,10 @@
   opacity: 0;
   pointer-events: none;
 }
+}
+
+.card-level {
+  border: 1px solid $gold; // or $gold for a warmer tone
+  border-radius: 0.4rem; // slightly smaller than card
+  padding: 1.5rem;
 }
