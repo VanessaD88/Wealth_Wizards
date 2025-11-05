@@ -1,6 +1,6 @@
 class CreateService
   class Result
-    # Object to report service outcome back to controllers
+    # Object to report service outcome back to controllers, success is defined as an explicit method below, so no attribute reader
     attr_reader :challenge, :reason
 
     def initialize(success:, challenge: nil, reason: nil)
@@ -10,6 +10,7 @@ class CreateService
       @reason = reason
     end
 
+    # define using boolean Ruby (with ?) to pass boolean value to controller
     def success?
       @success
     end
@@ -72,7 +73,7 @@ class CreateService
         return Result.new(success: false, reason: :missing_options) if option_count.zero?
 
         # Create new challenge with parsed data
-        challenge = @level.challenges.new(
+        @challenge = @level.challenges.new(
           title: challenge_data["title"],
           category: challenge_data["category"],
           difficulty: difficulty,
@@ -84,7 +85,7 @@ class CreateService
           completion_status: false
         )
         # If everything worked, pass to the controller with success = true and pass the challenge
-        Result.new(success: true, challenge: challenge)
+        Result.new(success: true, challenge: @challenge)
   end
 
   private

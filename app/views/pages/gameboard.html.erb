@@ -1,13 +1,24 @@
 <main>
+  <%# Prepare the available coin sounds %>
+  <% coin_sound_sources = [
+       asset_path("coin_sound.mp3"),
+       asset_path("coin_sound_1.mp3"),
+       asset_path("coin_sound_2.mp3")
+     ] %>
+
   <div class="container"
      data-controller="overlay-instructions"
      data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">
+  <!-- Conditional Overlay with instruction -->
   <div id="game-overlay" class="overlay d-none">
     <div class="overlay-content text-center">
       <button class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close" data-action="click->overlay-instructions#hideOverlay"></button>
       <%= render "levels/overlay_instructions" %>
     </div>
   </div>
+  <!-- End of Overlay with instruction -->
+
+  <!-- Conditional Overlay for level completion -->
   <div id="level-up-overlay"
         class="overlay d-none"
         data-controller="overlay-level-up"
@@ -19,6 +30,7 @@
       <%= render "levels/overlay_level_completion" %>
     </div>
   </div>
+  <!-- End of Overlay for level completion  -->
   <div class="row justify-content-center">
       <div class="col-md-8">
         <%# Check if there is a challenge object to render %>
@@ -147,8 +159,17 @@
 
 <%# I used a script tag to have the JS directly on the page, we could refactor it and move it to a dedicated file if we want to be cleaner %>
 
-<%# Load the coin-sound to be able to play it when the wizard spinner is shown (see below) %>
-<%= audio_tag "coin_sound.mp3",
+<%# Provide the list of coin sound assets so JS can pick one at runtime %>
+<%# use content_tag , remember from the lecture to generate the divs with audio for JS to chose from in the later function %>
+<%= content_tag :div, "",
+                id: "coin-sound-sources",
+                # the JSON‑encoded array of coin sound URLs, making that list available on the DOM node
+                data: { sources: coin_sound_sources.to_json },
+                # ensure it isn't shown
+                class: "d-none" %>
+
+<%# Hidden audio element used by the spinner to play randomized coin sounds once %>
+<%= audio_tag coin_sound_sources.first,
               id: "coin-sound",
               preload: "auto",
               class: "d-none" %>
@@ -159,12 +180,12 @@
     // select the loading spinners overlay (see role) and add d-none to ensure it is hidden, for e.g. when user clicks back
     const overlay = document.querySelector('[data-role="journey-spinner"]');
     if (overlay) overlay.classList.add("d-none");
-    // Cache the coin audio so we can trigger it when the spinner appears
+    // Cache coin audio so it can be triggered instantly
     const coinSound = document.getElementById("coin-sound");
-    // Stop any residual playback on load in case we navigated back mid-loop
-    if (coinSound) {
-      coinSound.pause();
-    }
+    // Parse available sound sources so we can randomize the clip
+    const coinSoundSourceNode = document.getElementById("coin-sound-sources");
+    const coinSoundSources = coinSoundSourceNode ? JSON.parse(coinSoundSourceNode.dataset.sources || "[]") : [];
+
 
     // Select the continue-journey form
     const continueForm = document.querySelector('[data-behavior="continue-journey"]');
@@ -173,12 +194,23 @@
       continueForm.addEventListener("submit", () => {
         const spinner = document.querySelector('[data-role="journey-spinner"]');
         if (spinner) spinner.classList.remove("d-none"); // reveal the loading overlay
-        // Play coin audio whenever the spinner becomes visible
-        if (coinSound) { // ensure the audio element exists before touching it
-          coinSound.currentTime = 0; // restart the clip so each trigger starts from the beginning
+        // Check if exists and play coin audio whenever the spinner becomes visible
+        if (coinSound) {
+          if (coinSoundSources.length > 0) {
+            // Pick a random sound for this spin and reload it
+            const randomIndex = Math.floor(Math.random() * coinSoundSources.length);
+            const randomSource = coinSoundSources[randomIndex];
+            if (coinSound.src !== randomSource) {
+              coinSound.src = randomSource;
+              coinSound.load();
+            }
+          }
+          // restart the audio every time when triggered
+          coinSound.currentTime = 0;
           // play the sound, the catch here is to catch exceptions and "swallow" them, so they don't surface
           // e.g. in the DOM, it helpful as many browsers may surpress autoplay depending on settings and could break the flow
           coinSound.play().catch(() => {
+            // Ignore autoplay rejections silently
           });
         }
 
