@@ -1,5 +1,13 @@
 <main>
+  <!-- Start: Gold Rain -->
   <div class="container my-4 text-center">
+    <div data-controller="gold-rain"
+     data-gold-rain-mode-value="fullscreen"
+     data-gold-rain-duration-value="5000"
+     data-gold-rain-intensity-value="2"
+     data-gold-rain-auto-trigger-value="true">
+    </div>
+    <!-- End: Gold Rain -->
     <h1 class= mb-5>Welcome to the world of Wealth Wizards!</h1>
     <%= image_tag "icon_level1.png", alt: "Level 1", class: "img-fluid mb-3", style: "max-width: 150px;" %>
     <%= image_tag "icon_level2.png", alt: "Level 2", class: "img-fluid mb-3", style: "max-width: 150px;" %>
@@ -8,7 +16,6 @@
     <p>Hit each level’s goal to unlock the next and watch your wealth soar!</p>
     <h5 class= mt-5>Ready to begin your financial Journey?</h5>
     <div class="mt-5">
-        <%# <%= link_to "Continue", pages_gameboard_path, class: "btn btn-lg btn-primary" %>
         <%= link_to "Start Level 1", pages_gameboard_path(from: "landing_continue"), class: "btn btn-lg btn-primary" %>
     </div>
   </div>
