@@ -147,7 +147,7 @@
 
 <%# I used a script tag to have the JS directly on the page, we could refactor it and move it to a dedicated file if we want to be cleaner %>
 
-<%# Hidden audio element used by the spinner to play the coin sound effect %>
+<%# Load the coin-sound to be able to play it when the wizard spinner is shown (see below) %>
 <%= audio_tag "coin_sound.mp3",
               id: "coin-sound",
               preload: "auto",
@@ -172,12 +172,13 @@
     if (continueForm) {
       continueForm.addEventListener("submit", () => {
         const spinner = document.querySelector('[data-role="journey-spinner"]');
-        if (spinner) spinner.classList.remove("d-none");
-        // Attempt to play the coin audio whenever the spinner becomes visible
-        if (coinSound) {
-          coinSound.currentTime = 0;
+        if (spinner) spinner.classList.remove("d-none"); // reveal the loading overlay
+        // Play coin audio whenever the spinner becomes visible
+        if (coinSound) { // ensure the audio element exists before touching it
+          coinSound.currentTime = 0; // restart the clip so each trigger starts from the beginning
+          // play the sound, the catch here is to catch exceptions and "swallow" them, so they don't surface
+          // e.g. in the DOM, it helpful as many browsers may surpress autoplay depending on settings and could break the flow
           coinSound.play().catch(() => {
-            // Ignore autoplay rejections silently
           });
         }
 

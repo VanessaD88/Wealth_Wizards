@@ -12,4 +12,6 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "sound
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w(bootstrap.min.js popper.js)
+
+# Pre-load the coin sound, so it can be played in the browser
 Rails.application.config.assets.precompile += %w(coin_sound.mp3) # ensure coin audio is compiled

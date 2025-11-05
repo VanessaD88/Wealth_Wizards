@@ -1,9 +1,10 @@
 class CreateService
   class Result
-    # Lightweight value object to report service outcome back to controllers
+    # Object to report service outcome back to controllers
     attr_reader :challenge, :reason
 
     def initialize(success:, challenge: nil, reason: nil)
+      # define the attributes to be passed, was it succesful, what is the challenge, what is the failure reason
       @success = success
       @challenge = challenge
       @reason = reason
@@ -60,11 +61,11 @@ class CreateService
         challenge_data = JSON.parse(ai_content)
 
         if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
-          # Tell the caller to regenerate when essential fields are missing
+          # is either description or challenge_prompt missing, if yes, save result with error reason
           return Result.new(success: false, reason: :incomplete_payload)
         end
 
-        # Ensure the prompt actually contains numbered answer options
+        # Check, if prompt contains numbered option, as the lack of them breaks the regexp to create the answer options
         option_count = challenge_data["challenge_prompt"].to_s
                          .split("\n")
                          .count { |line| line.strip.match?(/^\d+\.\s/) }
@@ -82,7 +83,7 @@ class CreateService
           feedback: challenge_data["feedback"],
           completion_status: false
         )
-        # Return the unsaved challenge so the controller owns persistence
+        # If everything worked, pass to the controller with success = true and pass the challenge
         Result.new(success: true, challenge: challenge)
   end
 
