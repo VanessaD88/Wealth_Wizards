@@ -35,8 +35,8 @@
       <div class="col-md-8">
         <%# Check if there is a challenge object to render %>
         <% if @challenge %>
-          <h2 class="display-5 fw-bold mb-3"><%= @challenge.title %></h2>
-          <p class="lead mb-4">Category: <%= @challenge.category %> | Difficulty: <%= @challenge.difficulty %>| Budget Impact: <%= @challenge.balance_impact.round%></p>
+          <h4 class="display-5 fw-bold mb-3"><%= @challenge.title %></h4>
+          <p class="lead mb-4"> 🔤 Category: <%= @challenge.category %> | 🤓 Difficulty: <%= @challenge.difficulty %>| 💰 Budget Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$</p>
           <% unless @show_answer_feedback %>
           <%# Create form based on challenge model%>
             <%= form_with model: @challenge,
