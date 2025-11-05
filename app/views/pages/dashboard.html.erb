@@ -35,6 +35,7 @@
           <p class="mb-0"><%= @user.decision_score %> %</p>
         </div>
       </div>
+
       <!-- Right Column: Level Icons -->
       <div class="col-md-1 card-text d-flex flex-column align-items-end"
           data-controller="levels"
@@ -56,6 +57,18 @@
         </div>
       </div>
     </div>
+
+    <!-- Test view charts -->
+    <div class="row align-items-center mb-5">
+    <div class="d-flex flex-column align-items-center" data-controller="charts">
+      <h5>Your Progress</h5>
+      <div class="mb-4" style="width: 100%; max-width: 200px; height: 80px; background: #f8f9fa; padding: 10px;">
+        <canvas data-charts-target="canvas" id="level1" width="600" height="60" style="display: block;"></canvas>
+      </div>
+    </div>
+    </div>
+    <!-- Test view charts -->
+
   </div>
 
   <!-- Continue Button -->
@@ -63,21 +76,3 @@
    <%= link_to "Continue Your Journey", pages_gameboard_path , class: "btn btn-primary btn-lg mt-3" %>
   </div>
 </main>
-
-<!-- Test view charts -->
-<div class="container mt-4">
-  <h2>Your Progress</h2>
-
-  <div class="mb-4">
-    <canvas class="progress-chart" data-level="1" data-balance="<%= current_user.balance %>"></canvas>
-  </div>
-
-  <div class="mb-4">
-    <canvas class="progress-chart" data-level="2" data-balance="<%= current_user.balance %>"></canvas>
-  </div>
-
-  <div class="mb-4">
-    <canvas class="progress-chart" data-level="3" data-balance="<%= current_user.balance %>"></canvas>
-  </div>
-</div>
-
