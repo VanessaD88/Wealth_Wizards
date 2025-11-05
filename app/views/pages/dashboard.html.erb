@@ -7,6 +7,12 @@
         <%= @user.username %>'s Achievements</h1>
       </div>
     </div>
+    <div class="row align-items-start">
+      <!-- Level, Savings, Decision-making underneatch Avatar and Unsername-->
+      <div class="col card-header d-flex justify-content-center align-items-center">
+
+      </div>
+    </div>
 
     <div class="row align-items-center mb-5">
       <!-- Center Column: Level, Savings, Decision-making -->
@@ -59,68 +65,29 @@
     </div>
 
     <!-- Chart test -->
-<div class="container mt-4" data-controller="chart">
-  <h5>Your Progress</h5>
-
-  <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-    <canvas data-chart-target="level" data-level="1"
-            data-user-balance="<%= current_user.balance %>"
-            data-user-level="<%= current_user.level.name %>">
-    </canvas>
-  </div>
-
-  <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-    <canvas data-chart-target="level" data-level="2"
-            data-user-balance="<%= current_user.balance %>"
-            data-user-level="<%= current_user.level.name %>">
-    </canvas>
-  </div>
-
-  <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
-    <canvas data-chart-target="level" data-level="3"
-            data-user-balance="<%= current_user.balance %>"
-            data-user-level="<%= current_user.level.name %>">
-    </canvas>
-  </div>
-
-</div>
-
-
-
-    <div class="row align-items-start mb-4">
-      <div class="col card-header d-flex justify-content-center align-items-center" style="max-width: 300px; height: 50px;">
-        <canvas
-          id="level1Chart"
-          data-level="1"
-          data-user-balance="<%= current_user.balance %>"
-          data-user-level="<%= current_user.level.name %>"
-        ></canvas>
+    <div class="container mt-4" data-controller="chart">
+      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
+        <canvas data-chart-target="level" data-level="1"
+                data-user-balance="<%= current_user.balance %>"
+                data-user-level="<%= current_user.level.name %>">
+        </canvas>
       </div>
-    </div>
 
-    <div class="row align-items-start mb-4">
-      <div class="col card-header d-flex justify-content-center align-items-center" style="max-width: 300px; height: 50px;">
-        <canvas
-          id="level2Chart"
-          data-level="2"
-          data-user-balance="<%= current_user.balance %>"
-          data-user-level="<%= current_user.level.name %>"
-        ></canvas>
+      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
+        <canvas data-chart-target="level" data-level="2"
+                data-user-balance="<%= current_user.balance %>"
+                data-user-level="<%= current_user.level.name %>">
+        </canvas>
       </div>
-    </div>
 
-    <div class="row align-items-start mb-4">
-      <div class="col card-header d-flex justify-content-center align-items-center" style="max-width: 300px; height: 50px;">
-        <canvas
-          id="level3Chart"
-          data-level="3"
-          data-user-balance="<%= current_user.balance %>"
-          data-user-level="<%= current_user.level.name %>"
-        ></canvas>
+      <div class="mb-4" style="width: 100%; max-width: 600px; height: 80px; background-color: #f8f9fa;">
+        <canvas data-chart-target="level" data-level="3"
+                data-user-balance="<%= current_user.balance %>"
+                data-user-level="<%= current_user.level.name %>">
+        </canvas>
       </div>
     </div>
     <!-- End Chart test -->
-
   </div>
 
   <!-- Continue Button -->
