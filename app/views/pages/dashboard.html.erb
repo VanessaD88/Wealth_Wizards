@@ -33,44 +33,64 @@
         </div>
     </div>
 
-    <div class="row align-items-center mb-5">
-      <!-- Level 1,2,3 Progress Bar -->
+    <!-- Row for level 1 -->
+    <div class="row align-items-start">
       <div data-controller="chart" class="col-md-11 d-flex flex-column justify-content-center align-items-center text-center">
-          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
-            <canvas data-chart-target="level" data-level="1"
-                    data-user-balance="<%= current_user.balance %>"
-                    data-user-level="<%= current_user.level.name %>">
-            </canvas>
-          </div>
-
-          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
-            <canvas data-chart-target="level" data-level="2"
-                    data-user-balance="<%= current_user.balance %>"
-                    data-user-level="<%= current_user.level.name %>">
-            </canvas>
-          </div>
-
-          <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
-            <canvas data-chart-target="level" data-level="3"
-                    data-user-balance="<%= current_user.balance %>"
-                    data-user-level="<%= current_user.level.name %>">
-            </canvas>
-          </div>
+        <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+          <p class ="mb-0 text-start"> Progress Level 1 </p>
+          <canvas data-chart-target="level" data-level="1"
+                  data-user-balance="<%= current_user.balance %>"
+                  data-user-level="<%= current_user.level.name %>">
+          </canvas>
+        </div>
       </div>
-      <!-- Right Column: Level Icons -->
       <div class="col-md-1 card-text d-flex flex-column align-items-end"
-          data-controller="levels"
-          data-levels-current-level-value="<%= current_user.level.name %>">
+        data-controller="levels"
+        data-levels-current-level-value="<%= current_user.level.name %>">
 
         <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="1">
           <%= image_tag("icon_level1.png", alt: "Icon Level 1", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
           <div class="overlay"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- Row for level 2 -->
+    <div class="row align-items-start">
+      <div data-controller="chart" class="col-md-11 d-flex flex-column justify-content-center align-items-center text-center">
+        <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+          <p class ="mb-0 text-start"> Progress Level 2 </p>
+          <canvas data-chart-target="level" data-level="2"
+                  data-user-balance="<%= current_user.balance %>"
+                  data-user-level="<%= current_user.level.name %>">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-md-1 card-text d-flex flex-column align-items-end"
+        data-controller="levels"
+        data-levels-current-level-value="<%= current_user.level.name %>">
 
         <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="2">
           <%= image_tag("icon_level2.png", alt: "Icon Level 2", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>
           <div class="overlay"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- Row for level 3 -->
+    <div class="row align-items-start">
+      <div data-controller="chart" class="col-md-11 d-flex flex-column justify-content-center align-items-center text-center">
+        <div class="mb-4" style="width: 100%; max-width: 600px; height: 60px;">
+          <p class ="mb-0 text-start"> Progress Level 3 </p>
+          <canvas data-chart-target="level" data-level="3"
+                  data-user-balance="<%= current_user.balance %>"
+                  data-user-level="<%= current_user.level.name %>">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-md-1 card-text d-flex flex-column align-items-end"
+        data-controller="levels"
+        data-levels-current-level-value="<%= current_user.level.name %>">
 
         <div class="level-icon mb-3 me-5" data-levels-target="icon" data-levels-level-value="3">
           <%= image_tag("icon_level3.png", alt: "Icon Level 3", style: "width:70px; height:70px; object-fit:cover; border-radius:50%;") %>

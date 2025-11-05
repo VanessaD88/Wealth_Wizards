@@ -57,13 +57,19 @@ export default class extends Controller {
           scales: { x: { display: false, stacked: true }, y: { display: false, stacked: true } },
           plugins: {
             legend: { display: false },
-            tooltip: { enabled: true },
+            tooltip: { enabled: false },
             datalabels: {
               anchor: "center",
               align: "center",
-              color: "#F4F1E7",
+              color: "#C9A24E",
               font: { weight: "bold", size: 14 },
-              formatter: () => `${progress.toFixed(0)}%`,
+              formatter: (value, context) => {
+                // Only show label for the first dataset
+                if (context.datasetIndex === 0 && value > 0) {
+                  return `${value.toFixed(0)}%`
+                }
+                return null // hide label for other datasets
+              },
             }
           }
         }
