@@ -1,4 +1,18 @@
 class CreateService
+  class Result
+    # Lightweight value object to report service outcome back to controllers
+    attr_reader :challenge, :reason
+
+    def initialize(success:, challenge: nil, reason: nil)
+      @success = success
+      @challenge = challenge
+      @reason = reason
+    end
+
+    def success?
+      @success
+    end
+  end
 
   def call(current_user)
     @level = current_user.level
@@ -44,14 +58,13 @@ class CreateService
         ai_content = ai_reply.content
         challenge_data = JSON.parse(ai_content)
 
-        # Redirect to the gameboard page
-        # if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
-        #   redirect_to level_challenges_path(@level)
-        #   return
-        # end
+        if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
+          # Tell the caller to regenerate when essential fields are missing
+          return Result.new(success: false, reason: :incomplete_payload)
+        end
 
         # Create new challenge with parsed data
-        @challenge = @level.challenges.new(
+        challenge = @level.challenges.new(
           title: challenge_data["title"],
           category: challenge_data["category"],
           difficulty: difficulty,
@@ -62,6 +75,8 @@ class CreateService
           feedback: challenge_data["feedback"],
           completion_status: false
         )
+        # Return the unsaved challenge so the controller owns persistence
+        Result.new(success: true, challenge: challenge)
   end
 
   private

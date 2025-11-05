@@ -53,12 +53,30 @@ class PagesController < ApplicationController
 
     # Vanessa: load challenge if gameboard is empty (to get rid of generate challenge button)
     if @challenge.nil?
-      @challenge = CreateService.new.call(current_user)
-      if @challenge.save && @show_overlay
-        redirect_to pages_gameboard_path(from: "landing_continue")
-      elsif @challenge.valid?
-        redirect_to pages_gameboard_path
+      # Try generating up to three times before giving up on incomplete payloads
+      attempts = 0
+      result = nil
+
+      begin
+        result = CreateService.new.call(current_user)
+        attempts += 1
+      end while result && !result.success? && result.reason == :incomplete_payload && attempts < 3
+
+      if result&.success?
+        @challenge = result.challenge
+        if @challenge.save && @show_overlay
+          redirect_to pages_gameboard_path(from: "landing_continue")
+        elsif @challenge.valid?
+          redirect_to pages_gameboard_path
+        else
+          render :new, status: :unprocessable_entity
+        end
+      elsif result&.reason == :incomplete_payload
+        # Give control back to the controller workflow to retrigger the POST
+        redirect_to level_challenges_path(@level), status: :temporary_redirect and return
       else
+        # Display validation errors from whatever the service returned
+        @challenge = result&.challenge
         render :new, status: :unprocessable_entity
       end
     end
