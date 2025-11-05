@@ -53,12 +53,38 @@ class PagesController < ApplicationController
 
     # Vanessa: load challenge if gameboard is empty (to get rid of generate challenge button)
     if @challenge.nil?
-      @challenge = CreateService.new.call(current_user)
-      if @challenge.save && @show_overlay
-        redirect_to pages_gameboard_path(from: "landing_continue")
-      elsif @challenge.valid?
-        redirect_to pages_gameboard_path
+      # Count attempts to not stay re-loading forever
+      attempts = 0
+      result = nil
+
+      begin
+        # Same as before, but store in results
+        result = CreateService.new.call(current_user)
+        # increase attempt counter, so stop reloading at a certain time
+        attempts += 1
+        # loop until there is no result or result.success, incomplete payload or options are missing, do so for max 3 attempts
+      end while result && !result.success? && [:incomplete_payload, :missing_options].include?(result.reason) && attempts < 3
+
+      if result&.success?
+        # if success, store challenge
+        @challenge = result.challenge
+        if @challenge.save && @show_overlay
+          # If we arrived via the overlay, bounce back with the correct flag
+          redirect_to pages_gameboard_path(from: "landing_continue")
+          # runs active record model validations to ensure challenge is correctly formed
+        elsif @challenge.valid?
+          # Otherwise reload the board with the new challenge
+          redirect_to pages_gameboard_path
+        else
+          # Show validation errors when save fails
+          render :new, status: :unprocessable_entity
+        end
+      elsif [:incomplete_payload, :missing_options].include?(result&.reason)
+        # Give control back to controller to trigger the POST again, because prompt not usable
+        redirect_to level_challenges_path(@level), status: :temporary_redirect and return
       else
+        # Display validation errors from whatever the service returned
+        @challenge = result&.challenge
         render :new, status: :unprocessable_entity
       end
     end
