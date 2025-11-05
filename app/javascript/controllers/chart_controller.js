@@ -8,6 +8,9 @@ export default class extends Controller {
   connect() {
     console.log("Chart controller connected");
 
+    // Register the datalabels plugin
+    Chart.register(ChartDataLabels)
+
     this.levelTargets.forEach((canvas) => {
       const level = parseInt(canvas.dataset.level)
       const balance = parseFloat(canvas.dataset.userBalance)
@@ -54,11 +57,11 @@ export default class extends Controller {
           scales: { x: { display: false, stacked: true }, y: { display: false, stacked: true } },
           plugins: {
             legend: { display: false },
-            tooltip: { enabled: false },
+            tooltip: { enabled: true },
             datalabels: {
               anchor: "center",
               align: "center",
-              color: "white",
+              color: "#F4F1E7",
               font: { weight: "bold", size: 14 },
               formatter: () => `${progress.toFixed(0)}%`,
             }
