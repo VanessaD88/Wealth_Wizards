@@ -4,6 +4,7 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   position: relative; // needed for pseudo-element positioning
   overflow: hidden;
+  padding: 1.5rem;
 
   &::before {
     content: "";

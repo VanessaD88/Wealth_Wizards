@@ -6,19 +6,19 @@
        asset_path("coin_sound_2.mp3")
      ] %>
 
-  <div class="container"
-     data-controller="overlay-instructions"
-     data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">
-  <!-- Conditional Overlay with instruction -->
-  <div id="game-overlay" class="overlay d-none">
+  <!-- Start: Conditional Overlay with instruction -->
+  <div id="game-overlay"
+      class="overlay d-none"
+      data-controller="overlay-instructions"
+      data-overlay-instructions-show-value="<%= @show_overlay ? 'true' : 'false' %>">>
     <div class="overlay-content text-center">
       <button class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close" data-action="click->overlay-instructions#hideOverlay"></button>
       <%= render "levels/overlay_instructions" %>
     </div>
   </div>
-  <!-- End of Overlay with instruction -->
+  <!-- End: Overlay with instruction -->
 
-  <!-- Conditional Overlay for level completion -->
+  <!-- Start: Conditional Overlay for level completion -->
   <div id="level-up-overlay"
         class="overlay d-none"
         data-controller="overlay-level-up"
@@ -30,13 +30,15 @@
       <%= render "levels/overlay_level_completion" %>
     </div>
   </div>
-  <!-- End of Overlay for level completion  -->
+  <!-- End: Overlay for level completion  -->
+
+  <!-- Start: Entire visible content -->
   <div class="row justify-content-center">
       <div class="col-md-8">
         <%# Check if there is a challenge object to render %>
         <% if @challenge %>
-          <h4 class="display-5 fw-bold mb-3"><%= @challenge.title %></h4>
-          <p class="lead mb-4"> 🔤 Category: <%= @challenge.category %> | 🤓 Difficulty: <%= @challenge.difficulty %>| 💰 Budget Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$</p>
+          <h5 class="display-5 fw-bold mb-3"><%= @challenge.title %></h5>
+          <p class="lead mb-4"> 🔤 Category: <%= @challenge.category %> | 🤓 Difficulty: <%= @challenge.difficulty %> | 💰 Budget Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$</p>
           <% unless @show_answer_feedback %>
           <%# Create form based on challenge model%>
             <%= form_with model: @challenge,
@@ -68,9 +70,8 @@
                   <% end %>
                 </div>
               </div>
-
-
           </div>
+
           <div class="card-footer d-flex justify-content-end mt-3">
               <%# Disable button if feedback is already showing %>
               <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
@@ -143,6 +144,9 @@
   </div>
 
 </main>
+
+
+<!-- Sound & Animation -->
 
 <%# d-none so its hidden, data-role assigned for stimulus %>
 <div class="journey-overlay d-none" data-role="journey-spinner">
