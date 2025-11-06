@@ -152,7 +152,7 @@ class ChallengesController < ApplicationController
                      when /Level 1/i
                        wrong_answers_count % 3 == 0
                      when /Level 2/i
-                       wrong_answers_count % 2 == 0
+                       true
                      when /Level 3/i
                        true
                      else
