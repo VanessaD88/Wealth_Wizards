@@ -3,18 +3,36 @@
 <head>
   <title>We're sorry, but something went wrong (500)</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>
+    function goBack() {
+      window.history.back()
+    }
+  </script>
   <style>
-  .wealth-wizards-error-page {
-    background-color: #FFFFF0;
-    text-align: center;
-  }
+    .wealth-wizards-error-page {
+      background-color: #FFFFF0;
+      text-align: center;
+    }
+    .ww-button {
+      background-color: #3B5D43;
+      color: #C9A24E;
+      border-radius: 0.5rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.3rem 1.2rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .ww-button:hover {
+      background-color: color-mix(in srgb, #3B5D43 80%, black);
+    }
   </style>
 </head>
 
 <body class="wealth-wizards-error-page">
   <!-- This file lives in public/500.html -->
-  <div>
-    <img src="/images/500-internal-server-error.png" alt="Page not found" style="max-width: 400px;">
-  </div>
+  <div><img src="/images/500-internal-server-error.png" alt="Page not found" style="max-width: 400px;"></div>
+  <div><button class="ww-button" onclick="goBack()">Go Back</button></div>
 </body>
 </html>
