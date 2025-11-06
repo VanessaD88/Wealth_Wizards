@@ -63,7 +63,7 @@ class PagesController < ApplicationController
         # increase attempt counter, so stop reloading at a certain time
         attempts += 1
         # loop until there is no result or result.success, incomplete payload or options are missing, do so for max 3 attempts
-      end while result && !result.success? && [:incomplete_payload, :missing_options].include?(result.reason) && attempts < 3
+      end while result && !result.success? && [:incomplete_payload, :missing_options, :invalid_json].include?(result.reason) && attempts < 3
 
       if result&.success?
         # if success, store challenge
@@ -79,7 +79,7 @@ class PagesController < ApplicationController
           # Show validation errors when save fails
           render :new, status: :unprocessable_entity
         end
-      elsif [:incomplete_payload, :missing_options].include?(result&.reason)
+      elsif [:incomplete_payload, :missing_options, :invalid_json].include?(result&.reason)
         # Give control back to controller to trigger the POST again, because prompt not usable
         redirect_to level_challenges_path(@level), status: :temporary_redirect and return
       else
