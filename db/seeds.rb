@@ -14,14 +14,14 @@ users = [
   { username: "StreamQueen", email: "stream@example.com", balance: 100000, decision_score: 95},
   { username: "RiskRanger", email: "ranger@example.com", balance: 8500, decision_score: 89},
 
-  { username: "Moonmuffin", email: "moonmuffin@mail.com", balance: 29950, decision_score: 30},
-  { username: "Hexalot", email: "hex@mail.com", balance: 29950, decision_score: 30},
-  { username: "Fizzlebang ", email: "fizzle@mail.com ", balance: 29950, decision_score: 30},
-  { username: "HocusBrokus", email: "hocusbrokus@mail.com", balance: 29950, decision_score: 30},
-  { username: "ProfitusMaxima", email: "profitusmaxima@mail.com", balance: 29950, decision_score: 30},
-  { username: "AccioAssets", email: "accioassets@mail.com", balance: 29950, decision_score: 30},
-  { username: "Budgetbasilisk", email: "budgetbasilisk@mail.com", balance: 29950, decision_score: 30},
-  { username: "GalleonGuru", email: "galleonguru@mail.com", balance: 29950, decision_score: 30}
+  { username: "Moonmuffin", email: "moonmuffin@mail.com", balance: 29550, decision_score: 30},
+  { username: "Hexalot", email: "hex@mail.com", balance: 29550, decision_score: 30},
+  { username: "Fizzlebang ", email: "fizzle@mail.com ", balance: 29550, decision_score: 30},
+  { username: "HocusBrokus", email: "hocusbrokus@mail.com", balance: 29550, decision_score: 30},
+  { username: "ProfitusMaxima", email: "profitusmaxima@mail.com", balance: 29550, decision_score: 30},
+  { username: "AccioAssets", email: "accioassets@mail.com", balance: 29550, decision_score: 30},
+  { username: "Budgetbasilisk", email: "budgetbasilisk@mail.com", balance: 29550, decision_score: 30},
+  { username: "GalleonGuru", email: "galleonguru@mail.com", balance: 29550, decision_score: 30}
 ]
 
 users.each do |user_data|
