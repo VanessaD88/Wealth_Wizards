@@ -65,7 +65,7 @@ export default class extends Controller {
               font: { weight: "bold", size: 14 },
               formatter: (value, context) => {
                 // Only show label for the first dataset
-                if (context.datasetIndex === 0 && value > 0) {
+                if (context.datasetIndex === 0 && value > 5) {
                   return `${value.toFixed(0)}%`
                 }
                 return null // hide label for other datasets
