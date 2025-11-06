@@ -39,47 +39,47 @@
       <% if @challenge %>
         <h2 class="display-6 fw-bold mb-3"><%= @challenge.title %></h2>
         <p class="mb-4"> <strong>🔤 Category: <%= @challenge.category %> | 🤓 Difficulty: <%= @challenge.difficulty %> | 💰 Potential Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$</strong> </p>
-        <% unless @show_answer_feedback %>
-        <%# Create form based on challenge model%>
+          <% unless @show_answer_feedback %>
+          <!-- Challenge card -->
           <%= form_with model: @challenge,
                         # the select_choice_challenge_path is created in the member do section of routes
-                        # set URL to the patch one, so challenge choice gets updated
+                        # set URL to the challenge path, so challenge choice gets updated
                         url: select_choice_challenge_path(@challenge),
                         method: :patch,
                         local: true do |form| %>
 
-            <div class="card-custom shadow rounded-3">
-              <h5 class="card-header">Task</h5>
-              <div class="card-body">
-                <% if @challenge.description.present? %>
-                  <p class="text-muted mb-2"><%= @challenge.description %></p>
-                <% end %>
+          <div class="card-custom shadow rounded-3">
+            <h5 class="card-header mb-2">Task</h5>
+            <div class="card-body">
+              <% if @challenge.description.present? %>
+                <p class="text-muted mb-2"><%= @challenge.description %></p>
+              <% end %>
               <div class="list-group">
-              <%# Use the parsed challenge options to display answer options line by line%>
+                <%# Use the parsed challenge options to display answer options line by line%>
                 <% @challenge_options.each do |number, text| %>
                   <%# use form.label to ensure every row is clickable %>
                   <%# the label is for challenge :choice attribute and gives the value: nubmer to each radio button (1,2,3,4) %>
                   <%= form.label :choice, value: number, class: "list-group-item list-group-item-action d-flex align-items-start gap-3" do %>
                     <%= form.radio_button :choice, number,
                           class: "form-check-input mt-1" %>
-                    <div class="form-check-label fw-medium mb-0 flex-grow-1">
-                      <span class="badge bg-success-subtle text-success-emphasis me-2">Option <%= number %></span>
-                      <span><%= text %></span>
-                    </div>
+                      <div class="form-check-label fw-medium mb-0 flex-grow-1">
+                        <span class="badge bg-success-subtle text-success-emphasis me-2">Option <%= number %></span>
+                        <span><%= text %></span>
+                      </div>
                   <% end %>
                 <% end %>
-              </div>
             </div>
+          </div>
         </div>
 
-        <div class="card-footer d-flex justify-content-end mt-3">
-            <%# Disable button if feedback is already showing %>
-            <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
+          <div class="card-footer d-flex justify-content-end mt-3">
+              <%# Disable button if feedback is already showing %>
+              <%= form.submit "Submit Answer", class: "btn btn-primary", disabled: @show_answer_feedback %>
           </div>
         <% end %>
-
       <% end %>
 
+      <!-- Feedback card -->
       <% if @show_answer_feedback %>
         <div class="card-custom gameboard-card mt-4 shadow rounded-3" id="feedback-card">
           <h5 class="card-header mb-2">Result</h5>

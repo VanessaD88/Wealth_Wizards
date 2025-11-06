@@ -55,4 +55,9 @@
   .list-group-item:not(:last-child) {
     border-bottom: 1px solid rgba($ivory-ledger, 0.25); // subtle separator if you want one
   }
+
+  .list-group-item:has(input[type="radio"]:checked) {
+  border: 1px solid; /* Bootstrap "success" green, or pick your color */
+  border-color: $ivory-ledger;
+  }
  }
