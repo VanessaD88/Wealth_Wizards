@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Wealth Wizards. Play. Learn. Level Up Your Money Skills.</title>
+    <title>Wealth Wizards - Play, Learn, Level Up Your Money Skills</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <meta property="og:title" content="Wealth Wizards. Level up your money skills." />
     <meta property="og:description" content="A game that turns financial literacy into an interactive adventure. It helps to learn how to save, invest, and grow money through playful, AI-powered challenges and real-world decisions." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= request.original_url %>" />
-    <meta property="og:image" content="<%= image_url('logo.png') %>" />
+    <meta property="og:image" content="<%= image_url('logo-og.png') %>" />
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <!-- Basic favicon -->
-    <%= favicon_link_tag 'favicon.png', type: 'image/png', sizes: '32x32' %>
+    <%= favicon_link_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
