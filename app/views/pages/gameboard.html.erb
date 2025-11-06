@@ -51,7 +51,7 @@
           <% end %>  |
           🔤 Category: <%= @challenge.category %> |
           🤓 Difficulty: <%= @challenge.difficulty %> |
-          💰 Potential Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$ |
+          💰 Potential Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$
           <!-- View current level Progressbar -->
           <% level_name = @user.level.name %>
             <% if level_name.include?("1") %>
