@@ -11,9 +11,10 @@
     <!-- Overlay Header -->
     <div class="overlay-header mb-4">
       <% if @user&.level&.name&.include?("2") %>
-        <h5 class="mb-4">Congratulations, you completed Level 1!</h5>
+        <h3>Congratulations,</h3>
+        <h3 class="mb-4"> you completed Level 1!</h3>
         <%= image_tag "icon_level1.png", alt: "Level 1", class: "img-fluid mb-3", style: "max-width: 150px;" %>
-        <p>
+        <p class=lead>
           You’ve successfully built your first nest egg of $10,000!
           This is a crucial milestone on your financial journey.
           A solid nest egg provides security, peace of mind, and the foundation to grow your wealth responsibly.
@@ -21,18 +22,20 @@
       <% end %>
 
       <% if @user&.level&.name&.include?("3") %>
-        <h5 class="mb-4">Congratulations, you completed Level 2!</h5>
+        <h3>Congratulations,</h3>
+        <h3 class="mb-4"> you completed Level 2!</h3>
         <%= image_tag "icon_level2.png", alt: "Level 2", class: "img-fluid mb-3", style: "max-width: 150px;" %>
-        <p>
+        <p class=lead>
           You’ve started building passive streams of income that work for you even while you focus on other adventures.
           This milestone is key to financial freedom, helping you grow wealth steadily and securely.
         </p>
       <% end %>
 
       <% if @user&.level&.name&.include?("completed") %>
-        <h5 class="mb-4">Congratulations, you completed Level 3!</h5>
+        <h3>Congratulations,</h3>
+        <h3 class="mb-4"> you completed Level 3!</h3>
         <%= image_tag "icon_level3.png", alt: "Level 3", class: "img-fluid mb-3", style: "max-width: 150px;" %>
-        <p>
+        <p class=lead>
           You’ve mastered managing multiple streams, balancing risks and rewards, and discovering how to maximize your earnings.
         </p>
       <% end %>
