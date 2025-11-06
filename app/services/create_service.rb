@@ -59,7 +59,14 @@ class CreateService
         chat_client = RubyLLM.chat
         ai_reply = chat_client.ask(prompt)
         ai_content = ai_reply.content
-        challenge_data = JSON.parse(ai_content)
+
+        begin
+          challenge_data = JSON.parse(ai_content)
+          # guard the parsing and throw an error with success = false, if no JSON throws an error
+          rescue JSON::ParserError => e
+          Rails.logger.warn("Challenge JSON invalid: #{e.message}")
+          return Result.new(success: false, reason: :invalid_json)
+        end
 
         if challenge_data["description"].blank? || challenge_data["challenge_prompt"].blank?
           # is either description or challenge_prompt missing, if yes, save result with error reason
