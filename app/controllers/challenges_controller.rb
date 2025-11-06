@@ -28,7 +28,7 @@ class ChallengesController < ApplicationController
         render :new, status: :unprocessable_entity
       end
     # check for reason, defined in create_service
-    elsif [:incomplete_payload, :missing_options].include?(result.reason)
+    elsif [:incomplete_payload, :missing_options, :invalid_json].include?(result.reason)
       # If payload is incomplete, do another post to generate challenge again
       redirect_to level_challenges_path(@level), status: :temporary_redirect
     else
