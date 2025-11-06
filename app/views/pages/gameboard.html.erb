@@ -39,32 +39,41 @@
       <% if @challenge %>
         <h2 class="display-6 fw-bold mb-3"><%= @challenge.title %></h2>
         <p data-controller="chart" class="mb-4"><strong>
+          ⭐️ Level <% level_name = @user.level.name %>
+          <% if level_name.include?("1") %>
+            1
+          <% elsif level_name.include?("2") %>
+            2
+          <% elsif level_name.include?("3") %>
+            3
+          <% else %>
+            0
+          <% end %>  |
           🔤 Category: <%= @challenge.category %> |
           🤓 Difficulty: <%= @challenge.difficulty %> |
           💰 Potential Impact: <%= number_with_delimiter(@challenge.balance_impact.round, delimiter: ",", separator: ".") %>$ |
           <!-- View current level Progressbar -->
-          Level <% level_name = @user.level.name %>
+          <% level_name = @user.level.name %>
             <% if level_name.include?("1") %>
-              1
                 <canvas data-chart-target="level" data-level="1"
                         style="margin-top: 5px; max-width: auto; max-height: 20px;"
                         data-user-balance="<%= current_user.balance %>"
                         data-user-level="<%= current_user.level.name %>">
                 </canvas>
             <% elsif level_name.include?("2") %>
-              2
-              <canvas data-chart-target="level" data-level="2"
-                      data-user-balance="<%= current_user.balance %>"
-                      data-user-level="<%= current_user.level.name %>">
-              </canvas>
+                <canvas data-chart-target="level" data-level="2"
+                        style="margin-top: 5px; max-width: auto; max-height: 20px;"
+                        data-user-balance="<%= current_user.balance %>"
+                        data-user-level="<%= current_user.level.name %>">
+                </canvas>
             <% elsif level_name.include?("3") %>
-              3
-              <canvas data-chart-target="level" data-level="3"
-                      data-user-balance="<%= current_user.balance %>"
-                      data-user-level="<%= current_user.level.name %>">
-              </canvas>
+                <canvas data-chart-target="level" data-level="3"
+                        style="margin-top: 5px; max-width: auto; max-height: 20px;"
+                        data-user-balance="<%= current_user.balance %>"
+                        data-user-level="<%= current_user.level.name %>">
+                </canvas>
             <% else %>
-              0
+            Game not started yet
             <% end %>
           </strong></p>
 
